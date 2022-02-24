@@ -1,0 +1,19 @@
+{
+  "name": "mi-kvitter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julialotta/MI-Kvitter.git"
+  },
+  "author": "Julia-Lotta Tinglöf, Rasmus Palm, Michael Miikkulainen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julialotta/MI-Kvitter/issues"
+  },
+  "homepage": "https://github.com/julialotta/MI-Kvitter#readme"
+}
