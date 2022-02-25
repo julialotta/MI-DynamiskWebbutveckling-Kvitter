@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const exphbs = require("express-handlebars");
 
+const profilesRouter = require("./routes/profiles-routes.js");
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,10 +23,7 @@ app.get("/", async (req, res) => {
   res.render("home");
 });
 
-// Test for profile
-app.get("/profile", (req, res) => {
-  res.render("profile.hbs");
-});
+app.use("/profile", profilesRouter);
 
 app.listen(8000, () => {
   console.log("http://localhost:8000");
