@@ -1,0 +1,20 @@
+<h2>Profil sida</h2>
+
+{{! Namn }}
+<p>Användare: {{username}} </p>
+
+{{! Profilbild }}
+<div></div>
+
+{{! Bio }}
+<p></p>
+
+{{! Log out }}
+<form action="/logga-ut" method="post">
+  <input type="submit" value="Logga ut" />
+</form>
+
+{{! Ta bort användare }}
+<form action="/ta-bort-profil" method="post">
+  <input type="submit" value="Ta bort profil" />
+</form>
