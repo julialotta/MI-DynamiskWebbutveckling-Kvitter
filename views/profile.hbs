@@ -10,17 +10,20 @@
 
 {{! Bio }}
 <div>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis est
-    saepe laboriosam laborum quam assumenda enim. Ut consectetur perspiciatis,
-    pariatur porro est a libero aspernatur facilis sint vero, modi eum!</p>
+  <form action="/profile/{{_id}}/redigera-bio" method="post">
+    <textarea name="edit-bio" cols="30" rows="10">
+      A bio text variable
+      {{bio-text}}
+    </textarea>
+  </form>
 </div>
 
 {{! Log out }}
-<form action="/logga-ut" method="post">
+<form action="/profile/{{_id}}/logga-ut" method="post">
   <input type="submit" value="Logga ut" />
 </form>
 
 {{! Ta bort användare }}
-<form action="/ta-bort-profil" method="post">
+<form action="/profile/{{_id}}/ta-bort-profil" method="post">
   <input type="submit" value="Ta bort profil" />
 </form>
