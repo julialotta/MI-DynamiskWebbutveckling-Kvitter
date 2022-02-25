@@ -10,12 +10,18 @@
 
 {{! Bio }}
 <div>
-  <form action="/profile/{{_id}}/redigera-bio" method="post">
+  {{! Before edit }}
+  <textarea name="bio" cols="25" rows="6" readonly>
+    Before edit text bio
+  </textarea>
+
+  {{! Edit tex bio }}
+  {{!-- <form action="/profile/{{_id}}/redigera-bio" method="post">
     <textarea name="edit-bio" cols="30" rows="10">
-      A bio text variable
+      Edit text bio
       {{bio-text}}
     </textarea>
-  </form>
+  </form> --}}
 </div>
 
 {{! Log out }}
