@@ -1,8 +1,11 @@
 require("dotenv").config();
+require("./mongoose");
+
 const express = require("express");
 const exphbs = require("express-handlebars");
 
 const profilesRouter = require("./routes/profiles-routes.js");
+const usersRouter = require("./routes/users-router.js");
 
 const app = express();
 app.use(express.json());
@@ -24,6 +27,7 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/profile", profilesRouter);
+app.use("/users", usersRouter);
 
 app.listen(8000, () => {
   console.log("http://localhost:8000");
