@@ -1,0 +1,39 @@
+<h2>Profil sida</h2>
+
+{{! Profilbild }}
+<div>
+  <img src="" alt="Profilbild" />
+</div>
+
+{{! Namn }}
+<p>Användare: {{username}} </p>
+
+{{! Bio }}
+<div>
+  {{! Before edit }}
+  <textarea name="bio" cols="20" rows="4" readonly>Before edit text bio
+  </textarea>
+
+  {{! Edit tex bio }}
+  {{!-- <form action="/profile/{{_id}}/redigera-bio" method="post">
+    <textarea name="edit-bio" cols="20" rows="4">
+      Edit text bio
+      {{bio-text}}
+    </textarea>
+  </form> --}}
+</div>
+
+<form action="/users/edit-bio" method="post">
+  <input type="text" name="textBio" />
+  <input type="submit" value="Edit text" />
+</form>
+
+{{! Log out }}
+<form action="/users/log-out" method="post">
+  <input type="submit" value="Log out" />
+</form>
+
+{{! Ta bort användare }}
+<form action="/users/remove" method="post">
+  <input type="submit" value="Remove profile" />
+</form>

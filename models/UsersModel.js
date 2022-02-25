@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 
 const usersSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    hashedPassword: { type: String, required: true },
-    secret: String,
+  username: { type: String, required: true },
+  hashedPassword: { type: String, required: true },
+  secret: String,
+  bioText: String,
 });
 
 const UsersModel = mongoose.model("Users", usersSchema);
