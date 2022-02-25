@@ -21,6 +21,11 @@ app.get("/", async (req, res) => {
   res.render("home");
 });
 
+// Test for profile
+app.get("/profile", (req, res) => {
+  res.render("profile.hbs");
+});
+
 app.listen(8000, () => {
   console.log("http://localhost:8000");
 });

@@ -1,13 +1,19 @@
 <h2>Profil sida</h2>
 
-{{! Namn }}
-<p>Användare: {{username}} </p>
-
 {{! Profilbild }}
-<div></div>
+<div>
+  <img src="" alt="Profilbild" />
+</div>
+
+{{! Namn }}
+<p>Användare: namn {{username}} </p>
 
 {{! Bio }}
-<p></p>
+<div>
+  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis est
+    saepe laboriosam laborum quam assumenda enim. Ut consectetur perspiciatis,
+    pariatur porro est a libero aspernatur facilis sint vero, modi eum!</p>
+</div>
 
 {{! Log out }}
 <form action="/logga-ut" method="post">
