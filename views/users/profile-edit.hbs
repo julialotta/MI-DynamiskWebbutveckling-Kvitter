@@ -1,8 +1,13 @@
 <h2>Edit profile</h2>
 
 <form action="/users/profile/edit" method="post">
-  <input type="text" name="username" placeholder="Username" />
-  <textarea name="bio" cols="20" rows="4">{{textBio}}</textarea>
+  <input
+    type="text"
+    name="username"
+    placeholder="Username"
+    value="{{username}}"
+  />
+  <textarea name="slogan" cols="20" rows="4">{{slogan}}</textarea>
   <input type="submit" value="Save" />
 </form>
 

@@ -14,12 +14,20 @@
 {{! Namn }}
 <p>Användare: {{username}} </p>
 
-<p>Some bio text {{textBio}}</p>
+{{! Slogan }}
+{{!-- <p>Some bio text {{slogan}}</p> --}}
 
-{{! Bio }}
+{{! Slogan }}
 <div>
   {{! Before edit }}
-  <textarea name="bio" cols="20" rows="4" readonly>{{textBio}}</textarea>
+  <textarea
+    name="bio"
+    cols="24"
+    rows="4"
+    maxlength="30"
+    placeholder="Your slogan"
+    readonly
+  >{{slogan}}</textarea>
 </div>
 
 {{!-- /users/{{_id}}/edit-bio" --}}

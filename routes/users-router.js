@@ -70,18 +70,21 @@ const forceAuthorize = (req, res, next) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 
+// forceAuthorize
 router.get("/profile", async (req, res) => {
   res.render("users/profile");
 });
 
+// forceAuthorize
 router.get("/profile/edit", async (req, res) => {
   res.render("users/profile-edit");
 });
 
+// forceAuthorize
 router.post("/profile/edit", async (req, res) => {
   const profile = {
     username: req.body.username,
-    textBio: req.body.textBio,
+    slogan: req.body.slogan,
   };
 
   res.redirect("/users/profile");
