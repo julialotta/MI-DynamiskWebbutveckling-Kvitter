@@ -2,7 +2,6 @@ require("dotenv").config();
 require("../mongoose.js");
 
 const express = require("express");
-const { append } = require("express/lib/response");
 const exphbs = require("express-handlebars");
 const router = express.Router();
 
@@ -70,8 +69,28 @@ const forceAuthorize = (req, res, next) => {
 };
 
 ////////// PROFILE FUNCTIONS //////////////
+
 router.get("/profile", async (req, res) => {
-  res.render("users/user-profile");
+  res.render("users/profile");
+});
+
+router.get("/profile/edit", async (req, res) => {
+  res.render("users/profile-edit");
+});
+
+router.post("/profile/edit", async (req, res) => {
+  const profile = {
+    username: req.body.username,
+    textBio: req.body.textBio,
+  };
+
+  res.redirect("/users/profile");
+});
+
+router.post("/users/remove", async (req, res) => {
+  // const collection = await db.getBooksCollection()
+  // const result = await collection.deleteOne({ _id: id })
+  res.redirect("/");
 });
 
 ////////// PROFILE FUNCTIONS //////////////
