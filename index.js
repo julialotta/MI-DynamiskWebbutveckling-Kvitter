@@ -6,8 +6,8 @@ const exphbs = require("express-handlebars");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
-const utils = require("./utils.js");
-const UsersModel = require("./models/UsersModel.js");
+// const utils = require("./utils.js");
+// const UsersModel = require("./models/UsersModel.js");
 
 const usersRouter = require("./routes/users-router.js");
 

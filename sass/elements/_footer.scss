@@ -1,0 +1,38 @@
+footer {
+    font-size: 11pt;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+    margin-top: 50px;
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        width: 600px;
+        a {
+            color: rgb(131, 131, 131);
+            text-decoration: none;
+            font-family: $p;
+            transition: color 0.2s ease-in-out;
+            &:hover {
+                color: $green;
+            }
+        }
+        p {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: rgb(131, 131, 131);
+            font-family: $p;
+        }
+    }
+    .imgwrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    img {
+        width: 100px;
+        cursor: pointer;
+    }
+}

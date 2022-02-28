@@ -4,6 +4,45 @@
   font-family: "Futura Std Heavy";
   src: url("assets/fonts/Futura Std Heavy.ttf") format("truetype");
 }
+footer {
+  font-size: 11pt;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  margin-top: 50px;
+}
+footer .wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  width: 600px;
+}
+footer .wrapper a {
+  color: #838383;
+  text-decoration: none;
+  font-family: "Futura Std Heavy", sans-serif;
+  transition: color 0.2s ease-in-out;
+}
+footer .wrapper a:hover {
+  color: #3fb686;
+}
+footer .wrapper p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #838383;
+  font-family: "Futura Std Heavy", sans-serif;
+}
+footer .imgwrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+footer img {
+  width: 100px;
+  cursor: pointer;
+}
+
 header {
   display: flex;
   flex-direction: column;
