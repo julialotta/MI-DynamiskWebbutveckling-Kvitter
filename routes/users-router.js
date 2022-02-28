@@ -34,6 +34,8 @@ router.post("/register", async (req, res) => {
             });
             await newUser.save();
 
+            console.log(newUser);
+
             res.sendStatus(200);
         }
     });
@@ -58,32 +60,11 @@ router.post("/login", async (req, res) => {
     });
 });
 
-const forceAuthorize = (req, res, next) => {
-    const { token } = req.cookies;
+/////////// LOG OUT FUNCTIONS /////////
 
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        // INLOGGADE
-        next();
-    } else {
-        res.sendStatus(401);
-    }
-};
-
-router.use((req, res, next) => {
-    const { token } = req.cookies;
-
-    //OM INLOGGAD
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.loggedIn = true;
-        res.locals.username = tokenData.username;
-        res.locals.userId = tokenData.userId;
-        // ANNARS
-    } else {
-        res.locals.loggedIn = false;
-    }
-
-    next();
+router.post("/log-out", (req, res) => {
+    res.cookie("token", "", { maxAge: 0 });
+    res.redirect("/");
 });
 
 module.exports = router;

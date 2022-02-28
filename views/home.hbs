@@ -11,7 +11,7 @@
 
 {{#if loggedIn}}
     <p>Logged in as {{username}}</p>
-    <form action="/log-out" method="post">
+    <form action="/users/log-out" method="post">
         <input type="submit" value="Log out" />
     </form>
 {{else}}
