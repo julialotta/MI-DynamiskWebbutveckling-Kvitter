@@ -1,9 +1,16 @@
 @import "variables";
+@import "mixins";
 
 @import "./elements/home.scss";
 @import "./elements/footer.scss";
 @import "./elements/header.scss";
 
 body {
-  background-color: red;
+  background-color: $darkblue;
+  margin: 0;
+  padding: 0;
+}
+
+html  {
+  scroll-behavior: smooth;
 }
