@@ -10,7 +10,8 @@ const cookieParser = require("cookie-parser");
 
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
-
+const { ObjectId } = require("mongodb");
+const db = require("../database.js");
 ////////// REGISTER FUNCTIONS //////////
 
 router.get("/register-user", async (req, res) => {
@@ -62,31 +63,74 @@ router.post("/login", async (req, res) => {
 ////////// PROFILE FUNCTIONS //////////////
 
 router.get("/profile", async (req, res) => {
+  //const id = ObjectId(req.params.id);
   const { token } = req.cookies;
-
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     res.render("users/profile");
   } else {
     res.sendStatus(401);
   }
+  // }
+  // const collection = await db.getDb();
+  // UsersModel.collection.findOne({ _id: id }, (err, user) => {
+  //   if (user) {
+  //     res.render("users/profile", user);
+  //   } else {
+  //     next();
+  //   }
+  // });
 });
 
 // forceAuthorize
-router.get("/profile/edit", async (req, res) => {
-  res.render("users/profile-edit");
+router.get("/profile/edit", async (req, res, next) => {
+  const id = ObjectId(req.params.id);
+
+  const collection = await db.getDb();
+
+  UsersModel.collection.findOne({ _id: id }, (err, user) => {
+    if (user) {
+      res.render("users/profile-edit");
+    } else {
+      next();
+      console.log(user);
+    }
+  });
 });
 
 // forceAuthorize
-router.post("/profile/edit", async (req, res) => {
-  const profile = {
-    username: req.body.username,
-    slogan: req.body.slogan,
-  };
+router.post("/profile/edit", async (req, res, next) => {
+  const id = ObjectId(req.params.id);
 
-  res.redirect("/users/profile");
+  if (id) {
+    const profile = {
+      username: req.body.username,
+      slogan: req.body.slogan,
+    };
+
+    const collection = await db.getDb();
+
+    UsersModel.collection.updateOne({ _id: id }, { $set: profile });
+
+    res.redirect("/users/profile");
+  }
+
+  // const id = ObjectId(req.params.id);
+  // const profile = {
+  //   username: req.body.username,
+  //   slogan: req.body.slogan,
+  // };
+  // const collection = await db.getDb();
+  // await UsersModel.collection.updateOne({ _id: id }, { $set: profile });
+  // res.redirect("/users/profile");
 });
 
-router.post("/users/remove", async (req, res) => {
+router.post("/remove", async (req, res) => {
+  const collection = await db.getDb();
+
+  const id = ObjectId(req.params.id);
+
+  await UsersModel.collection.deleteOne({ _id: id });
+
   res.redirect("/");
 });
 
