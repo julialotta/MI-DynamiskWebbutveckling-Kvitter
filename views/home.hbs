@@ -1,1 +1,21 @@
 <h1>main</h1>
+
+<form action="/users/login" method="post">
+    <input type="text" name="username" id="" placeholder="Username" />
+    <br />
+    <input type="password" name="password" id="" placeholder="Password" />
+    <br />
+    <input type="submit" value="Login" />
+    <hr />
+</form>
+
+{{#if loggedIn}}
+    <p>Logged in as {{username}}</p>
+    <form action="/users/log-out" method="post">
+        <input type="submit" value="Log out" />
+    </form>
+{{else}}
+    <p>Not logged in</p>
+{{/if}}
+
+<a href="/users/register-user"><button>Register</button></a>
