@@ -72,7 +72,13 @@ const forceAuthorize = (req, res, next) => {
 
 // forceAuthorize
 router.get("/profile", async (req, res) => {
-  res.render("users/profile");
+  const { token } = req.cookies;
+
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    res.render("users/profile");
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 // forceAuthorize
@@ -91,6 +97,8 @@ router.post("/profile/edit", async (req, res) => {
 });
 
 router.post("/users/remove", async (req, res) => {
+  const result = await collection.deleteOne({ _id: id });
+
   // const collection = await db.getBooksCollection()
   // const result = await collection.deleteOne({ _id: id })
   res.redirect("/");
