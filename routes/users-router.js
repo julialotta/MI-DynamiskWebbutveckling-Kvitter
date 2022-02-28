@@ -61,21 +61,18 @@ router.post("/login", async (req, res) => {
 });
 
 ////////// PROFILE FUNCTIONS //////////////
-
 router.get("/profile/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
   const users = await UsersModel.findOne({ _id: id });
   res.render("users/profile", users);
 });
 
-// forceAuthorize
 router.get("/profile/edit/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
-  const users = await UsersModel.findById({ _id: id });
+  const users = await UsersModel.findOne({ _id: id });
   res.render("users/profile-edit", users);
 });
 
-// forceAuthorize
 router.post("/profile/edit/:id", async (req, res, next) => {
   const id = ObjectId(req.params.id);
   const profile = {
@@ -83,14 +80,14 @@ router.post("/profile/edit/:id", async (req, res, next) => {
     slogan: req.body.slogan,
   };
 
-  await UsersModel.findById({ _id: id }).updateOne(profile);
+  await UsersModel.findOne({ _id: id }).updateOne(profile);
 
   res.redirect("/users/profile");
 });
 
 router.post("/remove", async (req, res) => {
   const id = ObjectId(req.params.id);
-  await UsersModel.findById({ _id: id }).deleteOne();
+  await UsersModel.findOne({ _id: id }).deleteOne();
   res.render("users/profile");
 });
 
