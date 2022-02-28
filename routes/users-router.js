@@ -11,7 +11,7 @@ const cookieParser = require("cookie-parser");
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
 const { ObjectId } = require("mongodb");
-const db = require("../database.js");
+
 ////////// REGISTER FUNCTIONS //////////
 
 router.get("/register-user", async (req, res) => {
@@ -62,76 +62,36 @@ router.post("/login", async (req, res) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 
-router.get("/profile", async (req, res) => {
-  //const id = ObjectId(req.params.id);
-  const { token } = req.cookies;
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    res.render("users/profile");
-  } else {
-    res.sendStatus(401);
-  }
-  // }
-  // const collection = await db.getDb();
-  // UsersModel.collection.findOne({ _id: id }, (err, user) => {
-  //   if (user) {
-  //     res.render("users/profile", user);
-  //   } else {
-  //     next();
-  //   }
-  // });
+router.get("/profile/:id", async (req, res) => {
+  const id = ObjectId(req.params.id);
+  const users = await UsersModel.findOne({ _id: id });
+  res.render("users/profile", users);
 });
 
 // forceAuthorize
-router.get("/profile/edit", async (req, res, next) => {
+router.get("/profile/edit/:id", async (req, res) => {
   const id = ObjectId(req.params.id);
-
-  const collection = await db.getDb();
-
-  UsersModel.collection.findOne({ _id: id }, (err, user) => {
-    if (user) {
-      res.render("users/profile-edit");
-    } else {
-      next();
-      console.log(user);
-    }
-  });
+  const users = await UsersModel.findById({ _id: id });
+  res.render("users/profile-edit", users);
 });
 
 // forceAuthorize
-router.post("/profile/edit", async (req, res, next) => {
+router.post("/profile/edit/:id", async (req, res, next) => {
   const id = ObjectId(req.params.id);
+  const profile = {
+    username: req.body.username,
+    slogan: req.body.slogan,
+  };
 
-  if (id) {
-    const profile = {
-      username: req.body.username,
-      slogan: req.body.slogan,
-    };
+  await UsersModel.findById({ _id: id }).updateOne(profile);
 
-    const collection = await db.getDb();
-
-    UsersModel.collection.updateOne({ _id: id }, { $set: profile });
-
-    res.redirect("/users/profile");
-  }
-
-  // const id = ObjectId(req.params.id);
-  // const profile = {
-  //   username: req.body.username,
-  //   slogan: req.body.slogan,
-  // };
-  // const collection = await db.getDb();
-  // await UsersModel.collection.updateOne({ _id: id }, { $set: profile });
-  // res.redirect("/users/profile");
+  res.redirect("/users/profile");
 });
 
 router.post("/remove", async (req, res) => {
-  const collection = await db.getDb();
-
   const id = ObjectId(req.params.id);
-
-  await UsersModel.collection.deleteOne({ _id: id });
-
-  res.redirect("/");
+  await UsersModel.findById({ _id: id }).deleteOne();
+  res.render("users/profile");
 });
 
 /////////// LOG OUT FUNCTIONS /////////

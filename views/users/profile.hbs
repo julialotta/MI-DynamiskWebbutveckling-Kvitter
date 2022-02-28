@@ -17,9 +17,8 @@
 {{! Slogan }}
 <p>Slogan: {{slogan}}</p>
 
-{{!-- /users/{{_id}}/edit-bio" --}}
 <p>
-  <a href="/users/profile/edit">Edit profile</a>
+  <a href="/users/profile/edit/{{_id}}">Edit profile</a>
 </p>
 
 <p>
@@ -27,13 +26,11 @@
 </p>
 
 {{! Log out }}
-{{!-- /users/{{_id}}/log-out --}}
 <form action="/users/log-out" method="post">
   <input type="submit" value="Log out" />
 </form>
 
 {{! Remove user }}
-{{!-- /users/{{_id}}/remove --}}
-<form action="/users/remove" method="post">
+<form action="/users/remove/{{_id}}" method="post">
   <input type="submit" value="Remove profile" />
 </form>

@@ -10,7 +10,6 @@ const utils = require("./utils.js");
 const UsersModel = require("./models/UsersModel.js");
 
 const usersRouter = require("./routes/users-router.js");
-
 const app = express();
 
 app.engine(
@@ -27,20 +26,20 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
 
-    //OM INLOGGAD
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.loggedIn = true;
-        res.locals.username = tokenData.username;
-        res.locals.userId = tokenData.userId;
-        // ANNARS
-    } else {
-        res.locals.loggedIn = false;
-    }
+  //OM INLOGGAD
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+    res.locals.loggedIn = true;
+    res.locals.username = tokenData.username;
+    res.locals.userId = tokenData.userId;
+    // ANNARS
+  } else {
+    res.locals.loggedIn = false;
+  }
 
-    next();
+  next();
 });
 
 app.get("/", async (req, res) => {
