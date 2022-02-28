@@ -10,6 +10,7 @@ const utils = require("./utils.js");
 const UsersModel = require("./models/UsersModel.js");
 
 const usersRouter = require("./routes/users-router.js");
+const kvittraRouter = require("./routes/kvittra-routes.js");
 
 const app = express();
 
