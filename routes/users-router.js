@@ -116,7 +116,8 @@ router.post("/remove/:id", async (req, res) => {
     // Login correct
     const id = ObjectId(req.params.id);
     await UsersModel.findOne({ _id: id }).deleteOne();
-    res.render("users/profile");
+    res.cookie("token", "", { maxAge: 0 });
+    res.redirect("/");
   } else {
     // Login incorrect
     res.sendStatus(403);
