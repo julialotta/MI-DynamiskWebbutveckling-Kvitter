@@ -89,7 +89,6 @@ router.get("/profile/edit/:id", async (req, res) => {
     res.sendStatus(403);
   }
 });
-
 router.post("/profile/edit/:id", async (req, res) => {
   const { token } = req.cookies;
 
@@ -103,14 +102,14 @@ router.post("/profile/edit/:id", async (req, res) => {
 
     await UsersModel.findOne({ _id: id }).updateOne(profile);
 
-    res.redirect("/users/profile");
+    res.redirect("/users/profile/:id");
   } else {
     // Login incorrect
     res.sendStatus(403);
   }
 });
 
-router.post("/remove", async (req, res) => {
+router.post("/remove/:id", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
