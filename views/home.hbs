@@ -12,7 +12,7 @@
 {{#if loggedIn}}
   <p>Logged in as {{username}}</p>
   <p>
-    <a href="/users/profile/{{id}}">To profile</a>
+    <a href="/users/profile/{{_id}}">To profile</a>
   </p>
   <form action="/users/log-out" method="post">
     <input type="submit" value="Log out" />
