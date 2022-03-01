@@ -6,19 +6,27 @@ const exphbs = require("express-handlebars");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
-// const utils = require("./utils.js");
-// const UsersModel = require("./models/UsersModel.js");
+const KvitterModel = require("./models/KvitterModel");
 
 const usersRouter = require("./routes/users-router.js");
+const kvittraRouter = require("./routes/kvittra-routes.js");
+
 
 const app = express();
 
 app.engine(
-    "hbs",
-    exphbs.engine({
-        defaultLayout: "main",
-        extname: ".hbs",
-    })
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    extname: ".hbs",
+    helpers: {
+      formatDate: (time) => {
+        const date = new Date(time);
+        return date.toLocaleDateString() + " - " + date.toLocaleTimeString();
+      },
+    },
+  })
+
 );
 
 app.set("view engine", "hbs");
@@ -27,25 +35,30 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
 
-    //OM INLOGGAD
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.loggedIn = true;
-        res.locals.username = tokenData.username;
-        res.locals.userId = tokenData.userId;
-        // ANNARS
-    } else {
-        res.locals.loggedIn = false;
-    }
-
-    next();
+  //OM INLOGGAD
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+    res.locals.loggedIn = true;
+    res.locals.username = tokenData.username;
+    res.locals.userId = tokenData.userId;
+    // ANNARS
+  } else {
+    res.locals.loggedIn = false;
+  }
+  next();
 });
 
 app.get("/", async (req, res) => {
-    res.render("home");
+  const kvitter = await KvitterModel.find()
+    .sort([["time", "desc"]])
+    .lean();
+
+  res.render("home", { kvitter });
 });
+
+app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
