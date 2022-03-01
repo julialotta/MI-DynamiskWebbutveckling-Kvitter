@@ -55,6 +55,7 @@ router.post("/login", async (req, res) => {
       res.cookie("token", accessToken);
       res.redirect("/");
     } else {
+      // Login incorrect
       res.send("Login failed");
     }
   });
@@ -65,10 +66,12 @@ router.get("/profile/:id", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    // Login correct
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
     res.render("users/profile", users);
   } else {
+    // Login incorrect
     res.sendStatus(403);
   }
 });
@@ -77,10 +80,12 @@ router.get("/profile/edit/:id", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    // Login correct
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
     res.render("users/profile-edit", users);
   } else {
+    // Login incorrect
     res.sendStatus(403);
   }
 });
@@ -89,6 +94,7 @@ router.post("/profile/edit/:id", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    // Login correct
     const id = ObjectId(req.params.id);
     const profile = {
       username: req.body.username,
@@ -99,6 +105,7 @@ router.post("/profile/edit/:id", async (req, res) => {
 
     res.redirect("/users/profile");
   } else {
+    // Login incorrect
     res.sendStatus(403);
   }
 });
@@ -107,10 +114,12 @@ router.post("/remove", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    // Login correct
     const id = ObjectId(req.params.id);
     await UsersModel.findOne({ _id: id }).deleteOne();
     res.render("users/profile");
   } else {
+    // Login incorrect
     res.sendStatus(403);
   }
 });
