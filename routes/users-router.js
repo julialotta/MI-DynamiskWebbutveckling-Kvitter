@@ -69,8 +69,8 @@ router.get("/profile/:id", async (req, res) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     // Login correct
     const id = ObjectId(req.params.id);
-    const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile", { users });
+    const user = await UsersModel.findOne({ _id: id });
+    res.render("users/profile", user);
   } else {
     // Login incorrect
     res.sendStatus(403);
@@ -84,12 +84,13 @@ router.get("/profile/edit/:id", async (req, res) => {
     // Login correct
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile-edit", users);
+    res.render("users/profile-edit", { users });
   } else {
     // Login incorrect
     res.sendStatus(403);
   }
 });
+
 router.post("/profile/edit/:id", async (req, res) => {
   const { token } = req.cookies;
 
@@ -103,14 +104,14 @@ router.post("/profile/edit/:id", async (req, res) => {
 
     await UsersModel.findOne({ _id: id }).updateOne(profile);
 
-    res.redirect("/users/profile/:id");
+    res.redirect("/users/profile/" + id);
   } else {
     // Login incorrect
     res.sendStatus(403);
   }
 });
 
-router.post("/remove/:id", async (req, res) => {
+router.post("/profile/remove/:id", async (req, res) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
