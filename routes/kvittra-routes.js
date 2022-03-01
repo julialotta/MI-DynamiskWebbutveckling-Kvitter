@@ -1,9 +1,14 @@
-const express = require("express");
 const KvitterModel = require("../models/KvitterModel");
+const express = require("express");
+const { ObjectId } = require("mongodb");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  const newKvitterpost = new KvitterModel(req.body);
+  const userId = ObjectId(req.cookies.userId);
+  const newKvitterpost = new KvitterModel({
+    ...req.body,
+    userId,
+  });
   await newKvitterpost.save();
   res.redirect("/");
 });

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const kvitterSchema = new mongoose.Schema({
   content: { type: String, required: true },
   time: { type: Number, default: Date.now },
-  users: Object,
+  userId: { type: String },
 });
 
 const KvitterModel = mongoose.model("Posts", kvitterSchema);

@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
 const KvitterModel = require("./models/KvitterModel");
-const UsersModel = require("./models/UsersModel");
 
 const usersRouter = require("./routes/users-router.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
