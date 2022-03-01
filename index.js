@@ -60,6 +60,7 @@ app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
+// Error page for unauthorized.
 app.use("/", (req, res) => {
   res.status(404).render("error-page");
 });

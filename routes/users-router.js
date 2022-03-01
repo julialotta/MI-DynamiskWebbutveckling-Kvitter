@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
 
   UsersModel.findOne({ username }, (err, user) => {
     if (user && utils.comparePassword(password, user.hashedPassword)) {
-      // Login correct
+      // Logged in
       const userData = { userId: user._id, username };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 
@@ -67,14 +67,13 @@ router.get("/profile/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
+    // Logged in
     const id = ObjectId(req.params.id);
     const user = await UsersModel.findOne({ _id: id });
     res.render("users/profile", user);
   } else {
+    // Not logged in
     next();
-    // Login incorrect
-    //res.sendStatus(403);
   }
 });
 
@@ -82,14 +81,13 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
+    // Logged in
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
     res.render("users/profile-edit", { users });
   } else {
+    // Not logged in
     next();
-    // Login incorrect
-    //res.sendStatus(403);
   }
 });
 
@@ -97,7 +95,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
+    // Logged in
     const id = ObjectId(req.params.id);
     const profile = {
       username: req.body.username,
@@ -108,9 +106,8 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
     res.redirect("/users/profile/" + id);
   } else {
+    // Not logged in
     next();
-    // Login incorrect
-    //res.sendStatus(403);
   }
 });
 
@@ -118,15 +115,14 @@ router.post("/profile/remove/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
+    // Logged in
     const id = ObjectId(req.params.id);
     await UsersModel.findOne({ _id: id }).deleteOne();
     res.cookie("token", "", { maxAge: 0 });
     res.redirect("/");
   } else {
+    // Not logged in
     next();
-    // Login incorrect
-    //res.sendStatus(403);
   }
 });
 
