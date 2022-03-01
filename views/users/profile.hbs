@@ -1,0 +1,36 @@
+<h2>Profil sida</h2>
+
+{{! Profilbild }}
+{{! Temporary styling }}
+<div>
+  <img
+    src="/assets/profile-pitcure.png"
+    width="100px"
+    height="100px"
+    alt="Profilbild"
+  />
+</div>
+
+{{! Namn }}
+<p>Användare: {{username}} </p>
+
+{{! Slogan }}
+<p>Slogan: {{slogan}}</p>
+
+<p>
+  <a href="/users/profile/edit/{{_id}}">Edit profile</a>
+</p>
+
+<p>
+  <a href="/">Home</a>
+</p>
+
+{{! Log out }}
+<form action="/users/log-out" method="post">
+  <input type="submit" value="Log out" />
+</form>
+
+{{! Remove user }}
+<form action="/users/remove/{{_id}}" method="post">
+  <input type="submit" value="Remove profile" />
+</form>

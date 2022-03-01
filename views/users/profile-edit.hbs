@@ -1,0 +1,16 @@
+<h2>Edit profile</h2>
+
+<form action="/users/profile/edit/{{_id}}" method="post">
+  <input
+    type="text"
+    name="username"
+    placeholder="Username"
+    value="{{username}}"
+  />
+  <input type="text" name="slogan" placeholder="Slogan" value="{{slogan}}" />
+  <input type="submit" value="Save" />
+</form>
+
+<p>
+  <a href="/users/profile/{{_id}}">Back</a>
+</p>

@@ -2,6 +2,9 @@
 
 {{#if loggedIn}}
   <p>Logged in as {{username}}</p>
+  <p>
+    <a href="/users/profile/{{_id}}">To profile</a>
+  </p>
 
   <form action="/kvittra" method="post">
     <input type="text" name="content" placeholder="Kvitter your feelings" />
@@ -36,4 +39,3 @@
   </form>
   <a href="/users/register-user"><button>Register</button></a>
 {{/if}}
-
