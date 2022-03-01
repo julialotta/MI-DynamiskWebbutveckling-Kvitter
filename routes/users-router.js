@@ -36,7 +36,8 @@ router.post("/register", async (req, res) => {
 
       console.log(newUser);
 
-      res.sendStatus(200);
+      // res.sendStatus(200);
+      res.redirect("/");
     }
   });
 });
