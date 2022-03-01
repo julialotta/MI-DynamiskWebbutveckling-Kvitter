@@ -69,7 +69,7 @@ router.get("/profile/:id", async (req, res) => {
     // Login correct
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile", users);
+    res.render("users/profile", { users });
   } else {
     // Login incorrect
     res.sendStatus(403);
