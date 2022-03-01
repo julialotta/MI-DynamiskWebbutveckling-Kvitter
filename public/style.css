@@ -56,9 +56,12 @@ header h1 {
   margin: 0;
   letter-spacing: 0.21em;
   text-align: center;
-  color: #3fb686;
   text-shadow: 7px 7px #e15b498f;
   margin-top: 100px;
+}
+header h1 a {
+  color: #3fb686;
+  text-decoration: none;
 }
 @media (min-width: 650px) {
   header h1 {
