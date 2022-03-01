@@ -11,6 +11,7 @@ const KvitterModel = require("./models/KvitterModel");
 const usersRouter = require("./routes/users-router.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 
+
 const app = express();
 
 app.engine(
@@ -25,6 +26,7 @@ app.engine(
       },
     },
   })
+
 );
 
 app.set("view engine", "hbs");
@@ -57,8 +59,9 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/kvittra", kvittraRouter);
+
 app.use("/users", usersRouter);
 
 app.listen(8000, () => {
-  console.log("http://localhost:8000");
+    console.log("http://localhost:8000");
 });
