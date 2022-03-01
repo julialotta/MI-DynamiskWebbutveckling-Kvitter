@@ -62,33 +62,57 @@ router.post("/login", async (req, res) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 router.get("/profile/:id", async (req, res) => {
-  const id = ObjectId(req.params.id);
-  const users = await UsersModel.findOne({ _id: id });
-  res.render("users/profile", users);
+  const { token } = req.cookies;
+
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const id = ObjectId(req.params.id);
+    const users = await UsersModel.findOne({ _id: id });
+    res.render("users/profile", users);
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 router.get("/profile/edit/:id", async (req, res) => {
-  const id = ObjectId(req.params.id);
-  const users = await UsersModel.findOne({ _id: id });
-  res.render("users/profile-edit", users);
+  const { token } = req.cookies;
+
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const id = ObjectId(req.params.id);
+    const users = await UsersModel.findOne({ _id: id });
+    res.render("users/profile-edit", users);
+  } else {
+    res.sendStatus(403);
+  }
 });
 
-router.post("/profile/edit/:id", async (req, res, next) => {
-  const id = ObjectId(req.params.id);
-  const profile = {
-    username: req.body.username,
-    slogan: req.body.slogan,
-  };
+router.post("/profile/edit/:id", async (req, res) => {
+  const { token } = req.cookies;
 
-  await UsersModel.findOne({ _id: id }).updateOne(profile);
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const id = ObjectId(req.params.id);
+    const profile = {
+      username: req.body.username,
+      slogan: req.body.slogan,
+    };
 
-  res.redirect("/users/profile");
+    await UsersModel.findOne({ _id: id }).updateOne(profile);
+
+    res.redirect("/users/profile");
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 router.post("/remove", async (req, res) => {
-  const id = ObjectId(req.params.id);
-  await UsersModel.findOne({ _id: id }).deleteOne();
-  res.render("users/profile");
+  const { token } = req.cookies;
+
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const id = ObjectId(req.params.id);
+    await UsersModel.findOne({ _id: id }).deleteOne();
+    res.render("users/profile");
+  } else {
+    res.sendStatus(403);
+  }
 });
 
 /////////// LOG OUT FUNCTIONS /////////
