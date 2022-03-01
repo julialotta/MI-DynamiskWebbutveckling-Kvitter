@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
 });
 
 ////////// PROFILE FUNCTIONS //////////////
-router.get("/profile/:id", async (req, res) => {
+router.get("/profile/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -72,12 +72,13 @@ router.get("/profile/:id", async (req, res) => {
     const user = await UsersModel.findOne({ _id: id });
     res.render("users/profile", user);
   } else {
+    next();
     // Login incorrect
-    res.sendStatus(403);
+    //res.sendStatus(403);
   }
 });
 
-router.get("/profile/edit/:id", async (req, res) => {
+router.get("/profile/edit/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -86,12 +87,13 @@ router.get("/profile/edit/:id", async (req, res) => {
     const users = await UsersModel.findOne({ _id: id });
     res.render("users/profile-edit", { users });
   } else {
+    next();
     // Login incorrect
-    res.sendStatus(403);
+    //res.sendStatus(403);
   }
 });
 
-router.post("/profile/edit/:id", async (req, res) => {
+router.post("/profile/edit/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -106,12 +108,13 @@ router.post("/profile/edit/:id", async (req, res) => {
 
     res.redirect("/users/profile/" + id);
   } else {
+    next();
     // Login incorrect
-    res.sendStatus(403);
+    //res.sendStatus(403);
   }
 });
 
-router.post("/profile/remove/:id", async (req, res) => {
+router.post("/profile/remove/:id", async (req, res, next) => {
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -121,8 +124,9 @@ router.post("/profile/remove/:id", async (req, res) => {
     res.cookie("token", "", { maxAge: 0 });
     res.redirect("/");
   } else {
+    next();
     // Login incorrect
-    res.sendStatus(403);
+    //res.sendStatus(403);
   }
 });
 

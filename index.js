@@ -60,6 +60,10 @@ app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
+app.use("/", (req, res) => {
+  res.status(404).render("error-page");
+});
+
 app.listen(8000, () => {
   console.log("http://localhost:8000");
 });
