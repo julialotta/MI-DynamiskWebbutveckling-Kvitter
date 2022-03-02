@@ -64,53 +64,87 @@ router.post("/login", async (req, res) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 router.get("/profile/:id", async (req, res, next) => {
+  let id = undefined;
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Logged in
-    const id = ObjectId(req.params.id);
-    const user = await UsersModel.findOne({ _id: id });
-    res.render("users/profile", user);
+    if (id) {
+      // Logged in
+      // const id = ObjectId(req.params.id);
+      const user = await UsersModel.findOne({ _id: id });
+      res.render("users/profile", user);
+    }
   }
 });
 
 router.get("/profile/edit/:id", async (req, res, next) => {
+  let id = undefined;
+
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Logged in
-    const id = ObjectId(req.params.id);
-    const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile-edit", { users });
+    if (id) {
+      // Logged in
+      //const id = ObjectId(req.params.id);
+      const users = await UsersModel.findOne({ _id: id });
+      res.render("users/profile-edit", { users });
+    }
   }
 });
 
 router.post("/profile/edit/:id", async (req, res, next) => {
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Logged in
-    const id = ObjectId(req.params.id);
-    const profile = {
-      username: req.body.username,
-      slogan: req.body.slogan,
-    };
+    if (id) {
+      // Logged in
+      //const id = ObjectId(req.params.id);
+      const profile = {
+        username: req.body.username,
+        slogan: req.body.slogan,
+      };
 
-    await UsersModel.findOne({ _id: id }).updateOne(profile);
+      await UsersModel.findOne({ _id: id }).updateOne(profile);
 
-    res.redirect("/users/profile/" + id);
+      res.redirect("/users/profile/" + id);
+    }
   }
 });
 
 router.post("/profile/remove/:id", async (req, res, next) => {
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Logged in
-    const id = ObjectId(req.params.id);
-    await UsersModel.findOne({ _id: id }).deleteOne();
-    res.cookie("token", "", { maxAge: 0 });
-    res.redirect("/");
+    if (id) {
+      // Logged in
+      //const id = ObjectId(req.params.id);
+      await UsersModel.findOne({ _id: id }).deleteOne();
+      res.cookie("token", "", { maxAge: 0 });
+      res.redirect("/");
+    }
   }
 });
 
