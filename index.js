@@ -60,15 +60,10 @@ app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
-// Error page for unauthorized.
+// Error page for page not found.
 app.use("/", (req, res) => {
   res.status(404).render("error-page");
 });
-
-// For page not found, errors
-// app.all("*", (req, res) => {
-//   res.status(400).send("<h1>400! Page not found </h1>");
-// });
 
 app.listen(8000, () => {
   console.log("http://localhost:8000");

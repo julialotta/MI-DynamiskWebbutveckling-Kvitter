@@ -85,7 +85,6 @@ router.get("/profile/:id", async (req, res, next) => {
 
 router.get("/profile/edit/:id", async (req, res, next) => {
   let id = undefined;
-
   try {
     id = ObjectId(req.params.id);
   } catch {
@@ -93,7 +92,6 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   }
 
   const { token } = req.cookies;
-
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       // Logged in
@@ -105,6 +103,7 @@ router.get("/profile/edit/:id", async (req, res, next) => {
 });
 
 router.post("/profile/edit/:id", async (req, res, next) => {
+  let id = undefined;
   try {
     id = ObjectId(req.params.id);
   } catch {
@@ -130,6 +129,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 });
 
 router.post("/profile/remove/:id", async (req, res, next) => {
+  id = undefined;
   try {
     id = ObjectId(req.params.id);
   } catch {
