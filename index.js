@@ -49,11 +49,20 @@ app.use((req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  const kvitter = await KvitterModel.find()
-    .sort([["time", "desc"]])
-    .lean();
-
-  res.render("home", { kvitter });
+  const kvitterCollection = await KvitterModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "user",
+      },
+    },
+    { $unwind: "$user" },
+  ]);
+  /*  kvitterCollection.sort(["time", "desc"]) */ res.render("home", {
+    kvitterCollection,
+  });
 });
 
 app.use("/kvittra", kvittraRouter);
