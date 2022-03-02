@@ -46,7 +46,7 @@
   padding-left: 30px;
   font-family: "Futura Std Heavy", sans-serif;
   font-size: 12pt;
-  background-color: #2a2438;
+  background-color: #111725;
   color: #3fb686;
 }
 .mainwrapper .formwrapper input#btn-style {
@@ -68,7 +68,7 @@
   height: 50px;
   border-radius: 5px;
   border: none;
-  color: #2a2438;
+  color: #111725;
   font-family: "Futura Std Heavy", sans-serif;
   font-size: 12pt;
   transition: transform 0.1s ease-in;
@@ -212,7 +212,7 @@ header img {
 }
 
 body {
-  background-color: #2a2438;
+  background-color: #111725;
   margin: 0;
   padding: 0;
   font-family: "Futura Std Heavy", sans-serif;
