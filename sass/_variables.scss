@@ -1,15 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Monoton&display=swap");
 @font-face {
-  font-family: "Futura Std Heavy";
-  src: url("assets/fonts/Futura Std Heavy.ttf") format("truetype");
+    font-family: "Futura Std Heavy";
+    src: url("assets/fonts/Futura Std Heavy.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Futura Std Light";
+    src: url("assets/fonts/FuturaStdLight.otf") format("truetype");
 }
 
 ///FONTS///
 $h1: "Monoton", cursive;
 $p: "Futura Std Heavy", sans-serif;
+$light: "Futura Std Light", sans-serif;
 
 ///COLORS///
 $darkblue: #2a2438;
 $green: #3fb686;
 $red: #e15b49;
 $purple: #5c5470;
+$gray: rgb(131, 131, 131);

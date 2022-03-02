@@ -4,6 +4,104 @@
   font-family: "Futura Std Heavy";
   src: url("assets/fonts/Futura Std Heavy.ttf") format("truetype");
 }
+@font-face {
+  font-family: "Futura Std Light";
+  src: url("assets/fonts/FuturaStdLight.otf") format("truetype");
+}
+.mainwrapper {
+  margin-top: 100px;
+  margin-bottom: 200px;
+  display: flex;
+  justify-content: center;
+}
+.mainwrapper .formwrapper {
+  width: 80%;
+  padding: 10px;
+}
+@media (min-width: 650px) {
+  .mainwrapper .formwrapper {
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .mainwrapper .formwrapper {
+    width: 30%;
+  }
+}
+.mainwrapper .formwrapper form {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: "Futura Std Heavy", sans-serif;
+  justify-content: space-between;
+}
+.mainwrapper .formwrapper a {
+  width: 45%;
+}
+.mainwrapper .formwrapper input {
+  width: 100%;
+  border-radius: 5px;
+  height: 50px;
+  border: 1px solid #5c5470;
+  margin-bottom: 15px;
+  padding-left: 30px;
+  font-family: "Futura Std Heavy", sans-serif;
+  font-size: 12pt;
+  background-color: #2a2438;
+  color: #3fb686;
+}
+.mainwrapper .formwrapper input#btn-style {
+  outline: none;
+  border: 1px solid #3fb686;
+  color: #3fb686;
+  padding: 0;
+  width: 45%;
+  transition: transform 0.1s ease-in;
+}
+.mainwrapper .formwrapper input:focus {
+  outline: none;
+  border: 1px solid #3fb686;
+}
+
+.register-btn {
+  background-color: #3fb686;
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  color: #2a2438;
+  font-family: "Futura Std Heavy", sans-serif;
+  font-size: 12pt;
+  transition: transform 0.1s ease-in;
+}
+
+#btn-style:hover,
+.register-btn:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+::placeholder {
+  color: #3fb686;
+}
+
+.textwrapper {
+  border-top: 1px solid #3fb686;
+  display: flex;
+  justify-content: center;
+  color: #838383;
+  padding-top: 15px;
+  margin-top: 20px;
+}
+.textwrapper p {
+  transition: color 0.2s ease-in-out;
+  font-size: 11pt;
+  font-family: "Futura Std Light", sans-serif;
+}
+.textwrapper p:hover {
+  cursor: pointer;
+  color: #3fb686;
+}
+
 footer {
   font-size: 11pt;
   display: flex;
@@ -11,11 +109,21 @@ footer {
   margin-bottom: 40px;
   margin-top: 50px;
 }
+footer .footercontainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 footer .wrapper {
   display: flex;
   justify-content: center;
   gap: 50px;
-  width: 600px;
+  width: 100%;
+}
+@media (min-width: 650px) {
+  footer .wrapper {
+    width: 100%;
+  }
 }
 footer .wrapper a {
   color: #838383;
@@ -30,6 +138,7 @@ footer .wrapper p {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   color: #838383;
   font-family: "Futura Std Heavy", sans-serif;
 }
@@ -41,6 +150,11 @@ footer .imgwrapper {
 footer img {
   width: 100px;
   cursor: pointer;
+}
+
+.pstyle {
+  width: 80%;
+  text-align: center;
 }
 
 header {
@@ -68,7 +182,7 @@ header h1 {
   }
 }
 header .topborder {
-  background-color: #5c5470;
+  background-color: #d4d4d4;
   width: 100%;
   height: 40px;
 }
@@ -101,6 +215,7 @@ body {
   background-color: #2a2438;
   margin: 0;
   padding: 0;
+  font-family: "Futura Std Heavy", sans-serif;
 }
 
 html  {

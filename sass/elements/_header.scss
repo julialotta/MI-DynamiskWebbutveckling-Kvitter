@@ -1,52 +1,53 @@
 header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  h1 {
-    font-family: $h1;
-    font-style: normal;
-    font-size: 45px;
-    font-weight: 200;
-    margin: 0;
-    letter-spacing: 0.21em;
-    text-align: center;
-    color: $green;
-    text-shadow: 7px 7px #e15b498f;
-    margin-top: 100px;
-
-    @include for-phone-landscape-up {
-      font-size: 65px;
-      margin-top: 60px;
-      position: relative;
-    }
-  }
-
-  .topborder {
-    background-color: $purple;
-    width: 100%;
-    height: 40px;
-
-    @include for-phone-landscape-up {
-      height: 60px;
-    }
-  }
-  .container {
-    width: 100%;
     display: flex;
-    align-items: flex-end;
-    margin-top: -60px;
-    justify-content: center;
-  }
+    flex-direction: column;
+    align-items: center;
+    h1 {
+        font-family: $h1;
+        font-style: normal;
+        font-size: 45px;
+        font-weight: 200;
+        margin: 0;
+        letter-spacing: 0.21em;
+        text-align: center;
+        color: $green;
+        text-shadow: 7px 7px #e15b498f;
+        margin-top: 100px;
 
-  img {
-    width: 150px;
-    margin-left: -75px;
-    margin-bottom: 8px;
-
-    @include for-phone-landscape-up {
-      margin-left: -110px;
-      margin-bottom: 12px;
-      width: 210px;
+        @include for-phone-landscape-up {
+            font-size: 65px;
+            margin-top: 60px;
+            position: relative;
+        }
     }
-  }
+
+    .topborder {
+        // background-color: $purple;
+        background-color: rgb(212, 212, 212);
+        width: 100%;
+        height: 40px;
+
+        @include for-phone-landscape-up {
+            height: 60px;
+        }
+    }
+    .container {
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        margin-top: -60px;
+        justify-content: center;
+    }
+
+    img {
+        width: 150px;
+        margin-left: -75px;
+        margin-bottom: 8px;
+
+        @include for-phone-landscape-up {
+            margin-left: -110px;
+            margin-bottom: 12px;
+            width: 210px;
+        }
+    }
 }
