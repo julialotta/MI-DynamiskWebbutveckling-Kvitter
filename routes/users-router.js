@@ -93,7 +93,7 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      res.render("users/profile-edit", { user });
+      res.render("users/profile-edit", user);
     }
   }
 });
