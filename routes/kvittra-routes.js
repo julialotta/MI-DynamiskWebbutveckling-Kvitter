@@ -2,6 +2,24 @@ const KvitterModel = require("../models/KvitterModel");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const { ObjectId } = require("mongodb");
+
+// FOR ERRORS
+// let id = undefined;
+// try {
+//   id = req.params.id;
+// } catch {
+//   next();
+// }
+// const { token } = req.cookies;
+// if (token && jwt.verify(token, process.env.JWTSECRET)) {
+//   if (id) {
+//     // logged in
+//     res.render("");
+//   } else {
+//     res.redirect("/unauthorized");
+//   }
+// }
 
 router.post("/", async (req, res) => {
   const { token } = req.cookies;
