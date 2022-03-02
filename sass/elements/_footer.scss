@@ -4,11 +4,22 @@ footer {
     justify-content: center;
     margin-bottom: 40px;
     margin-top: 50px;
+    .footercontainer {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        @include for-phone-landscape-up {
+            // display: inherit;
+        }
+    }
     .wrapper {
         display: flex;
         justify-content: center;
         gap: 50px;
-        width: 600px;
+        width: 100%;
+        @include for-phone-landscape-up {
+            width: 100%;
+        }
         a {
             color: rgb(131, 131, 131);
             text-decoration: none;
@@ -22,6 +33,7 @@ footer {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
             color: rgb(131, 131, 131);
             font-family: $p;
         }
@@ -35,4 +47,9 @@ footer {
         width: 100px;
         cursor: pointer;
     }
+}
+
+.pstyle {
+    width: 80%;
+    text-align: center;
 }

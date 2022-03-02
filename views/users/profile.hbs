@@ -18,7 +18,7 @@
 <p>Slogan: {{slogan}}</p>
 
 <p>
-  <a href="/users/profile/edit/{{_id}}">Edit profile</a>
+  <a href="/users/profile/edit/{{userId}}">Edit profile</a>
 </p>
 
 <p>
@@ -31,6 +31,6 @@
 </form>
 
 {{! Remove user }}
-<form action="/users/remove/{{_id}}" method="post">
+<form action="/users/profile/remove/{{userId}}" method="post">
   <input type="submit" value="Remove profile" />
 </form>

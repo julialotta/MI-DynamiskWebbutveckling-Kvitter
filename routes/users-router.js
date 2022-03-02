@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
 
   UsersModel.findOne({ username }, (err, user) => {
     if (user && utils.comparePassword(password, user.hashedPassword)) {
-      // Login correct
+      // Logged in
       const userData = { userId: user._id, username };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 
@@ -56,71 +56,88 @@ router.post("/login", async (req, res) => {
       res.redirect("/");
     } else {
       // Login incorrect
-      res.send("Login failed");
+      res.render("home", {
+        error: "Login failed",
+      });
     }
   });
 });
 
 ////////// PROFILE FUNCTIONS //////////////
-router.get("/profile/:id", async (req, res) => {
+router.get("/profile/:id", async (req, res, next) => {
+  let id = undefined;
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
-    const id = ObjectId(req.params.id);
-    const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile", { users });
-  } else {
-    // Login incorrect
-    res.sendStatus(403);
+    if (id) {
+      const user = await UsersModel.findOne({ _id: id });
+      res.render("users/profile", user);
+    }
   }
 });
 
-router.get("/profile/edit/:id", async (req, res) => {
-  const { token } = req.cookies;
+router.get("/profile/edit/:id", async (req, res, next) => {
+  let id = undefined;
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
 
+  const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
-    const id = ObjectId(req.params.id);
-    const users = await UsersModel.findOne({ _id: id });
-    res.render("users/profile-edit", users);
-  } else {
-    // Login incorrect
-    res.sendStatus(403);
+    if (id) {
+      const user = await UsersModel.findOne({ _id: id });
+      res.render("users/profile-edit", user);
+    }
   }
 });
 
-router.post("/profile/edit/:id", async (req, res) => {
+router.post("/profile/edit/:id", async (req, res, next) => {
+  let id = undefined;
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
-    const id = ObjectId(req.params.id);
-    const profile = {
-      username: req.body.username,
-      slogan: req.body.slogan,
-    };
+    if (id) {
+      const profile = {
+        username: req.body.username,
+        slogan: req.body.slogan,
+      };
 
-    await UsersModel.findOne({ _id: id }).updateOne(profile);
+      await UsersModel.findOne({ _id: id }).updateOne(profile);
 
-    res.redirect("/users/profile");
-  } else {
-    // Login incorrect
-    res.sendStatus(403);
+      res.redirect("/users/profile/" + id);
+    }
   }
 });
 
-router.post("/remove", async (req, res) => {
+router.post("/profile/remove/:id", async (req, res, next) => {
+  id = undefined;
+  try {
+    id = ObjectId(req.params.id);
+  } catch {
+    next();
+  }
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    // Login correct
-    const id = ObjectId(req.params.id);
-    await UsersModel.findOne({ _id: id }).deleteOne();
-    res.render("users/profile");
-  } else {
-    // Login incorrect
-    res.sendStatus(403);
+    if (id) {
+      await UsersModel.findOne({ _id: id }).deleteOne();
+      res.cookie("token", "", { maxAge: 0 });
+      res.redirect("/");
+    }
   }
 });
 

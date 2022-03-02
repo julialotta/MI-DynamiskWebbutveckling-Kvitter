@@ -69,6 +69,11 @@ app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
+// Error page for page not found.
+app.use("/", (req, res) => {
+  res.status(404).render("error-page");
+});
+
 app.listen(8000, () => {
   console.log("http://localhost:8000");
 });

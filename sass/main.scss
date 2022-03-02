@@ -6,11 +6,13 @@
 @import "./elements/header.scss";
 
 body {
-  background-color: $darkblue;
-  margin: 0;
-  padding: 0;
+    background-color: $darkblue;
+
+    margin: 0;
+    padding: 0;
+    font-family: $p;
 }
 
 html  {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }

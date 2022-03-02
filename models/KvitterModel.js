@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const kvitterSchema = new mongoose.Schema({
   content: { type: String, required: true },
   time: { type: Number, default: Date.now },
-  userId: { type: ObjectId },
+  userId: ObjectId,
 });
 
 const KvitterModel = mongoose.model("Posts", kvitterSchema);
