@@ -60,9 +60,13 @@ app.use("/kvittra", kvittraRouter);
 
 app.use("/users", usersRouter);
 
+app.use("/unauthorized", (req, res) => {
+  res.status(403).render("errors/unauthorized");
+});
+
 // Error page for page not found.
 app.use("/", (req, res) => {
-  res.status(404).render("error-page");
+  res.status(404).render("errors/error-page");
 });
 
 app.listen(8000, () => {
