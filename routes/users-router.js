@@ -57,7 +57,9 @@ router.post("/login", async (req, res) => {
       res.redirect("/");
     } else {
       // Login incorrect
-      res.send("Login failed");
+      res.render("home", {
+        error: "Login failed",
+      });
     }
   });
 });
