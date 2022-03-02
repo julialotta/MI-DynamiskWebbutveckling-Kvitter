@@ -12,16 +12,17 @@
   </form>
 
   <h2>Posts</h2>
-  {{#each kvitter}}
+  {{#each kvitterCollection}}
     <article>
       <p><a href="/kvittra/read-kvitter/{{_id}}">
           {{content}}
         </a>
       </p>
       <p>{{formatDate time}}</p>
-      <p>Kvittrat by: {{users.username}}</p>
+      <p>Kvittrat by: {{user.username}}</p>
     </article>
   {{/each}}
+
   <form action="/users/log-out" method="post">
     <input type="submit" value="Log out" />
   </form>
