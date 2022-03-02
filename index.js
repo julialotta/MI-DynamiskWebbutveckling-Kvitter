@@ -62,7 +62,7 @@ app.use("/users", usersRouter);
 
 // Error page for unauthorized.
 app.use("/", (req, res) => {
-  res.status(403).render("error-page");
+  res.status(404).render("error-page");
 });
 
 // For page not found, errors
