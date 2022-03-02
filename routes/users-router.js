@@ -71,9 +71,6 @@ router.get("/profile/:id", async (req, res, next) => {
     const id = ObjectId(req.params.id);
     const user = await UsersModel.findOne({ _id: id });
     res.render("users/profile", user);
-  } else {
-    // Not logged in
-    next();
   }
 });
 
@@ -85,9 +82,6 @@ router.get("/profile/edit/:id", async (req, res, next) => {
     const id = ObjectId(req.params.id);
     const users = await UsersModel.findOne({ _id: id });
     res.render("users/profile-edit", { users });
-  } else {
-    // Not logged in
-    next();
   }
 });
 
@@ -105,9 +99,6 @@ router.post("/profile/edit/:id", async (req, res, next) => {
     await UsersModel.findOne({ _id: id }).updateOne(profile);
 
     res.redirect("/users/profile/" + id);
-  } else {
-    // Not logged in
-    next();
   }
 });
 
@@ -120,9 +111,6 @@ router.post("/profile/remove/:id", async (req, res, next) => {
     await UsersModel.findOne({ _id: id }).deleteOne();
     res.cookie("token", "", { maxAge: 0 });
     res.redirect("/");
-  } else {
-    // Not logged in
-    next();
   }
 });
 
