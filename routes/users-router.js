@@ -75,8 +75,6 @@ router.get("/profile/:id", async (req, res, next) => {
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      // Logged in
-      // const id = ObjectId(req.params.id);
       const user = await UsersModel.findOne({ _id: id });
       res.render("users/profile", user);
     }
@@ -94,10 +92,8 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      // Logged in
-      //const id = ObjectId(req.params.id);
-      const users = await UsersModel.findOne({ _id: id });
-      res.render("users/profile-edit", { users });
+      const user = await UsersModel.findOne({ _id: id });
+      res.render("users/profile-edit", { user });
     }
   }
 });
@@ -114,8 +110,6 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      // Logged in
-      //const id = ObjectId(req.params.id);
       const profile = {
         username: req.body.username,
         slogan: req.body.slogan,
@@ -139,8 +133,6 @@ router.post("/profile/remove/:id", async (req, res, next) => {
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      // Logged in
-      //const id = ObjectId(req.params.id);
       await UsersModel.findOne({ _id: id }).deleteOne();
       res.cookie("token", "", { maxAge: 0 });
       res.redirect("/");
