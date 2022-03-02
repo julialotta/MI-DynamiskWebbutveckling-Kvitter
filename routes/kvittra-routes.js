@@ -1,9 +1,15 @@
-const express = require("express");
 const KvitterModel = require("../models/KvitterModel");
+const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 router.post("/", async (req, res) => {
-  const newKvitterpost = new KvitterModel(req.body);
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
+  const newKvitterpost = new KvitterModel({
+    ...req.body,
+    userId: tokenData.userId,
+  });
   await newKvitterpost.save();
   res.redirect("/");
 });
