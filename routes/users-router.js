@@ -19,11 +19,13 @@ router.get("/register-user", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, password, confirmPassword, secret } = req.body;
+  const { username, password, confirmPassword } = req.body;
 
   UsersModel.findOne({ username }, async (err, user) => {
     if (user) {
-      res.send("Username already exists");
+      res.render("users/user-register", {
+        error: "Username already exists",
+      });
     } else if (password !== confirmPassword) {
       res.send("Passwords don't  match");
     } else {
@@ -33,9 +35,6 @@ router.post("/register", async (req, res) => {
         secret,
       });
       await newUser.save();
-
-      console.log(newUser);
-
       // res.sendStatus(200);
       res.redirect("/");
     }
