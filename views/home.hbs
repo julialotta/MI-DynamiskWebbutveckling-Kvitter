@@ -15,6 +15,7 @@
                 <input type="submit" value="kvittra" />
             </form>
 
+<<<<<<< HEAD
             <h2>Posts</h2>
             {{#each kvitterCollection}}
                 <article>
@@ -31,6 +32,19 @@
                     <input type="submit" value="LIKE" />
                 </form> --}}
             {{/each}}
+=======
+      <h2>Posts</h2>
+      {{#each kvitter}}
+        <article>
+          <p><a href="/kvittra/read-kvitter/{{_id}}">
+              {{content}}
+            </a>
+          </p>
+          <p>{{formatDate time}}</p>
+          <p>Kvittrat by: {{writtenBy.username}}</p>
+        </article>
+      {{/each}}
+>>>>>>> 6b38c042bd4a2a4d3250e1109facebd34828ad0c
 
             <form action="/users/log-out" method="post">
                 <input type="submit" value="Log out" />

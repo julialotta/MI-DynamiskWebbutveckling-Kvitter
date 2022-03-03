@@ -2,27 +2,24 @@ require("dotenv").config();
 require("../mongoose.js");
 
 const express = require("express");
-const exphbs = require("express-handlebars");
 const router = express.Router();
 
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
 const { ObjectId } = require("mongodb");
 
 // Id function \\
 function getId(id, next) {
-  let parsedid = undefined;
+    let parsedid = undefined;
 
-  try {
-    parsedid = ObjectId(id);
-  } catch {
-    next();
-  }
+    try {
+        parsedid = ObjectId(id);
+    } catch {
+        next();
+    }
 
-  return parsedid;
+    return parsedid;
 }
 
 ////////// REGISTER FUNCTIONS //////////
@@ -32,74 +29,29 @@ router.get("/register-user", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-<<<<<<< HEAD
-  const { username, password, confirmPassword } = req.body;
-
-  UsersModel.findOne({ username }, async (err, user) => {
-    if (user) {
-      res.render("users/user-register", {
-        error: "Username already exists",
-      });
-    } else if (password !== confirmPassword) {
-      res.send("Passwords don't  match");
-    } else {
-      const newUser = new UsersModel({
-        username,
-        hashedPassword: utils.hashPassword(password),
-        secret,
-      });
-      await newUser.save();
-      // res.sendStatus(200);
-      res.redirect("/");
-    }
-  });
-=======
-    const { username, password, confirmPassword, secret } = req.body;
+    const { username, password, confirmPassword } = req.body;
 
     UsersModel.findOne({ username }, async (err, user) => {
         if (user) {
-            res.send("Username already exists");
+            res.render("users/user-register", {
+                error: "Username already exists",
+            });
         } else if (password !== confirmPassword) {
             res.send("Passwords don't  match");
         } else {
             const newUser = new UsersModel({
                 username,
                 hashedPassword: utils.hashPassword(password),
-                secret,
             });
             await newUser.save();
-
-            console.log(newUser);
-
-            // res.sendStatus(200);
             res.redirect("/");
         }
     });
->>>>>>> favorites
 });
 
 ////////// LOGIN FUNCTIONS //////////////
 
 router.post("/login", async (req, res) => {
-<<<<<<< HEAD
-  const { username, password } = req.body;
-
-  UsersModel.findOne({ username }, (err, user) => {
-    if (user && utils.comparePassword(password, user.hashedPassword)) {
-      // Logged in
-      const userData = { userId: user._id, username };
-      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
-
-      res.cookie("token", accessToken);
-      res.redirect("/");
-    } else {
-      // Login incorrect
-      res.render("home", {
-        error: "Login failed",
-      });
-    }
-  });
-=======
     const { username, password } = req.body;
 
     UsersModel.findOne({ username }, (err, user) => {
@@ -112,39 +64,20 @@ router.post("/login", async (req, res) => {
             res.redirect("/");
         } else {
             // Login incorrect
-            res.send("Login failed");
+            res.render("home", {
+                error: "Login failed",
+            });
         }
     });
->>>>>>> favorites
 });
 
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
-<<<<<<< HEAD
-  const id = getId(req.params.id, next);
-  //  const id = getId(req.params.id, next);
+    const id = getId(req.params.id, next);
+    //  const id = getId(req.params.id, next);
 
-  // if user is logged in.
-  const { token } = req.cookies;
-
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    if (id) {
-      const user = await UsersModel.findOne({ _id: id });
-      res.render("users/profile", user);
-    }
-    // if user is not logged in.
-  } else {
-    res.redirect("/unauthorized");
-  }
-=======
-    let id = undefined;
-    try {
-        id = ObjectId(req.params.id);
-    } catch {
-        next();
-    }
-
+    // if user is logged in.
     const { token } = req.cookies;
 
     if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -152,109 +85,52 @@ router.get("/profile/:id", async (req, res, next) => {
             const user = await UsersModel.findOne({ _id: id });
             res.render("users/profile", user);
         }
+        // if user is not logged in.
+    } else {
+        res.redirect("/unauthorized");
     }
->>>>>>> favorites
 });
 
 // GET, PROFILE/EDIT/:ID \\
 router.get("/profile/edit/:id", async (req, res, next) => {
-<<<<<<< HEAD
-  const id = getId(req.params.id, next);
+    const id = getId(req.params.id, next);
 
-  // if user is logged in.
-  const { token } = req.cookies;
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    if (id) {
-      const user = await UsersModel.findOne({ _id: id });
-
-      res.render("users/profile-edit", user);
-    }
-    // if user is not logged in.
-  } else {
-    res.redirect("/unauthorized");
-  }
-=======
-    let id = undefined;
-    try {
-        id = ObjectId(req.params.id);
-    } catch {
-        next();
-    }
-
+    // if user is logged in.
     const { token } = req.cookies;
     if (token && jwt.verify(token, process.env.JWTSECRET)) {
         if (id) {
             const user = await UsersModel.findOne({ _id: id });
+
             res.render("users/profile-edit", user);
         }
+        // if user is not logged in.
+    } else {
+        res.redirect("/unauthorized");
     }
->>>>>>> favorites
 });
 
 // POST, PROFILE/EDIT/:ID \\
 router.post("/profile/edit/:id", async (req, res, next) => {
-<<<<<<< HEAD
-  const id = getId(req.params.id, next);
-
-  // if user is logged in.
-  const { token } = req.cookies;
-=======
-    let id = undefined;
-    try {
-        id = ObjectId(req.params.id);
-    } catch {
-        next();
-    }
+    const id = getId(req.params.id, next);
 
     const { token } = req.cookies;
->>>>>>> favorites
 
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        if (id) {
-            const profile = {
-                username: req.body.username,
-                slogan: req.body.slogan,
-            };
+    const user = await UsersModel.findById(req.params.id);
+    user.username = req.body.username;
+    user.slogan = req.body.slogan;
 
-            await UsersModel.findOne({ _id: id }).updateOne(profile);
-
-            res.redirect("/users/profile/" + id);
-        }
-    }
-<<<<<<< HEAD
-    // if user is not logged in.
-  } else {
-    res.redirect("/unauthorized");
-  }
-=======
->>>>>>> favorites
+    await user.save();
+    const userData = { userId: id, username: req.body.username };
+    const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+    res.cookie("token", accessToken);
+    res.redirect("/users/profile/" + id);
 });
 
 // POST, PROFILE/REMOVE/:ID \\
 router.post("/profile/remove/:id", async (req, res, next) => {
-<<<<<<< HEAD
-  const id = getId(req.params.id, next);
+    const id = getId(req.params.id, next);
 
-  // if user is logged in.
-  const { token } = req.cookies;
-
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    if (id) {
-      await UsersModel.findOne({ _id: id }).deleteOne();
-      res.cookie("token", "", { maxAge: 0 });
-      res.redirect("/");
-    }
-    // if user is not logged in.
-  } else {
-    res.redirect("/unauthorized");
-  }
-=======
-    id = undefined;
-    try {
-        id = ObjectId(req.params.id);
-    } catch {
-        next();
-    }
+    // if user is logged in.
     const { token } = req.cookies;
 
     if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -263,8 +139,10 @@ router.post("/profile/remove/:id", async (req, res, next) => {
             res.cookie("token", "", { maxAge: 0 });
             res.redirect("/");
         }
+        // if user is not logged in.
+    } else {
+        res.redirect("/unauthorized");
     }
->>>>>>> favorites
 });
 
 /////////// LOG OUT FUNCTIONS /////////
@@ -275,29 +153,6 @@ router.post("/log-out", (req, res) => {
 });
 
 /////////// LIKE FUNCTIONS /////////
-
-// router.post("/:id/like", async (req, res) => {
-//     const kvitterId = req.params.id;
-//     const { token } = req.cookies;
-//     const tokenData = jwt.decode(token, process.env.JWTSECRET);
-
-//     const newLike = new UsersModel({
-//         userId: tokenData.userId,
-//         _id: tokenData._id,
-//         username: tokenData.username,
-//         favorites: req.params.id,
-//     });
-
-//     await UsersModel.findOne({ _id: tokenData._id }).updateOne({
-//         $set: newLike,
-//     });
-
-//     console.log(kvitterId);
-
-//     console.log(tokenData.userId);
-
-//     res.redirect("/");
-// });
 
 router.get("/:id/like", async (req, res) => {
     const { token } = req.cookies;
