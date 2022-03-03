@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
-  const id = findId.getId(req.params.id, next);
+  const id = getId(req.params.id, next);
   //  const id = getId(req.params.id, next);
 
   // if user is logged in.
