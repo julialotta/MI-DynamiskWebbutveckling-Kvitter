@@ -2,12 +2,9 @@ require("dotenv").config();
 require("../mongoose.js");
 
 const express = require("express");
-const exphbs = require("express-handlebars");
 const router = express.Router();
 
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
 const { ObjectId } = require("mongodb");
@@ -32,10 +29,8 @@ router.post("/register", async (req, res) => {
       const newUser = new UsersModel({
         username,
         hashedPassword: utils.hashPassword(password),
-        secret,
       });
       await newUser.save();
-      // res.sendStatus(200);
       res.redirect("/");
     }
   });
@@ -107,20 +102,15 @@ router.post("/profile/edit/:id", async (req, res, next) => {
     next();
   }
 
-  const { token } = req.cookies;
+  const user = await UsersModel.findById(req.params.id);
+  user.username = req.body.username;
+  user.slogan = req.body.slogan;
 
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    if (id) {
-      const profile = {
-        username: req.body.username,
-        slogan: req.body.slogan,
-      };
-
-      await UsersModel.findOne({ _id: id }).updateOne(profile);
-
-      res.redirect("/users/profile/" + id);
-    }
-  }
+  await user.save();
+  const userData = { userId: id, username: req.body.username };
+  const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+  res.cookie("token", accessToken);
+  res.redirect("/users/profile/" + id);
 });
 
 router.post("/profile/remove/:id", async (req, res, next) => {

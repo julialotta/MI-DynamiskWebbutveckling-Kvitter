@@ -1,12 +1,11 @@
-const { ObjectId } = require("mongodb");
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const kvitterSchema = new mongoose.Schema({
+const kvitterSchema = new Schema({
   content: { type: String, required: true },
   time: { type: Number, default: Date.now },
-  userId: ObjectId,
+  writtenBy: { type: Schema.Types.ObjectId, ref: "Users", required: true },
 });
 
-const KvitterModel = mongoose.model("Posts", kvitterSchema);
+const KvitterModel = model("Posts", kvitterSchema);
 
 module.exports = KvitterModel;
