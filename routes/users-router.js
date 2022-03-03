@@ -80,7 +80,7 @@ router.post("/login", async (req, res) => {
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
   //const id = utils.getId(req.params.id, next);
-  const id = getId(req.params.id, next);
+  //const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
