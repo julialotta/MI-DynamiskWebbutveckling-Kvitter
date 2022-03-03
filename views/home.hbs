@@ -1,49 +1,66 @@
 <div class="mainwrapper">
-  <div class="formwrapper">
-    {{#if loggedIn}}
-      <p>Logged in as {{username}}</p>
-      <p>
-        <a href="/users/profile/{{userId}}">To profile</a>
-      </p>
+    <div class="formwrapper">
+        {{#if loggedIn}}
+            <p>Logged in as {{username}}</p>
+            <p>
+                <a href="/users/profile/{{userId}}">To profile</a>
+            </p>
 
-      <form action="/kvittra" method="post">
-        <input type="text" name="content" placeholder="Kvitter your feelings" />
-        <input type="submit" value="kvittra" />
-      </form>
+            <form action="/kvittra" method="post">
+                <input
+                    type="text"
+                    name="content"
+                    placeholder="Kvitter your feelings"
+                />
+                <input type="submit" value="kvittra" />
+            </form>
 
-      <h2>Posts</h2>
-      {{#each kvitterCollection}}
-        <article>
-          <p><a href="/kvittra/read-kvitter/{{_id}}">
-              {{content}}
-            </a>
-          </p>
-          <p>{{formatDate time}}</p>
-          <p>Kvittrat by: {{user.username}}</p>
-        </article>
-      {{/each}}
+            <h2>Posts</h2>
+            {{#each kvitterCollection}}
+                <article>
+                    <p><a href="/kvittra/read-kvitter/{{_id}}">
+                            {{content}}
+                        </a>
+                    </p>
+                    <p>{{formatDate time}}</p>
+                    <p>Kvittrat by: {{user.username}}</p>
+                    <a href="/users/{{_id}}/like">LIKE THIS POST</a>
+                </article>
+                {{!-- <a href="/users/{{_id}}/like">LIKE THIS POST</a> --}}
+                {{!-- <form action="/users/{{_id}}/like" method="post">
+                    <input type="submit" value="LIKE" />
+                </form> --}}
+            {{/each}}
 
-      <form action="/users/log-out" method="post">
-        <input type="submit" value="Log out" />
-      </form>
+            <form action="/users/log-out" method="post">
+                <input type="submit" value="Log out" />
+            </form>
 
-    {{else}}
-      <h4>{{error}}</h4>
-      <form action="/users/login" method="post" autocomplete="off">
-        <input type="text" name="username" id="" placeholder="Username" />
-        <br />
-        <input type="password" name="password" id="" placeholder="Password" />
-        <br />
-        <input type="submit" value="Login" id="btn-style" />
-        <a href="/users/register-user"><button
-            class="register-btn"
-            type="button"
-          >Register</button></a>
-        {{! <input type="submit" value="Login" id="btn-style" /> }}
-      </form>
+        {{else}}
+            <form action="/users/login" method="post" autocomplete="off">
+                <input
+                    type="text"
+                    name="username"
+                    id=""
+                    placeholder="Username"
+                />
+                <br />
+                <input
+                    type="password"
+                    name="password"
+                    id=""
+                    placeholder="Password"
+                />
+                <br />
+                <a href="/users/register-user"><button
+                        class="register-btn"
+                        type="button"
+                    >Register</button></a>
+                <input type="submit" value="Login" id="btn-style" />
+            </form>
 
-    {{/if}}
-    <div class="textwrapper"><p>Forgot your password?</p></div>
-  </div>
+        {{/if}}
+        <div class="textwrapper"><p>Forgot your password?</p></div>
+    </div>no
 
 </div>
