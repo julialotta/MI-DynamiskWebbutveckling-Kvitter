@@ -1,8 +1,10 @@
 const KvitterModel = require("../models/KvitterModel");
+const UsersModel = require("../models/UsersModel");
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
+const utils = require("../utils");
 
 // ID FUNCTION \\
 function getId(id, next) {
@@ -24,8 +26,18 @@ router.post("/", async (req, res) => {
     ...req.body,
     writtenBy: tokenData.userId,
   });
-  await newKvitterpost.save();
-  res.redirect("/");
+  if (utils.validatePost(newKvitterpost)) {
+    await newKvitterpost.save();
+    res.redirect("/");
+  } else {
+    const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+    const users = await UsersModel.find().lean();
+    res.render("home", {
+      kvitter,
+      users,
+      error: "You have to write something",
+    });
+  }
 });
 
 router.get("/read-kvitter/:id", async (req, res, next) => {
