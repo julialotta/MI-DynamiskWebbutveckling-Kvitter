@@ -15,21 +15,17 @@ const UsersModel = require("./models/UsersModel");
 const app = express();
 
 app.engine(
-    "hbs",
-    exphbs.engine({
-        defaultLayout: "main",
-        extname: ".hbs",
-        helpers: {
-            formatDate: (time) => {
-                const date = new Date(time);
-                return (
-                    date.toLocaleDateString() +
-                    " - " +
-                    date.toLocaleTimeString()
-                );
-            },
-        },
-    })
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    extname: ".hbs",
+    helpers: {
+      formatDate: (time) => {
+        const date = new Date(time);
+        return date.toLocaleDateString() + " - " + date.toLocaleTimeString();
+      },
+    },
+  })
 );
 
 app.set("view engine", "hbs");
@@ -38,39 +34,23 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
 
-    //OM INLOGGAD
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.loggedIn = true;
-        res.locals.username = tokenData.username;
-        res.locals.userId = tokenData.userId;
-        // ANNARS
-    } else {
-        res.locals.loggedIn = false;
-    }
-    next();
+  //OM INLOGGAD
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+    res.locals.loggedIn = true;
+    res.locals.username = tokenData.username;
+    res.locals.userId = tokenData.userId;
+    // ANNARS
+  } else {
+    res.locals.loggedIn = false;
+  }
+  next();
 });
 
 // GET homepage (if loggedIn)
 app.get("/", async (req, res) => {
-<<<<<<< HEAD
-    const kvitterCollection = await KvitterModel.aggregate([
-        {
-            $lookup: {
-                from: "users",
-                localField: "userId",
-                foreignField: "_id",
-                as: "user",
-            },
-        },
-        { $unwind: "$user" },
-    ]);
-    /*  kvitterCollection.sort(["time", "desc"]) */ res.render("home", {
-        kvitterCollection,
-    });
-=======
   const kvitter = await KvitterModel.find().populate("writtenBy").lean();
   const users = await UsersModel.find().lean();
   console.log(users);
@@ -78,7 +58,6 @@ app.get("/", async (req, res) => {
     kvitter,
     users,
   });
->>>>>>> 6b38c042bd4a2a4d3250e1109facebd34828ad0c
 });
 
 //Routers
@@ -91,13 +70,9 @@ app.use("/unauthorized", (req, res) => {
 
 // Error page for page not found.
 app.use("/", (req, res) => {
-<<<<<<< HEAD
   res.status(404).render("errors/error-page");
-=======
-    res.status(404).render("error-page");
->>>>>>> favorites
 });
 
 app.listen(8000, () => {
-    console.log("http://localhost:8000");
+  console.log("http://localhost:8000");
 });
