@@ -87,6 +87,19 @@ router.get("/profile/:id", async (req, res, next) => {
   }
 });
 
+// Function for finding ID \\
+// function getId(id, next) {
+//   id = undefined;
+
+//   try {
+//     id = ObjectId(req.params.id);
+//   } catch {
+//     next();
+//   }
+// }
+
+// getId(ObjectId(req.params.id), next);
+
 // GET, PROFILE/EDIT/:ID \\
 router.get("/profile/edit/:id", async (req, res, next) => {
   // Tracks the id.
