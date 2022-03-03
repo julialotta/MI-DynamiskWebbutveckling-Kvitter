@@ -13,17 +13,17 @@ const UsersModel = require("../models/UsersModel.js");
 const { ObjectId } = require("mongodb");
 
 // Id function \\
-function getId(id, next) {
-  let parsedid = undefined;
+// function getId(id, next) {
+//   let parsedid = undefined;
 
-  try {
-    parsedid = ObjectId(id);
-  } catch {
-    next();
-  }
+//   try {
+//     parsedid = ObjectId(id);
+//   } catch {
+//     next();
+//   }
 
-  return parsedid;
-}
+//   return parsedid;
+// }
 
 ////////// REGISTER FUNCTIONS //////////
 
@@ -79,8 +79,8 @@ router.post("/login", async (req, res) => {
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
+  //const id = utils.getId(req.params.id, next);
   const id = getId(req.params.id, next);
-  //  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
@@ -94,6 +94,7 @@ router.get("/profile/:id", async (req, res, next) => {
   } else {
     res.redirect("/unauthorized");
   }
+  console.log(id);
 });
 
 // GET, PROFILE/EDIT/:ID \\
