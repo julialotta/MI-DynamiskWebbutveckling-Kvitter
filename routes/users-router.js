@@ -12,6 +12,19 @@ const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
 const { ObjectId } = require("mongodb");
 
+// Id function \\
+function getId(id, next) {
+  let parsedid = undefined;
+
+  try {
+    parsedid = ObjectId(id);
+  } catch {
+    next();
+  }
+
+  return parsedid;
+}
+
 ////////// REGISTER FUNCTIONS //////////
 
 router.get("/register-user", async (req, res) => {
@@ -66,13 +79,8 @@ router.post("/login", async (req, res) => {
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
-  // Tracks the id.
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = findId.getId(req.params.id, next);
+  //  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
@@ -88,34 +96,16 @@ router.get("/profile/:id", async (req, res, next) => {
   }
 });
 
-// Function for finding ID \\
-// function getId(id, next) {
-//   id = undefined;
-
-//   try {
-//     id = ObjectId(req.params.id);
-//   } catch {
-//     next();
-//   }
-// }
-
-// getId(ObjectId(req.params.id), next);
-
 // GET, PROFILE/EDIT/:ID \\
 router.get("/profile/edit/:id", async (req, res, next) => {
-  // Tracks the id.
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
+
       res.render("users/profile-edit", user);
     }
     // if user is not logged in.
@@ -126,13 +116,7 @@ router.get("/profile/edit/:id", async (req, res, next) => {
 
 // POST, PROFILE/EDIT/:ID \\
 router.post("/profile/edit/:id", async (req, res, next) => {
-  // Tracks the id.
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
@@ -156,13 +140,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
 // POST, PROFILE/REMOVE/:ID \\
 router.post("/profile/remove/:id", async (req, res, next) => {
-  // Tracks the id.
-  id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;

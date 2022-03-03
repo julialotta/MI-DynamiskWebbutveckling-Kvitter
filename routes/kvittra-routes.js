@@ -4,6 +4,19 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 
+// ID FUNCTION \\
+function getId(id, next) {
+  let parsedid = undefined;
+
+  try {
+    parsedid = ObjectId(id);
+  } catch {
+    next();
+  }
+
+  return parsedid;
+}
+
 router.post("/", async (req, res) => {
   const { token } = req.cookies;
   const tokenData = jwt.decode(token, process.env.JWTSECRET);
@@ -16,12 +29,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/read-kvitter/:id", async (req, res, next) => {
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -35,12 +43,7 @@ router.get("/read-kvitter/:id", async (req, res, next) => {
 });
 
 router.get("/edit/:id", async (req, res, next) => {
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -54,12 +57,7 @@ router.get("/edit/:id", async (req, res, next) => {
 });
 
 router.post("/edit/:id", async (req, res, next) => {
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -74,12 +72,7 @@ router.post("/edit/:id", async (req, res, next) => {
 });
 
 router.get("/delete/:id", async (req, res, next) => {
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
@@ -93,12 +86,7 @@ router.get("/delete/:id", async (req, res, next) => {
 });
 
 router.post("/delete/:id", async (req, res, next) => {
-  let id = undefined;
-  try {
-    id = ObjectId(req.params.id);
-  } catch {
-    next();
-  }
+  const id = getId(req.params.id, next);
 
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
