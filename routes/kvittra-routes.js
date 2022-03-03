@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
 router.get("/read-kvitter/:id", async (req, res, next) => {
   let id = undefined;
   try {
-    id = req.params.id;
+    id = ObjectId(req.params.id);
   } catch {
     next();
   }
@@ -60,7 +60,7 @@ router.get("/read-kvitter/:id", async (req, res, next) => {
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      const kvitterPost = await KvitterModel.findById(id);
+      const kvitterPost = await KvitterModel.findById(req.params.id);
       res.render("posts/single-post", kvitterPost);
     }
   } else {
@@ -71,7 +71,7 @@ router.get("/read-kvitter/:id", async (req, res, next) => {
 router.get("/edit/:id", async (req, res, next) => {
   let id = undefined;
   try {
-    id = req.params.id;
+    id = ObjectId(req.params.id);
   } catch {
     next();
   }
@@ -90,7 +90,7 @@ router.get("/edit/:id", async (req, res, next) => {
 router.post("/edit/:id", async (req, res, next) => {
   let id = undefined;
   try {
-    id = req.params.id;
+    id = ObjectId(req.params.id);
   } catch {
     next();
   }
@@ -110,7 +110,7 @@ router.post("/edit/:id", async (req, res, next) => {
 router.get("/delete/:id", async (req, res, next) => {
   let id = undefined;
   try {
-    id = req.params.id;
+    id = ObjectId(req.params.id);
   } catch {
     next();
   }
@@ -129,7 +129,7 @@ router.get("/delete/:id", async (req, res, next) => {
 router.post("/delete/:id", async (req, res, next) => {
   let id = undefined;
   try {
-    id = req.params.id;
+    id = ObjectId(req.params.id);
   } catch {
     next();
   }
