@@ -10,6 +10,7 @@ const KvitterModel = require("./models/KvitterModel");
 
 const usersRouter = require("./routes/users-router.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
+const UsersModel = require("./models/UsersModel");
 
 const app = express();
 
@@ -48,25 +49,19 @@ app.use((req, res, next) => {
   next();
 });
 
+// GET homepage (if loggedIn)
 app.get("/", async (req, res) => {
-  const kvitterCollection = await KvitterModel.aggregate([
-    {
-      $lookup: {
-        from: "users",
-        localField: "userId",
-        foreignField: "_id",
-        as: "user",
-      },
-    },
-    { $unwind: "$user" },
-  ]);
-  /*  kvitterCollection.sort(["time", "desc"]) */ res.render("home", {
-    kvitterCollection,
+  const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+  const users = await UsersModel.find().lean();
+  console.log(users);
+  res.render("home", {
+    kvitter,
+    users,
   });
 });
 
+//Routers
 app.use("/kvittra", kvittraRouter);
-
 app.use("/users", usersRouter);
 
 app.use("/unauthorized", (req, res) => {

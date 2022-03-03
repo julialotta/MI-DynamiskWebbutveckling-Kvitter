@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
   const tokenData = jwt.decode(token, process.env.JWTSECRET);
   const newKvitterpost = new KvitterModel({
     ...req.body,
-    userId: tokenData.userId,
+    writtenBy: tokenData.userId,
   });
   await newKvitterpost.save();
   res.redirect("/");
