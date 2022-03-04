@@ -37,25 +37,22 @@ router.post("/register", async (req, res) => {
         error: "Username already exists",
       });
     } else if (password !== confirmPassword) {
-      res.send("Passwords don't  match");
+      res.render("users/user-register", {
+        error: "Passwords don't match",
+      });
     } else {
-      // --- \\
       const newUser = new UsersModel({
         username,
         hashedPassword: utils.hashPassword(password),
       });
-      await newUser.save();
-      res.redirect("/");
-      // --- \\
-
-      const userData = {};
-
-      // --- \\
-      //   await user.save();
-      //   const userData = { userId: id, username: req.body.username };
-      //   const accessToken = jwt.sign(userData, process.env.JWTSECRET);
-      //   res.cookie("token", accessToken);
-      // --- \\
+      if (utils.validateUser(newUser)) {
+        await newUser.save();
+        res.redirect("/");
+      } else {
+        res.render("users/user-register", {
+          error: "You have to enter some data",
+        });
+      }
     }
   });
 });
@@ -86,7 +83,6 @@ router.post("/login", async (req, res) => {
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
-  //  const id = getId(req.params.id, next);
 
   // if user is logged in.
   const { token } = req.cookies;
