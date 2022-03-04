@@ -47,7 +47,16 @@ router.post("/register", async (req, res) => {
       });
       if (utils.validateUser(newUser)) {
         await newUser.save();
-        res.redirect("/");
+
+        UsersModel.findOne({ username }, (err, user) => {
+          const userData = { userId: user._id, username };
+          const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+
+          res.cookie("token", accessToken);
+          res.redirect("/");
+        });
+
+        //res.redirect("/");
       } else {
         res.render("users/user-register", {
           error: "You have to enter some data",
