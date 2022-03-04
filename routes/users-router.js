@@ -7,6 +7,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
+const KvitterModel = require("../models/KvitterModel.js");
 const { ObjectId } = require("mongodb");
 
 // Id function \\
@@ -36,6 +37,10 @@ router.post("/register", async (req, res) => {
       res.render("users/user-register", {
         error: "Username already exists",
       });
+    } else if (password.length <= 4) {
+      res.render("users/user-register", {
+        error: "Your password must have at least 5 characters",
+      });
     } else if (password !== confirmPassword) {
       res.render("users/user-register", {
         error: "Passwords don't match",
@@ -45,7 +50,7 @@ router.post("/register", async (req, res) => {
         username,
         hashedPassword: utils.hashPassword(password),
       });
-      if (utils.validateUser(newUser)) {
+      if (utils.validateUsername(newUser)) {
         await newUser.save();
         res.redirect("/");
       } else {
@@ -85,13 +90,20 @@ router.get("/profile/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
   // if user is logged in.
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      res.render("users/profile", user);
+      const favoriteKvitter = await UsersModel.findOne({ _id: id }).populate(
+        "favorites"
+      );
+
+      /*  console.log(favoriteKvitter.favorites); */
+      res.render("users/profile", favoriteKvitter);
     }
+
     // if user is not logged in.
   } else {
     res.redirect("/unauthorized");
@@ -107,7 +119,6 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-
       res.render("users/profile-edit", user);
     }
     // if user is not logged in.
@@ -120,17 +131,29 @@ router.get("/profile/edit/:id", async (req, res, next) => {
 router.post("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
-  const { token } = req.cookies;
-
   const user = await UsersModel.findById(req.params.id);
   user.username = req.body.username;
   user.slogan = req.body.slogan;
-
-  await user.save();
-  const userData = { userId: id, username: req.body.username };
-  const accessToken = jwt.sign(userData, process.env.JWTSECRET);
-  res.cookie("token", accessToken);
-  res.redirect("/users/profile/" + id);
+  if (id) {
+    if (utils.validateUsername(user)) {
+      await user.save();
+      const userData = { userId: id, username: req.body.username };
+      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+      res.cookie("token", accessToken);
+      res.redirect("/users/profile/" + id);
+    } else {
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+      const users = await UsersModel.find().lean();
+      res.render("home", {
+        error:
+          "Your username wasn't updated, you have to have at least one character",
+        kvitter,
+        users,
+      });
+    }
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 // POST, PROFILE/REMOVE/:ID \\

@@ -19,9 +19,11 @@ function getId(id, next) {
   return parsedid;
 }
 
+// POST NEW KVITTER-POST
 router.post("/", async (req, res) => {
   const { token } = req.cookies;
   const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
   const newKvitterpost = new KvitterModel({
     ...req.body,
     writtenBy: tokenData.userId,
@@ -40,6 +42,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// GET SINGLE KVITTER-POST
 router.get("/read-kvitter/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -54,6 +57,7 @@ router.get("/read-kvitter/:id", async (req, res, next) => {
   }
 });
 
+// GET EDIT SINGLE KVITTER-POST
 router.get("/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -68,6 +72,7 @@ router.get("/edit/:id", async (req, res, next) => {
   }
 });
 
+// POST EDIT SINGLE KVITTER-POST
 router.post("/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -76,13 +81,24 @@ router.post("/edit/:id", async (req, res, next) => {
   }
   if (id) {
     const updatedPost = req.body;
-    await KvitterModel.findById(req.params.id).updateOne(updatedPost);
-    res.redirect("/");
+    if (utils.validatePost(updatedPost)) {
+      await KvitterModel.findById(req.params.id).updateOne(updatedPost);
+      res.redirect("/");
+    } else {
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+      const users = await UsersModel.find().lean();
+      res.render("home", {
+        error: "Your post wasn't updated, you have to write something in it",
+        kvitter,
+        users,
+      });
+    }
   } else {
     res.redirect("/unauthorized");
   }
 });
 
+// GET DELETE SINGLE KVITTER-POST
 router.get("/delete/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -97,6 +113,7 @@ router.get("/delete/:id", async (req, res, next) => {
   }
 });
 
+// POST DELETE SINGLE KVITTER-POST
 router.post("/delete/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 

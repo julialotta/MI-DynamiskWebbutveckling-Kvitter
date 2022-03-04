@@ -53,7 +53,6 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   const kvitter = await KvitterModel.find().populate("writtenBy").lean();
   const users = await UsersModel.find().lean();
-  console.log(users);
   res.render("home", {
     kvitter,
     users,

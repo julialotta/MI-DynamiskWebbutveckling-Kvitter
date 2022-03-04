@@ -1,11 +1,18 @@
 const bcrypt = require("bcrypt");
 
-function validateUser(username) {
+function validateUser(user) {
+  let valid = true;
+  valid = valid && user.username;
+  valid = valid && user.username.length > 0;
+  valid = valid && user.hashedPassword;
+  valid = valid && user.hashedPassword.length > 0;
+  return valid;
+}
+
+function validateUsername(username) {
   let valid = true;
   valid = valid && username.username;
   valid = valid && username.username.length > 0;
-  valid = valid && username.hashedPassword;
-  valid = valid && username.hashedPassword.length > 0;
   return valid;
 }
 
@@ -30,5 +37,6 @@ module.exports = {
   hashPassword,
   comparePassword,
   validateUser,
+  validateUsername,
   validatePost,
 };

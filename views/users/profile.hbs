@@ -16,6 +16,13 @@
 
 {{! Slogan }}
 <p>Slogan: {{slogan}}</p>
+{{!-- {{#if user}} --}}
+
+<ul>
+  {{#each kvitterArray}}
+    {{favorites.content}}
+  {{/each}}
+</ul>
 
 <p>
   <a href="/users/profile/edit/{{userId}}">Edit profile</a>
