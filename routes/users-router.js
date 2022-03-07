@@ -91,6 +91,7 @@ router.post("/login", async (req, res) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
+// USER: FAVORITES \\
 router.get("/profile/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -104,13 +105,29 @@ router.get("/profile/:id", async (req, res, next) => {
       const favoriteKvitter = await UsersModel.findOne({ _id: id })
         .populate("favorites")
         .lean();
-      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
 
       let userFavorites = [];
       for (let i = 0; i < favoriteKvitter.favorites.length; i++) {
         userFavorites.push(favoriteKvitter.favorites[i]);
       }
-      res.render("users/profile", { user, userFavorites, kvitter });
+
+      console.log(userFavorites[1].writtenBy);
+
+      const favoriteKvitterWriter = await KvitterModel.findById(
+        userFavorites[0].writtenBy,
+        userFavorites[1].writtenBy,
+        userFavorites[2].writtenBy,
+        userFavorites[3].writtenBy,
+        userFavorites[4].writtenBy
+      )
+        .populate("writtenBy")
+        .lean();
+
+      res.render("users/profile", {
+        user,
+        userFavorites,
+        favoriteKvitterWriter,
+      });
     }
 
     // if user is not logged in.
@@ -165,31 +182,12 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   }
 });
 
-// POST, PROFILE/REMOVE/:ID \\
-router.post("/profile/remove/:id", async (req, res, next) => {
-  const id = getId(req.params.id, next);
-
-  // if user is logged in.
-  const { token } = req.cookies;
-
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    if (id) {
-      await UsersModel.findOne({ _id: id }).deleteOne();
-      res.cookie("token", "", { maxAge: 0 });
-      res.redirect("/");
-    }
-    // if user is not logged in.
-  } else {
-    res.redirect("/unauthorized");
-  }
-});
-
 /////////// LOG OUT FUNCTIONS /////////
 router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
   res.redirect("/");
 });
-/////////// LIKE FUNCTIONS /////////
+/* /////////// LIKE FUNCTIONS /////////
 
 router.get("/:id/like", async (req, res) => {
   const { token } = req.cookies;
@@ -201,7 +199,7 @@ router.get("/:id/like", async (req, res) => {
   await user.save();
 
   res.redirect("/");
-});
+}); */
 
 /////////// FORGOT YOUR PASSWORD? /////////
 router.get("/forgot", (req, res) => {

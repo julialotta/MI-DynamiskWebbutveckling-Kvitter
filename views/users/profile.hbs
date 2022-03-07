@@ -29,8 +29,13 @@
       <p>
         {{content}}
       </p>
-      {{!--       <p>Kvittrat av: {{writtenBy.username}}</p>
- --}}
+      {{writtenBy.username}}
+      <p>Kvittrat av:</p>
+    {{/each}}
+    {{#each favoriteKvitterWriter}}
+      <p>
+        {{writtenBy.username}}
+      </p>
     {{/each}}
   </div>
 
