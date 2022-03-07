@@ -3,7 +3,7 @@
     {{#if loggedIn}}
       <p>Logged in as {{username}}</p>
       <p>
-        <a href="/users/profile/{{userId}}">To profile</a>
+        <a href="/users/profile/{{userId}}">Till profil</a>
       </p>
       {{error}}
 
@@ -26,7 +26,7 @@
       {{/each}}
 
       <form action="/users/log-out" method="post">
-        <input type="submit" value="Log out" />
+        <input type="submit" value="Logga ut" />
       </form>
 
     {{else}}
