@@ -24,7 +24,6 @@ function getId(id, next) {
 }
 
 ////////// REGISTER FUNCTIONS //////////
-
 router.get("/register-user", async (req, res) => {
   res.render("users/user-register");
 });
@@ -52,7 +51,14 @@ router.post("/register", async (req, res) => {
       });
       if (utils.validateUsername(newUser)) {
         await newUser.save();
-        res.redirect("/");
+
+        UsersModel.findOne({ username }, (err, user) => {
+          const userData = { userId: user._id, username };
+          const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+
+          res.cookie("token", accessToken);
+          res.redirect("/");
+        });
       } else {
         res.render("users/user-register", {
           error: "You have to enter some data",
@@ -63,7 +69,6 @@ router.post("/register", async (req, res) => {
 });
 
 ////////// LOGIN FUNCTIONS //////////////
-
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -176,12 +181,10 @@ router.post("/profile/remove/:id", async (req, res, next) => {
 });
 
 /////////// LOG OUT FUNCTIONS /////////
-
 router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
   res.redirect("/");
 });
-
 /////////// LIKE FUNCTIONS /////////
 
 router.get("/:id/like", async (req, res) => {
