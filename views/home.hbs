@@ -1,3 +1,5 @@
+
+
 <div class="mainwrapper">
     <div class="formwrapper">
         {{#if loggedIn}}
@@ -8,31 +10,56 @@
             {{error}}
 
             <form action="/kvittra" method="post">
-                <input
+                {{!-- <input
                     type="text"
                     name="content"
                     placeholder="Kvitter your feelings"
-                />
-                <input type="submit" value="kvittra" />
+                    id="kvitterInput"
+                /> --}}
+
+                <textarea name="content" cols="30" rows="10" placeholder="Kvitter your feelings..." style="resize: none" id="kvitterInput"></textarea>
+
+                <div class="main-btn-container">
+                <input type="submit" value="Kvitter" id="main-btn" />
+                </div>
             </form>
 
-            <h2>Posts</h2>
             {{#each kvitter}}
+            
                 <article>
+                    <div class="authorContainer">
+                        <p>{{writtenBy.username}}</p>
+                        <p>{{formatDate time}}</p>
+                    </div>
+                    <div class="profileContentContainer">
+                    <div class="profilePicContainer">
+                        <img
+                            src="/assets/profile-pitcure.png"
+                            alt="profile pic"
+                        />
+                    </div>
+                    <div class="contentContainer">
                     <p><a href="/kvittra/read-kvitter/{{_id}}">
                             {{content}}
                         </a>
+                    </div>
+                    </div>
                     </p>
-                    <p>{{formatDate time}}</p>
-                    <p>Kvittrat by: {{writtenBy.username}}</p>
-                    <a href="/users/{{_id}}/like"><i
+                    {{!-- <p>{{formatDate time}}</p> --}}
+                    {{!-- <p>Kvittrat by: {{writtenBy.username}}</p> --}}
+                    <div class="logosContainer">
+                        <a href="/users/{{_id}}/like"><i
                             class="bi bi-suit-heart"
                         ></i></a>
-                    <a href="/kvittra/{{_id}}/edit"><i
+                        <a href="/kvittra/{{_id}}/edit"><i
                             class="bi bi-pencil-square"
                         ></i></a>
+                        <i class="bi bi-share"></i>
+                        <i class="bi bi-chat"></i>
+                    </div>
                 </article>
             {{/each}}
+
 
             <form action="/users/log-out" method="post">
                 <input type="submit" value="Logga ut" />
@@ -60,9 +87,8 @@
                     >Register</button></a>
                 <input type="submit" value="Login" id="btn-style" />
             </form>
-
         {{/if}}
         <div class="textwrapper"><p>Forgot your password?</p></div>
-    </div>
 
+    </div>
 </div>
