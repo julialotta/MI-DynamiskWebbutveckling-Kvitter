@@ -7,6 +7,7 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
 const UsersModel = require("../models/UsersModel.js");
+const KvitterModel = require("../models/KvitterModel.js");
 const { ObjectId } = require("mongodb");
 
 // Id function \\
@@ -75,7 +76,6 @@ router.post("/login", async (req, res) => {
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
     const id = getId(req.params.id, next);
-    //  const id = getId(req.params.id, next);
 
     // if user is logged in.
     const { token } = req.cookies;
@@ -83,6 +83,7 @@ router.get("/profile/:id", async (req, res, next) => {
     if (token && jwt.verify(token, process.env.JWTSECRET)) {
         if (id) {
             const user = await UsersModel.findOne({ _id: id });
+
             res.render("users/profile", user);
         }
         // if user is not logged in.
@@ -165,5 +166,21 @@ router.get("/:id/like", async (req, res) => {
 
     res.redirect("/");
 });
+
+// router.get("/:id/like", async (req, res) => {
+//     const { token } = req.cookies;
+//     const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
+//     const getPost = await KvitterModel.findById(req.params.id);
+//     const content = getPost.content;
+//     console.log(content);
+
+//     const user = await UsersModel.findById(tokenData.userId);
+//     user.favorites.push(ObjectId(req.params.id));
+
+//     await user.save();
+
+//     res.redirect("/");
+// });
 
 module.exports = router;
