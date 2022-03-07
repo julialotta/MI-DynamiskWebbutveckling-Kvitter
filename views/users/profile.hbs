@@ -3,12 +3,12 @@
 {{! Profilbild }}
 {{! Temporary styling }}
 <div>
-  <img
-    src="/assets/profile-pitcure.png"
-    width="100px"
-    height="100px"
-    alt="Profilbild"
-  />
+    <img
+        src="/assets/profile-pitcure.png"
+        width="100px"
+        height="100px"
+        alt="Profilbild"
+    />
 </div>
 
 {{! Namn }}
@@ -25,19 +25,50 @@
 </ul>
 
 <p>
+<<<<<<< HEAD
   <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
 </p>
 
 <p>
   <a href="/">Hem</a>
+=======
+    <a href="/users/profile/edit/{{userId}}">Edit profile</a>
+</p>
+
+<p>
+    <a href="/">Home</a>
+>>>>>>> edit-ur-posts
 </p>
 
 {{! Log out }}
 <form action="/users/log-out" method="post">
+<<<<<<< HEAD
   <input type="submit" value="Logga ut " />
+=======
+    <input type="submit" value="Log out" />
+>>>>>>> edit-ur-posts
 </form>
 
 {{! Remove user }}
 <form action="/users/profile/remove/{{userId}}" method="post">
+<<<<<<< HEAD
   <input type="submit" value="Ta bort profil" />
 </form>
+=======
+    <input type="submit" value="Remove profile" />
+</form>
+
+<h2>{{favorites}}</h2>
+
+<h2>FUNKAR ^</h2>
+
+<H2>FUNKAR INTE </H2>
+
+<h2>{{favorites.content}}</h2>
+
+{{!-- {{#each favorites}}
+    <ul>
+        <li>{{favorites.content}}</li>
+    </ul>
+{{/each}} --}}
+>>>>>>> edit-ur-posts
