@@ -6,7 +6,6 @@
   <h2>Din profil</h2>
 
   {{! Profilbild }}
-  {{! Temporary styling }}
   <div class="user">
     <img src="/assets/profile-pitcure.png" alt="Profilbild" />
 
@@ -24,11 +23,15 @@
   </div>
   {{!-- {{#if user}} --}}
 
-  <ul>
-    {{#each kvitterArray}}
-      {{favorites.content}}
+  <div class="favorites">
+    <h4>Mitt favoritkvitter:</h4>
+    {{#each userFavorites}}
+      <p>
+        {{content}}
+      </p>
+      <p>Kvittrat av: {{writtenBy.username}}</p>
     {{/each}}
-  </ul>
+  </div>
 
   <p>
     <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
