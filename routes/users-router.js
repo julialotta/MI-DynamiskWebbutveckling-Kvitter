@@ -199,4 +199,9 @@ router.get("/:id/like", async (req, res) => {
   res.redirect("/");
 });
 
+/////////// FORGOT YOUR PASSWORD? /////////
+router.get("/forgot", (req, res) => {
+  res.render("users/forgot");
+});
+
 module.exports = router;
