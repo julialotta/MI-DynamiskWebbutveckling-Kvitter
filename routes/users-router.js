@@ -208,4 +208,18 @@ router.get("/forgot", (req, res) => {
   res.render("users/forgot");
 });
 
+///////// DELETE USER  AND USERS POSTS///////////
+
+router.get("/delete/:id", async (req, res) => {
+    const id = ObjectId(req.params.id); // get user-id from url
+
+    await UsersModel.findById({ _id: id }).deleteOne(id);
+
+    await KvitterModel.find({ writtenBy: id }).deleteMany();
+
+    res.cookie("token", "", { maxAge: 0 });
+
+    res.redirect("/");
+});
+
 module.exports = router;
