@@ -19,56 +19,27 @@
 {{!-- {{#if user}} --}}
 
 <ul>
-  {{#each kvitterArray}}
-    {{favorites.content}}
-  {{/each}}
+    {{#each kvitterArray}}
+        {{favorites.content}}
+    {{/each}}
 </ul>
 
 <p>
-<<<<<<< HEAD
-  <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
-</p>
-
-<p>
-  <a href="/">Hem</a>
-=======
     <a href="/users/profile/edit/{{userId}}">Edit profile</a>
 </p>
 
 <p>
     <a href="/">Home</a>
->>>>>>> edit-ur-posts
 </p>
 
 {{! Log out }}
 <form action="/users/log-out" method="post">
-<<<<<<< HEAD
-  <input type="submit" value="Logga ut " />
-=======
     <input type="submit" value="Log out" />
->>>>>>> edit-ur-posts
 </form>
 
 {{! Remove user }}
-<form action="/users/profile/remove/{{userId}}" method="post">
-<<<<<<< HEAD
-  <input type="submit" value="Ta bort profil" />
-</form>
-=======
+{{!-- <form action="/users/profile/remove/{{userId}}" method="post">
     <input type="submit" value="Remove profile" />
-</form>
+</form> --}}
 
-<h2>{{favorites}}</h2>
-
-<h2>FUNKAR ^</h2>
-
-<H2>FUNKAR INTE </H2>
-
-<h2>{{favorites.content}}</h2>
-
-{{!-- {{#each favorites}}
-    <ul>
-        <li>{{favorites.content}}</li>
-    </ul>
-{{/each}} --}}
->>>>>>> edit-ur-posts
+<a href="/users/delete/{{userId}}">DELETE PROFILE</a>
