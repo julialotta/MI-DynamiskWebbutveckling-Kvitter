@@ -58,9 +58,11 @@ app.use((req, res, next) => {
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     const tokenData = jwt.decode(token, process.env.JWTSECRET);
-    res.locals.loginInfo = tokenData.displayName + " " + tokenData.id;
+    res.locals.googleIn = true;
+    res.locals.displayName = tokenData.displayName;
+    res.locals.googleId = tokenData.id;
   } else {
-    res.locals.loginInfo = "Not logged in";
+    res.locals.googleIn = false;
   }
   next();
 });

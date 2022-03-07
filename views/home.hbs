@@ -1,10 +1,9 @@
 <div class="mainwrapper">
   <div class="formwrapper">
     {{#if loggedIn}}
-      <p>Logged in as {{username}}</p>
-      <p>{{loginInfo}}</p>
+      <p>Logged in as {{username}} {{displayName}}</p>
       <p>
-        <a href="/users/profile/{{userId}}">Till profil</a>
+        <a href="/users/profile/{{userId}}{{googleId}}">Till profil</a>
       </p>
       {{error}}
 

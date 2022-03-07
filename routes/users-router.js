@@ -1,13 +1,16 @@
 require("dotenv").config();
 require("../mongoose.js");
+require("../passport.js");
 
 const express = require("express");
 const router = express.Router();
 
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
+const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
+const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 
 // Id function \\
@@ -89,6 +92,8 @@ router.post("/login", async (req, res) => {
   });
 });
 
+// THIRD PARTY PROFILE FUNCTIONS \\
+
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 router.get("/profile/:id", async (req, res, next) => {
@@ -104,7 +109,6 @@ router.get("/profile/:id", async (req, res, next) => {
       const favoriteKvitter = await UsersModel.findOne({ _id: id }).populate(
         "favorites"
       );
-
       /*  console.log(favoriteKvitter.favorites); */
       res.render("users/profile", favoriteKvitter);
     }
@@ -171,6 +175,7 @@ router.post("/profile/remove/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       await UsersModel.findOne({ _id: id }).deleteOne();
+      await ThirdPartModel.findOne({ _id: id }).deleteOne();
       res.cookie("token", "", { maxAge: 0 });
       res.redirect("/");
     }
