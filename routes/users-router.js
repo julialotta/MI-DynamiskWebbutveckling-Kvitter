@@ -211,15 +211,15 @@ router.get("/forgot", (req, res) => {
 ///////// DELETE USER  AND USERS POSTS///////////
 
 router.get("/delete/:id", async (req, res) => {
-    const id = ObjectId(req.params.id); // get user-id from url
+  const id = ObjectId(req.params.id); // get user-id from url
 
-    await UsersModel.findById({ _id: id }).deleteOne(id);
+  await UsersModel.findById({ _id: id }).deleteOne(id);
 
-    await KvitterModel.find({ writtenBy: id }).deleteMany();
+  await KvitterModel.find({ writtenBy: id }).deleteMany();
 
-    res.cookie("token", "", { maxAge: 0 });
+  res.cookie("token", "", { maxAge: 0 });
 
-    res.redirect("/");
+  res.redirect("/");
 });
 
 module.exports = router;
