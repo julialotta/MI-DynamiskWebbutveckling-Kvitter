@@ -130,6 +130,8 @@ router.post("/delete/:id", async (req, res, next) => {
     }
 });
 
+/////////// EDIT YOUR POSTS /////////////
+
 router.get("/:id/edit", async (req, res) => {
     const { token } = req.cookies;
     const tokenData = jwt.decode(token, process.env.JWTSECRET);
