@@ -18,19 +18,19 @@
 <p>Slogan: {{slogan}}</p>
 
 <p>
-  <a href="/users/profile/edit/{{userId}}">Edit profile</a>
+  <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
 </p>
 
 <p>
-  <a href="/">Home</a>
+  <a href="/">Hem</a>
 </p>
 
 {{! Log out }}
 <form action="/users/log-out" method="post">
-  <input type="submit" value="Log out" />
+  <input type="submit" value="Logga ut " />
 </form>
 
 {{! Remove user }}
 <form action="/users/profile/remove/{{userId}}" method="post">
-  <input type="submit" value="Remove profile" />
+  <input type="submit" value="Ta bort profil" />
 </form>
