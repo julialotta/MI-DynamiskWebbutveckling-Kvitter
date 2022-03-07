@@ -2,6 +2,7 @@
   <div class="formwrapper">
     {{#if loggedIn}}
       <p>Logged in as {{username}}</p>
+      <p>{{loginInfo}}</p>
       <p>
         <a href="/users/profile/{{userId}}">Till profil</a>
       </p>
@@ -30,6 +31,8 @@
       </form>
 
     {{else}}
+
+      <a href="/google">Login with Google</a>
       <form action="/users/login" method="post" autocomplete="off">
         <input type="text" name="username" id="" placeholder="Username" />
         <br />
