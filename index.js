@@ -59,22 +59,26 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  const { token } = req.cookies;
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
-    res.locals.googleIn = true;
-    res.locals.displayName = tokenData.displayName;
-    res.locals.googleId = tokenData.id;
-  } else {
-    res.locals.googleIn = false;
-  }
-  next();
+    const { token } = req.cookies;
+    if (token && jwt.verify(token, process.env.JWTSECRET)) {
+        const tokenData = jwt.decode(token, process.env.JWTSECRET);
+        res.locals.googleIn = true;
+        res.locals.displayName = tokenData.displayName;
+        res.locals.googleId = tokenData.id;
+    } else {
+        res.locals.googleIn = false;
+    }
+    next();
 });
 
 // GET homepage (if loggedIn)
 app.get("/", async (req, res) => {
     const kvitter = await KvitterModel.find().populate("writtenBy").lean();
     const users = await UsersModel.find().lean();
+
+    const { token } = req.cookies;
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
     // console.log(users);
     res.render("home", {
         kvitter,
@@ -88,35 +92,35 @@ app.use("/users", usersRouter);
 //app.use("/thirdpart", thirdpartRouter);
 
 app.get(
-  "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
+    "/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 app.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/",
-  }),
-  async (req, res) => {
-    const googleId = req.user.id;
-    thirdPartModel.findOne({ googleId }, async (err, user) => {
-      const userData = { displayName: req.user.displayName };
-      if (user) {
-        userData.id = user._id;
-      } else {
-        const newUser = new thirdPartModel({
-          googleId,
-          displayName: req.user.displayName,
-        });
-        const result = await newUser.save();
-        userData.id = result._id;
-      }
-      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+    "/google/callback",
+    passport.authenticate("google", {
+        failureRedirect: "/",
+    }),
+    async (req, res) => {
+        const googleId = req.user.id;
+        thirdPartModel.findOne({ googleId }, async (err, user) => {
+            const userData = { displayName: req.user.displayName };
+            if (user) {
+                userData.id = user._id;
+            } else {
+                const newUser = new thirdPartModel({
+                    googleId,
+                    displayName: req.user.displayName,
+                });
+                const result = await newUser.save();
+                userData.id = result._id;
+            }
+            const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 
-      res.cookie("token", accessToken);
-      res.redirect("/");
-    });
-  }
+            res.cookie("token", accessToken);
+            res.redirect("/");
+        });
+    }
 );
 
 app.use("/unauthorized", (req, res) => {

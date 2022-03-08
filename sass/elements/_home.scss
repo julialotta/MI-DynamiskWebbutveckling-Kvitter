@@ -142,6 +142,7 @@ body {
     }
 }
 
+.bi.bi-trash3,
 .bi.bi-chat,
 .bi.bi-share,
 .bi.bi-pencil-square,
@@ -225,4 +226,33 @@ article {
         border: 1px solid $green;
         outline: none;
     }
+}
+
+#edit-input {
+    overflow-wrap: break-word;
+    height: 200px;
+}
+
+.error-title {
+    color: $red;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid $red;
+    padding-bottom: 15px;
+}
+
+.hoppsan {
+    color: $green;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid $green;
+    padding-bottom: 15px;
+}
+
+.backContainer {
+    margin-top: 40px;
+}
+.bi.bi-arrow-return-left {
+    font-size: 25pt;
+    color: $green;
 }
