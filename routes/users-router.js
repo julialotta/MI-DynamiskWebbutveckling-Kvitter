@@ -1,13 +1,16 @@
 require("dotenv").config();
 require("../mongoose.js");
+require("../passport.js");
 
 const express = require("express");
 const router = express.Router();
 
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
+const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
+const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 const LikesModel = require("../models/LikesModel.js");
 
@@ -90,6 +93,8 @@ router.post("/login", async (req, res) => {
   });
 });
 
+// THIRD PARTY PROFILE FUNCTIONS \\
+
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
 // USER: FAVORITES \\
@@ -116,6 +121,9 @@ router.get("/profile/:id", async (req, res, next) => {
    */
 
       res.render("users/profile", user);
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
+
+      res.render("users/profile", { user, googleUser });
     }
 
     // if user is not logged in.
@@ -133,7 +141,8 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      res.render("users/profile-edit", user);
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
+      res.render("users/profile-edit", user, googleUser);
     }
     // if user is not logged in.
   } else {
@@ -175,19 +184,6 @@ router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
   res.redirect("/");
 });
-/* /////////// LIKE FUNCTIONS /////////
-
-router.get("/:id/like", async (req, res) => {
-  const { token } = req.cookies;
-  const tokenData = jwt.decode(token, process.env.JWTSECRET);
-
-  const user = await UsersModel.findById(tokenData.userId);
-  user.favorites.push(ObjectId(req.params.id));
-
-  await user.save();
-
-  res.redirect("/");
-}); */
 
 /////////// FORGOT YOUR PASSWORD? /////////
 router.get("/forgot", (req, res) => {

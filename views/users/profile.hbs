@@ -42,7 +42,7 @@
   </div>
 
   <p>
-    <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
+    <a href="/users/profile/edit/{{userId}}{{googleId}}">Ändra profil</a>
   </p>
 
   {{! Log out }}
@@ -51,5 +51,5 @@
   </form>
 
   {{! Remove user }}
-  <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
+  <a href="/users/delete/{{userId}}{{googleId}}">RADERA PROFIL</a>
 </div>
