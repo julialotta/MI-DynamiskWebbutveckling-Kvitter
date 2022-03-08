@@ -12,7 +12,7 @@
     {{! Namn }}
     <div>
       <p>Användare:</p>
-      <p> {{username}} </p>
+      <p> {{username}} {{displayName}} </p>
     </div>
   </div>
 
@@ -51,5 +51,5 @@
   </form>
 
   {{! Remove user }}
-  <a href="/users/delete/{{userId}}{{googleId}}">RADERA PROFIL</a>
+  <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
 </div>

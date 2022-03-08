@@ -9,14 +9,12 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 
 const KvitterModel = require("./models/KvitterModel");
-const thirdPartModel = require("./models/ThirdpartModel.js");
 const UsersModel = require("./models/UsersModel");
 const LikesModel = require("./models/LikesModel.js");
 
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 const likesRouter = require("./routes/likes-routes.js");
-//const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
 
@@ -84,7 +82,6 @@ app.get("/", async (req, res) => {
 app.use("/kvittra", kvittraRouter);
 app.use("/users", usersRouter);
 app.use("/like", likesRouter);
-//app.use("/thirdpart", thirdpartRouter);
 
 app.get(
   "/google",
@@ -98,12 +95,12 @@ app.get(
   }),
   async (req, res) => {
     const googleId = req.user.id;
-    thirdPartModel.findOne({ googleId }, async (err, user) => {
+    UsersModel.findOne({ googleId }, async (err, user) => {
       const userData = { displayName: req.user.displayName };
       if (user) {
         userData.id = user._id;
       } else {
-        const newUser = new thirdPartModel({
+        const newUser = new UsersModel({
           googleId,
           displayName: req.user.displayName,
         });

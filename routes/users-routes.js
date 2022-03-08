@@ -10,7 +10,6 @@ const utils = require("../utils.js");
 const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
-const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 const LikesModel = require("../models/LikesModel.js");
 
@@ -111,18 +110,7 @@ router.get("/profile/:id", async (req, res, next) => {
       const likedPosts = await LikesModel.find();
       console.log(likedPosts);
 
-      /* 
-   
-   Fixa: om posten redan finns i collection likes ska arrayn med users fyllas på. 
-   Om usern redan finns i arrayn ska usern tas bort ur arrayn.
-   populate posten.
-   gör en for-loops som kollar om _id(user) matchar någon likedPosts.likedBy[i]
-   
-   */
-
-      const googleUser = await ThirdPartModel.findOne({ _id: id });
-
-      res.render("users/profile", { user, googleUser });
+      res.render("users/profile", user);
     }
 
     // if user is not logged in.
@@ -140,8 +128,7 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      const googleUser = await ThirdPartModel.findOne({ _id: id });
-      res.render("users/profile-edit", user, googleUser);
+      res.render("users/profile-edit", user);
     }
     // if user is not logged in.
   } else {
@@ -152,14 +139,26 @@ router.get("/profile/edit/:id", async (req, res, next) => {
 // POST, PROFILE/EDIT/:ID \\
 router.post("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
+  const displayName = await UsersModel.find().populate("displayName").lean();
 
   const user = await UsersModel.findById(req.params.id);
-  user.username = req.body.username;
-  user.slogan = req.body.slogan;
+
+  if (displayName) {
+    user.displayName = req.body.displayName;
+    user.slogan = req.body.slogan;
+  } else {
+    user.username = req.body.username;
+    user.slogan = req.body.slogan;
+  }
+
   if (id) {
     if (utils.validateUsername(user)) {
       await user.save();
-      const userData = { userId: id, username: req.body.username };
+      const userData = {
+        userId: id,
+        username: req.body.username,
+        displayName: req.body.displayName,
+      };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
       res.cookie("token", accessToken);
       res.redirect("/users/profile/" + id);
