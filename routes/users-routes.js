@@ -145,12 +145,10 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
   if (displayName) {
     user.displayName = req.body.displayName;
-    user.slogan = req.body.slogan;
   } else {
     user.username = req.body.username;
-    user.slogan = req.body.slogan;
   }
-
+  user.slogan = req.body.slogan;
   if (id) {
     if (utils.validateUsername(user)) {
       await user.save();
