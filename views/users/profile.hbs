@@ -19,22 +19,24 @@
   {{! Slogan }}
   <div class="slogan">
     <p>Slogan:</p>
-    <p>{{slogan}}</p>
+    {{#if slogan}}
+      <p> {{slogan}} </p>
+    {{else}}
+      <p>Du har ingen slogan, klicka
+        <a href="/users/profile/edit/{{userId}}">här</a>
+        för att lägga till</p>
+    {{/if}}
   </div>
   {{!-- {{#if user}} --}}
 
   <div class="favorites">
     <h4>Mitt favoritkvitter:</h4>
-    {{#each userFavorites}}
+    {{#each favorites}}
       <p>
-        {{content}}
-      </p>
-      {{writtenBy.username}}
-      <p>Kvittrat av:</p>
-    {{/each}}
-    {{#each favoriteKvitterWriter}}
-      <p>
-        {{writtenBy.username}}
+        {{post.content}}
+      </p><p>
+        Kvittrat av:
+        {{post.writtenBy.username}}
       </p>
     {{/each}}
   </div>
