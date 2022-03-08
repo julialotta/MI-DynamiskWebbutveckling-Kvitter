@@ -106,11 +106,16 @@ router.get("/profile/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      const favoriteKvitter = await UsersModel.findOne({ _id: id }).populate(
-        "favorites"
-      );
-      /*  console.log(favoriteKvitter.favorites); */
-      res.render("users/profile", favoriteKvitter);
+      const favoriteKvitter = await UsersModel.findOne({ _id: id })
+        .populate("favorites")
+        .lean();
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+
+      let userFavorites = [];
+      for (let i = 0; i < favoriteKvitter.favorites.length; i++) {
+        userFavorites.push(favoriteKvitter.favorites[i]);
+      }
+      res.render("users/profile", { user, userFavorites, kvitter });
     }
 
     // if user is not logged in.
@@ -200,6 +205,25 @@ router.get("/:id/like", async (req, res) => {
   user.favorites.push(ObjectId(req.params.id));
 
   await user.save();
+
+  res.redirect("/");
+});
+
+/////////// FORGOT YOUR PASSWORD? /////////
+router.get("/forgot", (req, res) => {
+  res.render("users/forgot");
+});
+
+///////// DELETE USER  AND USERS POSTS///////////
+
+router.get("/delete/:id", async (req, res) => {
+  const id = ObjectId(req.params.id); // get user-id from url
+
+  await UsersModel.findById({ _id: id }).deleteOne(id);
+
+  await KvitterModel.find({ writtenBy: id }).deleteMany();
+
+  res.cookie("token", "", { maxAge: 0 });
 
   res.redirect("/");
 });

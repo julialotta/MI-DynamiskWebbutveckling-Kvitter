@@ -1,44 +1,48 @@
-<h2>Profil sida</h2>
+<div class="profilepage">
+  <p>
+    <a href="/">←</a>
+  </p>
 
-{{! Profilbild }}
-{{! Temporary styling }}
-<div>
-  <img
-    src="/assets/profile-pitcure.png"
-    width="100px"
-    height="100px"
-    alt="Profilbild"
-  />
+  <h2>Din profil</h2>
+
+  {{! Profilbild }}
+  <div class="user">
+    <img src="/assets/profile-pitcure.png" alt="Profilbild" />
+
+    {{! Namn }}
+    <div>
+      <p>Användare:</p>
+      <p> {{username}} </p>
+    </div>
+  </div>
+
+  {{! Slogan }}
+  <div class="slogan">
+    <p>Slogan:</p>
+    <p>{{slogan}}</p>
+  </div>
+  {{!-- {{#if user}} --}}
+
+  <div class="favorites">
+    <h4>Mitt favoritkvitter:</h4>
+    {{#each userFavorites}}
+      <p>
+        {{content}}
+      </p>
+      {{!--       <p>Kvittrat av: {{writtenBy.username}}</p>
+ --}}
+    {{/each}}
+  </div>
+
+  <p>
+    <a href="/users/profile/edit/{{userId}}{{googleId}}">Ändra profil</a>
+  </p>
+
+  {{! Log out }}
+  <form action="/users/log-out" method="post">
+    <input id="btn-style" type="submit" value="Logga ut " />
+  </form>
+
+  {{! Remove user }}
+  <a href="/users/delete/{{userId}}{{googleId}}">RADERA PROFIL</a>
 </div>
-
-{{! Namn }}
-
-<p>Användare: {{username}} {{displayName}}</p>
-
-{{! Slogan }}
-<p>Slogan: {{slogan}}</p>
-{{!-- {{#if user}} --}}
-
-<ul>
-  {{#each kvitterArray}}
-    {{favorites.content}}
-  {{/each}}
-</ul>
-
-<p>
-  <a href="/users/profile/edit/{{userId}}{{googleId}}">Ändra profil</a>
-</p>
-
-<p>
-  <a href="/">Hem</a>
-</p>
-
-{{! Log out }}
-<form action="/users/log-out" method="post">
-  <input type="submit" value="Logga ut " />
-</form>
-
-{{! Remove user }}
-<form action="/users/profile/remove/{{userId}}{{googleId}}" method="post">
-  <input type="submit" value="Ta bort profil" />
-</form>
