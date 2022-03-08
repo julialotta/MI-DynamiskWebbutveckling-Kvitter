@@ -120,7 +120,6 @@ router.get("/profile/:id", async (req, res, next) => {
    
    */
 
-      res.render("users/profile", user);
       const googleUser = await ThirdPartModel.findOne({ _id: id });
 
       res.render("users/profile", { user, googleUser });
