@@ -40,10 +40,11 @@ router.post("/add", async (req, res) => {
     user: tokenData.userId,
     post: req.body.postId,
   });
+
   console.log(newFavorite);
   if (utils.validateFavorite(newFavorite)) {
     await newFavorite.save();
-    res.redirect("/");
+    res.redirect("/users/profile/" + tokenData.userId);
   } else {
     res.render("users/profile", {
       error:
