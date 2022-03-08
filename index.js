@@ -11,10 +11,11 @@ const passport = require("passport");
 const KvitterModel = require("./models/KvitterModel");
 const thirdPartModel = require("./models/ThirdpartModel.js");
 const UsersModel = require("./models/UsersModel");
-const likesRouter = require("./models/LikesModel.js");
+const LikesModel = require("./models/LikesModel.js");
 
-const usersRouter = require("./routes/users-router.js");
+const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
+const likesRouter = require("./routes/likes-routes.js");
 //const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
