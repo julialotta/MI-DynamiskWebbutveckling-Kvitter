@@ -13,6 +13,7 @@ const KvitterModel = require("../models/KvitterModel.js");
 const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 const LikesModel = require("../models/LikesModel.js");
+const FavoritesModel = require("../models/FavoritesModel.js");
 
 // Id function \\
 function getId(id, next) {
@@ -97,7 +98,6 @@ router.post("/login", async (req, res) => {
 
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
-// USER: FAVORITES \\
 router.get("/profile/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
@@ -106,23 +106,16 @@ router.get("/profile/:id", async (req, res, next) => {
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
-      const user = await UsersModel.findOne({ _id: id });
-
-      const likedPosts = await LikesModel.find();
-      console.log(likedPosts);
-
-      /* 
-   
-   Fixa: om posten redan finns i collection likes ska arrayn med users fyllas på. 
-   Om usern redan finns i arrayn ska usern tas bort ur arrayn.
-   populate posten.
-   gör en for-loops som kollar om _id(user) matchar någon likedPosts.likedBy[i]
-   
-   */
-
+      const user = await UsersModel.findOne({ _id: id }).lean();
       const googleUser = await ThirdPartModel.findOne({ _id: id });
 
-      res.render("users/profile", { user, googleUser });
+      const favorites = await FavoritesModel.find({ user: id })
+        .populate("user")
+        .populate("post")
+        .lean();
+      console.log(favorites);
+
+      res.render("users/profile", { user, googleUser, favorites });
     }
 
     // if user is not logged in.

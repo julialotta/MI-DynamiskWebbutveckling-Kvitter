@@ -19,28 +19,37 @@
   {{! Slogan }}
   <div class="slogan">
     <p>Slogan:</p>
-    {{#if slogan}}
-      <p> {{slogan}} </p>
+    {{#if user.slogan}}
+      <p> {{user.slogan}} </p>
     {{else}}
       <p>Du har ingen slogan, klicka
         <a href="/users/profile/edit/{{userId}}{{googleId}}">här</a>
         för att lägga till</p>
     {{/if}}
   </div>
-  {{!-- {{#if user}} --}}
 
-  <div class="favorites">
-    <h4>Mitt favoritkvitter:</h4>
-    {{#each favorites}}
-      <p>
-        {{post.content}}
-      </p><p>
-        Kvittrat av:
-        {{post.writtenBy.username}}
-      </p>
-    {{/each}}
+  {{error}}
+
+  {{! Favorites}}
+  <div class="slogan">
+    <p>Favoriter:</p>
+    {{#if favorites}}
+      {{#each favorites}}
+        <h5>
+          {{description}}
+        </h5>
+        <p>
+          {{post.content}}
+          {{user.username}}
+        </p>
+      {{else}}
+        <p>Du har inte valt några favoriter</p>
+      {{/each}}
+    {{/if}}
+    <a href="/favorites/{{userId}}">Redigera favoriter</a>
   </div>
 
+  {{! Change profile }}
   <p>
     <a href="/users/profile/edit/{{userId}}{{googleId}}">Ändra profil</a>
   </p>
