@@ -106,6 +106,7 @@ router.get("/profile/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
       const favoriteKvitter = await UsersModel.findOne({ _id: id })
         .populate("favorites")
         .lean();
@@ -115,7 +116,7 @@ router.get("/profile/:id", async (req, res, next) => {
       for (let i = 0; i < favoriteKvitter.favorites.length; i++) {
         userFavorites.push(favoriteKvitter.favorites[i]);
       }
-      res.render("users/profile", { user, userFavorites, kvitter });
+      res.render("users/profile", { user, userFavorites, kvitter, googleUser });
     }
 
     // if user is not logged in.
@@ -133,7 +134,8 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      res.render("users/profile-edit", user);
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
+      res.render("users/profile-edit", user, googleUser);
     }
     // if user is not logged in.
   } else {
