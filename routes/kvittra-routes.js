@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
 
   const newKvitterpost = new KvitterModel({
     ...req.body,
-    writtenBy: tokenData.userId,
+    writtenBy: tokenData.googleId,
   });
   if (utils.validatePost(newKvitterpost)) {
     await newKvitterpost.save();

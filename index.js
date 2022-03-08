@@ -46,6 +46,8 @@ app.use((req, res, next) => {
     const tokenData = jwt.decode(token, process.env.JWTSECRET);
     res.locals.loggedIn = true;
     res.locals.username = tokenData.username;
+    res.locals.displayName = tokenData.displayName;
+    res.locals.googleId = tokenData.id;
     res.locals.userId = tokenData.userId;
     // ANNARS
   } else {
@@ -54,18 +56,18 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  const { token } = req.cookies;
-  if (token && jwt.verify(token, process.env.JWTSECRET)) {
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
-    res.locals.googleIn = true;
-    res.locals.displayName = tokenData.displayName;
-    res.locals.googleId = tokenData.id;
-  } else {
-    res.locals.googleIn = false;
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   const { token } = req.cookies;
+//   if (token && jwt.verify(token, process.env.JWTSECRET)) {
+//     const tokenData = jwt.decode(token, process.env.JWTSECRET);
+//     res.locals.googleIn = true;
+//     res.locals.displayName = tokenData.displayName;
+//     res.locals.googleId = tokenData.id;
+//   } else {
+//     res.locals.googleIn = false;
+//   }
+//   next();
+// });
 
 // GET homepage (if loggedIn)
 app.get("/", async (req, res) => {

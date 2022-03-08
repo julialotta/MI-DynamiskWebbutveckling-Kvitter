@@ -141,7 +141,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
   const displayName = await UsersModel.find().populate("displayName").lean();
 
-  const user = await UsersModel.findById(req.params.id);
+  const user = await UsersModel.findById({ _id: id });
 
   if (displayName) {
     user.displayName = req.body.displayName;
@@ -150,7 +150,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   }
   user.slogan = req.body.slogan;
   if (id) {
-    if (utils.validateUsername(user)) {
+    if (utils.validateUsername(user) || utils.validateDisplayname(user)) {
       await user.save();
       const userData = {
         userId: id,

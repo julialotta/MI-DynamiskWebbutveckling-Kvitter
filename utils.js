@@ -16,6 +16,12 @@ function validateUsername(username) {
   return valid;
 }
 
+function validateDisplayname(displayName) {
+  let valid = true;
+  valid = valid && displayName.displayName;
+  valid = valid && displayName.displayName.length > 0;
+}
+
 function validatePost(post) {
   let valid = true;
   valid = valid && post.content;
@@ -39,4 +45,5 @@ module.exports = {
   validateUser,
   validateUsername,
   validatePost,
+  validateDisplayname,
 };
