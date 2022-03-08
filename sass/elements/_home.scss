@@ -3,117 +3,226 @@ body {
 }
 
 .mainwrapper {
-  margin: 50px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  .formwrapper {
-    width: 80%;
-    padding: 10px;
-    @include for-phone-landscape-up {
-      width: 50%;
-    }
-    article {
-      // background-color: #5c547054;
-      border: 1px solid $purple;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 20px;
-      a {
-        color: $green;
+    margin-top: 100px;
+    margin-bottom: 200px;
+    display: flex;
+    justify-content: center;
+    .formwrapper {
+        width: 80%;
         padding: 10px;
-      }
-      p {
-        color: white;
-        padding: 10px;
-        margin-top: -5px;
-      }
-    }
-    @include for-desktop-up {
-      width: 30%;
-    }
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      font-family: $p;
-      justify-content: space-between;
-    }
-    a {
-      width: 45%;
-    }
-    // button,
-    input {
-      width: 100%;
-      border-radius: 5px;
-      height: 50px;
-      border: 1px solid $purple;
-      margin-bottom: 15px;
+        @include for-phone-landscape-up {
+            width: 50%;
+        }
+        article {
+            // background-color: #5c547054;
+            border: 1px solid $purple;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
+                rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+                rgba(0, 0, 0, 0.09) 0px 16px 8px,
+                rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            a {
+                color: rgb(207, 207, 207);
+                // padding: 10px;
+                text-decoration: none;
+            }
+            p {
+                // color: white;
+                // padding: 10px;
+                // margin-top: -5px;
+            }
+        }
+        @include for-desktop-up {
+            width: 40%;
+        }
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            font-family: $p;
+            justify-content: space-between;
+        }
+        a {
+            width: 45%;
+        }
+        // button,
+        input {
+            width: 100%;
+            border-radius: 5px;
+            height: 50px;
+            border: 1px solid $purple;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            font-family: $p;
+            font-size: 12pt;
+            background-color: $darkblue;
+            color: $green;
 
-      font-family: $p;
-      font-size: 12pt;
-      background-color: $darkblue;
-      color: $green;
-
-      &#btn-style {
-        outline: none;
-        border: 1px solid $green;
-        // background-color: $green;
-        color: $green;
-        padding: 0;
-        width: 45%;
-        transition: transform 0.1s ease-in;
-      }
-      &:focus {
-        outline: none;
-        border: 1px solid $green;
-      }
+            &#btn-style {
+                outline: none;
+                border: 1px solid $green;
+                // background-color: $green;
+                color: $green;
+                padding: 0;
+                width: 45%;
+                transition: transform 0.1s ease-in;
+            }
+            &:focus {
+                outline: none;
+                border: 1px solid $green;
+            }
+        }
     }
-  }
 }
 
+#main-btn,
+#register-submit,
 .register-btn {
-  background-color: $green;
-  width: 100%;
-  height: 50px;
-  border-radius: 5px;
-  border: none;
-  color: $darkblue;
-  font-family: $p;
-  font-size: 12pt;
-  transition: transform 0.1s ease-in;
+    background-color: $green;
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    color: $darkblue;
+    font-family: $p;
+    font-size: 12pt;
+    transition: transform 0.1s ease-in;
 }
 
+.main-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#main-btn {
+    width: 30%;
+    margin-top: 15px;
+    background-color: $darkblue;
+    color: $green;
+    border: 1px solid $purple;
+    @include box-shadow;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#register-submit {
+    padding: 0;
+}
+
+#register-submit:hover,
 #btn-style:hover,
 .register-btn:hover {
-  cursor: pointer;
-  transform: scale(1.05);
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 ::placeholder {
-  color: $green;
+    color: $gray;
 }
 
 .textwrapper {
-  border-top: 1px solid $green;
-  display: flex;
-  justify-content: center;
-  padding-top: 15px;
-  margin-top: 20px;
-  a {
+    border-top: 1px solid $green;
+    display: flex;
+    justify-content: center;
     color: rgb(131, 131, 131);
-    transition: color 0.2s ease-in-out;
-    font-size: 11pt;
-    font-family: $light;
-    text-decoration: none;
-  }
-  p:hover {
-    cursor: pointer;
-    color: $green;
-  }
+    padding-top: 15px;
+    margin-top: 20px;
+    p {
+        transition: color 0.2s ease-in-out;
+        font-size: 11pt;
+        font-family: $light;
+    }
+    p:hover {
+        cursor: pointer;
+        color: $green;
+    }
 }
 
+.bi.bi-chat,
+.bi.bi-share,
 .bi.bi-pencil-square,
 .bi-suit-heart {
-  font-size: 15pt;
+    font-size: 15pt;
+    margin-left: 15px;
+    margin-right: 10px;
+    color: rgb(207, 207, 207);
+    &:hover {
+        color: $green;
+        cursor: pointer;
+    }
+}
+
+h2 {
+    text-align: center;
+    color: $green;
+}
+
+article {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profileContentContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    // border-bottom: 1px solid $green;
+}
+
+.authorContainer {
+    margin-left: 15px;
+    margin-right: 15px;
+    // margin-bottom: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    border-bottom: 1px solid $purple;
+    p {
+        color: rgb(207, 207, 207);
+    }
+}
+
+.profilePicContainer {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    width: 18%;
+}
+
+.contentContainer {
+    width: 80%;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.logosContainer {
+    width: 100%;
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+#kvitterInput {
+    font-family: $p;
+    font-size: 12pt;
+    background-color: $darkblue;
+    border: 1px solid $purple;
+    border-radius: 5px;
+    padding: 20px;
+    width: 100%;
+    height: 130px;
+    padding-bottom: 80px;
+    color: rgb(207, 207, 207);
+    @include box-shadow;
+
+    &:focus {
+        border: 1px solid $green;
+        outline: none;
+    }
 }

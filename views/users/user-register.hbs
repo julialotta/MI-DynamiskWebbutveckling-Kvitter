@@ -1,13 +1,24 @@
-<h2>Register new user</h2>
-<h3>{{error}}</h3>
-<form action="/users/register" method="post">
-  <input type="text" name="username" id="" placeholder="Username" />
-  <input type="password" name="password" id="" placeholder="Password" />
-  <input
-    type="password"
-    name="confirmPassword"
-    id=""
-    placeholder="Confirm password"
-  />
-  <input type="submit" value="Register" />
-</form>
+<div class="mainwrapper">
+    <div class="formwrapper">
+
+        <h2>New user</h2>
+        <h3>{{error}}</h3>
+        <form action="/users/register" method="post" autocomplete="off">
+            <input type="text" name="username" id="" placeholder="Username" />
+            <input
+                type="password"
+                name="password"
+                id=""
+                placeholder="Password"
+            />
+            <input
+                type="password"
+                name="confirmPassword"
+                id=""
+                placeholder="Confirm password"
+            />
+            <input type="submit" value="Register" id="register-submit" />
+        </form>
+
+    </div>
+</div>
