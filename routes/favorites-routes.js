@@ -50,6 +50,47 @@ router.post("/add", async (req, res) => {
   }
 });
 
+router.get("/delete/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .lean();
+    //console.log(posts);
+    res.render("users/favorites/delete-favorites", { favorites });
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
+router.post("/delete/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .deleteOne()
+      .lean();
+
+    res.redirect("/users/profile/" + id);
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
 // GET EDIT FAVORITE
 router.get("/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
@@ -58,11 +99,13 @@ router.get("/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
   }
   if (id) {
-    const post = await KvitterModel.findById(id).populate("writtenBy").lean();
-
-    const favorites = await FavoritesModel.find().lean();
-
-    res.render("users/edit-favorites", { favorites, post });
+    const favorites = await FavoritesModel.findById(req.params.id)
+      .populate("user")
+      .populate("post")
+      .lean();
+    //console.log(posts);
+    const posts = await KvitterModel.find().populate("writtenBy").lean();
+    res.render("users/favorites/edit-favorites", { favorites, posts });
   } else {
     res.redirect("/unauthorized");
   }
@@ -76,22 +119,37 @@ router.post("/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
   }
   if (id) {
-    const updatedPost = req.body;
-    if (utils.validatePost(updatedPost)) {
-      await KvitterModel.findById(req.params.id).updateOne(updatedPost);
-      res.redirect("/");
-    } else {
-      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
-      const users = await UsersModel.find().lean();
-      res.render("home", {
-        error: "Your post wasn't updated, you have to write something in it",
-        kvitter,
-        users,
-      });
-    }
+    const updatedFavorites = req.body;
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .updateOne(updatedFavorites)
+      .lean();
+
+    res.redirect("/users/profile/" + id);
   } else {
     res.redirect("/unauthorized");
   }
+
+  // if (id) {
+  //   const updatedPost = req.body;
+  //   if (utils.validatePost(updatedPost)) {
+  //     await KvitterModel.findById(req.params.id).updateOne(updatedPost);
+  //     res.redirect("/");
+  //   } else {
+  //     const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+  //     const users = await UsersModel.find().lean();
+  //     res.render("home", {
+  //       error: "Your post wasn't updated, you have to write something in it",
+  //       kvitter,
+  //       users,
+  //     });
+  //   }
+  // } else {
+  //   res.redirect("/unauthorized");
+  // }
 });
 
 module.exports = router;

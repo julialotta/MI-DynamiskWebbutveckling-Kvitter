@@ -36,18 +36,20 @@
     {{#if favorites}}
       {{#each favorites}}
         <div class="favorite">
-          <a href="/favorites/edit/{{_id}}">
-            <h5 class="favoriteDescription">
-              {{description}}
-            </h5>
-            <p>
-              {{post.content}}
-            </p>
-            <p>Kvittrat av:
-              {{user.username}}
-              {{user.displayName}}
-            </p>
-          </a>
+
+          <h5 class="favoriteDescription">
+            {{description}}
+          </h5>
+          <p>
+            {{post.content}}
+          </p>
+          <p>Kvittrat av:
+            {{user.username}}
+            {{user.displayName}}
+          </p>
+          <a href="/favorites/edit/{{_id}}">Redigera</a>
+          <br />
+          <a href="/favorites/delete/{{_id}}">Ta bort</a>
         </div>
       {{else}}
         <p>Du har inte valt några favoriter</p>
