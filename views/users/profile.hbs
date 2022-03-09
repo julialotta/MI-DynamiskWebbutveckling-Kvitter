@@ -12,7 +12,7 @@
     {{! Namn }}
     <div>
       <p>Användare:</p>
-      <p> {{username}}</p>
+      <p> {{username}}{{displayName}}</p>
     </div>
   </div>
 
@@ -45,6 +45,7 @@
             </p>
             <p>Kvittrat av:
               {{user.username}}
+              {{user.displayName}}
             </p>
           </a>
         </div>

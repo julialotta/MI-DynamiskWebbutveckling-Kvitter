@@ -5,6 +5,7 @@ const usersSchema = new Schema({
   hashedPassword: String,
   slogan: String,
   googleId: String,
+  displayName: String,
 });
 
 const UsersModel = model("Users", usersSchema);
