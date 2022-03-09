@@ -7,12 +7,6 @@
             {{error}}
 
             <form action="/kvittra" method="post">
-                {{!-- <input
-                    type="text"
-                    name="content"
-                    placeholder="Kvitter your feelings"
-                    id="kvitterInput"
-                /> --}}
 
                 <textarea name="content" cols="30" rows="10" placeholder="Kvitter your feelings..." style="resize: none" id="kvitterInput"></textarea>
 
@@ -23,7 +17,7 @@
 
             {{#each kvitter}}
             
-                <article>
+                <article class="{{myPost writtenBy._id ../userId}}">
                     <div class="authorContainer">
                         <p>{{writtenBy.username}}</p>
                         <p>{{formatDate time}}</p>
@@ -41,23 +35,26 @@
                             {{content}}
                         {{!-- </a> --}}
                     </div>
-                    </div>
-                    </p>
-                    {{!-- <p>{{formatDate time}}</p> --}}
-                    {{!-- <p>Kvittrat by: {{writtenBy.username}}</p> --}}
                     <div class="logosContainer">
-                        <a href="/like/{{_id}}"><i
-                            class="bi bi-suit-heart"
-                        ></i></a>
-                        
-                        <i class="bi bi-share"></i>
-                        <i class="bi bi-chat"></i>
-                        <a href="/kvittra/{{_id}}/edit">
+                        <div class="{{iconFunction writtenBy._id ../userId}}">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="kvittra/{{_id}}/delete">
                             <i class="bi bi-trash3"></i>
                         </a>
+                        </div>
+                    </div>
+                    </p>
+
+                    {{!-- <div class="logosContainer">
+                        <div class="{{iconFunction writtenBy._id ../userId}}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="kvittra/{{_id}}/delete">
+                            <i class="bi bi-trash3"></i>
+                        </a>
+                        </div> --}}
+
                         
                     </div>
                 </article>
@@ -74,14 +71,14 @@
                 <input
                     type="text"
                     name="username"
-                    id=""
+                    id="login-input"
                     placeholder="Username"
                 />
                 <br />
                 <input
                     type="password"
                     name="password"
-                    id=""
+                    id="login-input"
                     placeholder="Password"
                 />
                 <br />

@@ -16,6 +16,8 @@ const LikesModel = require("./models/LikesModel.js");
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 const likesRouter = require("./routes/likes-routes.js");
+const req = require("express/lib/request");
+const { ObjectId } = require("mongodb");
 //const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
@@ -33,6 +35,26 @@ app.engine(
                     " - " +
                     date.toLocaleTimeString()
                 );
+            },
+            iconFunction: (writtenBy, userId) => {
+                // console.log({ writtenBy, userId });
+
+                if (writtenBy.toString() == userId) {
+                    return "showIcons";
+                } else {
+                    return "hideIcons";
+                }
+            },
+            myPost: (writtenBy, userId) => {
+                // console.log({ writtenBy, userId });
+
+                if (writtenBy.toString() == userId) {
+                    console.log("hello?");
+                    return "myBorder";
+                } else {
+                    console.log("no");
+                    return "notMyBorder";
+                }
             },
         },
     })
@@ -77,11 +99,29 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
     const kvitter = await KvitterModel.find().populate("writtenBy").lean();
     const users = await UsersModel.find().lean();
-    // console.log(users);
-    res.render("home", {
-        kvitter,
-        users,
-    });
+
+    const { token } = req.cookies;
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
+    if (tokenData) {
+        const userId = tokenData.userId;
+        const getPosts = await KvitterModel.find();
+        const getAuthor = getPosts.writtenBy;
+
+        res.render("home", {
+            kvitter,
+            users,
+            userId,
+            getAuthor,
+        });
+    } else {
+        res.render("home", {
+            kvitter,
+            users,
+            // userId,
+            // getAuthor,
+        });
+    }
 });
 
 //Routers
@@ -121,6 +161,30 @@ app.get(
         });
     }
 );
+
+app.get("/test", async (req, res) => {
+    async function showIcons() {
+        const { token } = req.cookies;
+        const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
+        const getAuthor = await KvitterModel.find({
+            writtenBy: tokenData.userId,
+        });
+
+        getAuthor.forEach((item) => {
+            const id = item.writtenBy;
+            console.log(id);
+            if (item.writtenBy == tokenData.userId) {
+                console.log("true");
+                return true;
+            } else {
+                console.log("false");
+                return false;
+            }
+        });
+    }
+    showIcons();
+});
 
 app.use("/unauthorized", (req, res) => {
     res.status(403).render("errors/unauthorized");

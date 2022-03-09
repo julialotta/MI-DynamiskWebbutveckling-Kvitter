@@ -1,5 +1,5 @@
-body {
-    color: white;
+#login-input {
+    padding-left: 30px;
 }
 
 .mainwrapper {
@@ -11,31 +11,32 @@ body {
         width: 80%;
         padding: 10px;
         @include for-phone-landscape-up {
-            width: 50%;
+            width: 80%;
         }
-        article {
+        .myBorder {
+            border: 1px solid $green;
+            border-radius: 10px;
+            padding: 10px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            @include box-shadow;
+        }
+        .notMyBorder {
             // background-color: #5c547054;
             border: 1px solid $purple;
             border-radius: 10px;
             padding: 10px;
             margin-bottom: 20px;
-            box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
-                rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-                rgba(0, 0, 0, 0.09) 0px 16px 8px,
-                rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            @include box-shadow;
+
             a {
                 color: rgb(207, 207, 207);
                 // padding: 10px;
                 text-decoration: none;
             }
-            p {
-                // color: white;
-                // padding: 10px;
-                // margin-top: -5px;
-            }
         }
         @include for-desktop-up {
-            width: 40%;
+            width: 50%;
         }
         form {
             display: flex;
@@ -53,7 +54,7 @@ body {
             height: 50px;
             border: 1px solid $purple;
             margin-bottom: 15px;
-            padding-left: 30px;
+            // padding-left: 30px;
             font-family: $p;
             font-size: 12pt;
             background-color: $darkblue;
@@ -90,6 +91,12 @@ body {
     transition: transform 0.1s ease-in;
 }
 
+a {
+    color: #f4cf39;
+    // padding: 10px;
+    text-decoration: none;
+}
+
 .main-btn-container {
     width: 100%;
     display: flex;
@@ -100,7 +107,7 @@ body {
     width: 30%;
     margin-top: 15px;
     background-color: $darkblue;
-    color: $green;
+    color: #f4cf39;
     border: 1px solid $purple;
     @include box-shadow;
 
@@ -157,6 +164,10 @@ body {
     }
 }
 
+.bi.bi-pencil-square {
+    // color: #f4cf39;
+}
+
 h2 {
     text-align: center;
     color: $green;
@@ -172,7 +183,9 @@ article {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    align-items: center;
+    margin-top: 20px;
+    padding-bottom: 20px;
     // border-bottom: 1px solid $green;
 }
 
@@ -193,19 +206,31 @@ article {
     margin-left: 15px;
     display: flex;
     align-items: center;
-    width: 18%;
+    min-width: 10%;
+    max-width: 10%;
 }
 
 .contentContainer {
-    width: 80%;
-    margin-right: 15px;
-    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    min-width: 60%;
+    // min-width: 70%;
+    // margin-right: 5px;
+    margin-left: 30px;
+    p {
+        color: rgb(207, 207, 207);
+    }
 }
 
 .logosContainer {
-    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    min-width: 20%;
+    max-width: 20%;
+    // max-width: 20%;
     margin-top: 25px;
-    margin-left: 10px;
+    margin-left: -20px;
     margin-bottom: 10px;
 }
 
@@ -255,4 +280,12 @@ article {
 .bi.bi-arrow-return-left {
     font-size: 25pt;
     color: $green;
+}
+
+.hideIcons {
+    display: none;
+}
+
+#kvitterinput::-webkit-scrollbar {
+    display: none;
 }
