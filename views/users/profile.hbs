@@ -23,7 +23,7 @@
       <p> {{user.slogan}} </p>
     {{else}}
       <p>Du har ingen slogan, klicka
-        <a href="/users/profile/edit/{{userId}}{{googleId}}">här</a>
+        <a href="/users/profile/edit/{{userId}}">här</a>
         för att lägga till</p>
     {{/if}}
   </div>
@@ -45,6 +45,7 @@
             </p>
             <p>Kvittrat av:
               {{user.username}}
+              {{user.displayName}}
             </p>
           </a>
         </div>
@@ -57,7 +58,7 @@
 
   {{! Change profile }}
   <p>
-    <a href="/users/profile/edit/{{userId}}{{googleId}}">Ändra profil</a>
+    <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
   </p>
 
   {{! Log out }}
@@ -66,5 +67,5 @@
   </form>
 
   {{! Remove user }}
-  <a href="/users/delete/{{userId}}{{googleId}}">RADERA PROFIL</a>
+  <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
 </div>

@@ -1,9 +1,11 @@
 const { Schema, model } = require("mongoose");
 
 const usersSchema = new Schema({
-  username: { type: String, required: true },
-  hashedPassword: { type: String, required: true },
+  username: String,
+  hashedPassword: String,
   slogan: String,
+  googleId: String,
+  displayName: String,
 });
 
 const UsersModel = model("Users", usersSchema);
