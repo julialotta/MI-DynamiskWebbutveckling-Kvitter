@@ -12,7 +12,7 @@
     {{! Namn }}
     <div>
       <p>Användare:</p>
-      <p> {{username}} </p>
+      <p> {{username}}</p>
     </div>
   </div>
 
@@ -31,22 +31,28 @@
   {{error}}
 
   {{! Favorites}}
-  <div class="slogan">
+  <div class="allFavorites">
     <p>Favoriter:</p>
     {{#if favorites}}
       {{#each favorites}}
-        <h5>
-          {{description}}
-        </h5>
-        <p>
-          {{post.content}}
-          {{user.username}}
-        </p>
+        <div class="favorite">
+          <a href="/favorites/edit/{{_id}}">
+            <h5 class="favoriteDescription">
+              {{description}}
+            </h5>
+            <p>
+              {{post.content}}
+            </p>
+            <p>Kvittrat av:
+              {{user.username}}
+            </p>
+          </a>
+        </div>
       {{else}}
         <p>Du har inte valt några favoriter</p>
       {{/each}}
     {{/if}}
-    <a href="/favorites/{{userId}}">Redigera favoriter</a>
+    <a href="/favorites/{{userId}}">Lägg till favroriter</a>
   </div>
 
   {{! Change profile }}

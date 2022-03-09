@@ -41,7 +41,6 @@ router.post("/add", async (req, res) => {
     post: req.body.postId,
   });
 
-  console.log(newFavorite);
   if (utils.validateFavorite(newFavorite)) {
     await newFavorite.save();
     res.redirect("/users/profile/" + tokenData.userId);
@@ -50,6 +49,50 @@ router.post("/add", async (req, res) => {
       error:
         "Du måste både välja ett kvitter-inlägg och berätta varför du gillar den",
     });
+  }
+});
+
+// GET EDIT FAVORITE
+router.get("/edit/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const post = await KvitterModel.findById(id).populate("writtenBy").lean();
+
+    const favorites = await FavoritesModel.find().lean();
+
+    res.render("users/edit-favorites", { favorites, post });
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
+// POST EDIT SINGLE KVITTER-POST
+router.post("/edit/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const updatedPost = req.body;
+    if (utils.validatePost(updatedPost)) {
+      await KvitterModel.findById(req.params.id).updateOne(updatedPost);
+      res.redirect("/");
+    } else {
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+      const users = await UsersModel.find().lean();
+      res.render("home", {
+        error: "Your post wasn't updated, you have to write something in it",
+        kvitter,
+        users,
+      });
+    }
+  } else {
+    res.redirect("/unauthorized");
   }
 });
 
