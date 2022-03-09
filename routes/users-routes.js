@@ -10,7 +10,6 @@ const utils = require("../utils.js");
 const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
-const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 const LikesModel = require("../models/LikesModel.js");
 const FavoritesModel = require("../models/FavoritesModel.js");
@@ -107,7 +106,6 @@ router.get("/profile/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id }).lean();
-      const googleUser = await ThirdPartModel.findOne({ _id: id });
 
       const favorites = await FavoritesModel.find({ user: id })
         .populate("user")
@@ -115,7 +113,7 @@ router.get("/profile/:id", async (req, res, next) => {
         .lean();
       console.log(favorites);
 
-      res.render("users/profile", { user, googleUser, favorites });
+      res.render("users/profile", { user, favorites });
     }
   }
 });
@@ -129,8 +127,7 @@ router.get("/profile/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
-      const googleUser = await ThirdPartModel.findOne({ _id: id });
-      res.render("users/profile-edit", user, googleUser);
+      res.render("users/profile-edit", user);
     }
     // if user is not logged in.
   } else {
@@ -144,11 +141,16 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
   const user = await UsersModel.findById(req.params.id);
   user.username = req.body.username;
+  user.displayName = req.body.displayName;
   user.slogan = req.body.slogan;
   if (id) {
     if (utils.validateUsername(user)) {
       await user.save();
-      const userData = { userId: id, username: req.body.username };
+      const userData = {
+        userId: id,
+        username: req.body.username,
+        displayName: req.body.displayName,
+      };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
       res.cookie("token", accessToken);
       res.redirect("/users/profile/" + id);
@@ -177,7 +179,6 @@ router.post("/profile/remove/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       await UsersModel.findOne({ _id: id }).deleteOne();
-      await ThirdPartModel.findOne({ _id: id }).deleteOne();
       res.cookie("token", "", { maxAge: 0 });
       res.redirect("/");
     }
