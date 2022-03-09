@@ -16,6 +16,15 @@ function validateUsername(username) {
   return valid;
 }
 
+function validateFavorite(favorite) {
+  let valid = true;
+  valid = valid && favorite.description;
+  valid = valid && favorite.description.length > 0;
+  valid = valid && favorite.user;
+  valid = valid && favorite.post;
+  return valid;
+}
+
 function validatePost(post) {
   let valid = true;
   valid = valid && post.content;
@@ -39,4 +48,5 @@ module.exports = {
   validateUser,
   validateUsername,
   validatePost,
+  validateFavorite,
 };

@@ -9,15 +9,14 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 
 const KvitterModel = require("./models/KvitterModel");
-const thirdPartModel = require("./models/ThirdpartModel.js");
 const UsersModel = require("./models/UsersModel");
-const LikesModel = require("./models/LikesModel.js");
 
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 const likesRouter = require("./routes/likes-routes.js");
 const req = require("express/lib/request");
 const { ObjectId } = require("mongodb");
+const favoritesRouter = require("./routes/favorites-routes.js");
 //const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
@@ -74,23 +73,11 @@ app.use((req, res, next) => {
         const tokenData = jwt.decode(token, process.env.JWTSECRET);
         res.locals.loggedIn = true;
         res.locals.username = tokenData.username;
+        res.locals.displayName = tokenData.displayName;
         res.locals.userId = tokenData.userId;
         // ANNARS
     } else {
         res.locals.loggedIn = false;
-    }
-    next();
-});
-
-app.use((req, res, next) => {
-    const { token } = req.cookies;
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.googleIn = true;
-        res.locals.displayName = tokenData.displayName;
-        res.locals.googleId = tokenData.id;
-    } else {
-        res.locals.googleIn = false;
     }
     next();
 });
@@ -128,8 +115,9 @@ app.get("/", async (req, res) => {
 app.use("/kvittra", kvittraRouter);
 app.use("/users", usersRouter);
 app.use("/like", likesRouter);
-//app.use("/thirdpart", thirdpartRouter);
+app.use("/favorites", favoritesRouter);
 
+//Thirdpart Login
 app.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
@@ -142,17 +130,17 @@ app.get(
     }),
     async (req, res) => {
         const googleId = req.user.id;
-        thirdPartModel.findOne({ googleId }, async (err, user) => {
+        UsersModel.findOne({ googleId }, async (err, user) => {
             const userData = { displayName: req.user.displayName };
             if (user) {
-                userData.id = user._id;
+                userData.userId = user._id;
             } else {
-                const newUser = new thirdPartModel({
+                const newUser = new UsersModel({
                     googleId,
                     displayName: req.user.displayName,
                 });
                 const result = await newUser.save();
-                userData.id = result._id;
+                userData.userId = result._id;
             }
             const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 

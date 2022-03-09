@@ -1,0 +1,47 @@
+<div class="profilepage">
+  <p>
+    <a href="/users/profile/{{userId}}">←</a>
+  </p>
+
+  <h2>Ditt favoritkvitter</h2>
+
+  {{! Profilbild }}
+  <div class="user">
+    <img src="/assets/profile-pitcure.png" alt="Profilbild" />
+
+    {{! Namn }}
+    <div>
+      <p>Användare:</p>
+      <p> {{username}} </p>
+    </div>
+  </div>
+
+  {{error}}
+
+  <div>
+    {{#each favorites}}
+      {{content}}
+      {{favorites.content}}
+    {{/each}}
+  </div>
+
+  {{! Favorites}}
+  <h5>Lägg till ytterligare favoriter</h5>
+  <form action="/favorites/add" method="post">
+    <input
+      type="text"
+      name="description"
+      placeholder="Berätta om varför du gillar det här"
+    />
+
+    <select name="postId">
+      <option value="" disabled selected>Välj bland allt kvitter</option>
+      {{#each posts}}
+        <option value="{{_id}}">{{content}}</option>
+      {{/each}}
+    </select>
+
+    <input type="submit" value="Spara" />
+  </form>
+
+</div>
