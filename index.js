@@ -28,8 +28,6 @@ app.engine(
         return date.toLocaleDateString() + " - " + date.toLocaleTimeString();
       },
       iconFunction: (writtenBy, userId) => {
-        // console.log({ writtenBy, userId });
-
         if (writtenBy.toString() == userId) {
           return "showIcons";
         } else {
@@ -37,13 +35,9 @@ app.engine(
         }
       },
       myPost: (writtenBy, userId) => {
-        // console.log({ writtenBy, userId });
-
         if (writtenBy.toString() == userId) {
-          console.log("hello?");
           return "myBorder";
         } else {
-          console.log("no");
           return "notMyBorder";
         }
       },
@@ -138,30 +132,6 @@ app.get(
     });
   }
 );
-
-app.get("/test", async (req, res) => {
-  async function showIcons() {
-    const { token } = req.cookies;
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
-
-    const getAuthor = await KvitterModel.find({
-      writtenBy: tokenData.userId,
-    });
-
-    getAuthor.forEach((item) => {
-      const id = item.writtenBy;
-      console.log(id);
-      if (item.writtenBy == tokenData.userId) {
-        console.log("true");
-        return true;
-      } else {
-        console.log("false");
-        return false;
-      }
-    });
-  }
-  showIcons();
-});
 
 app.use("/unauthorized", (req, res) => {
   res.status(403).render("errors/unauthorized");

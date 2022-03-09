@@ -108,7 +108,6 @@ router.get("/profile/:id", async (req, res, next) => {
         .populate("user")
         .populate("post")
         .lean();
-      console.log(favorites);
 
       res.render("users/profile", { user, favorites });
     }

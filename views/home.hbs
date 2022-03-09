@@ -1,8 +1,7 @@
 <div class="formwrapper">
         {{#if loggedIn}}
-            <p>Logged in as {{username}}{{displayName}}</p>
-            <p>
-                <a href="/users/profile/{{userId}}">Till profil</a>
+            <p>Logged in as
+                <a href="/users/profile/{{userId}}">{{username}}{{displayName}}</a>
             </p>
             {{error}}
 
@@ -31,12 +30,12 @@
                     </div>
                     <div class="contentContainer">
                     <p>
-                        {{!-- <a href="/kvittra/read-kvitter/{{_id}}"> --}}
                             {{content}}
-                        {{!-- </a> --}}
+                       
                     </div>
                     <div class="logosContainer">
                         <div class="{{iconFunction writtenBy._id ../userId}}">
+                        <a href="kvittra/{{_id}}/edit">
                             <i class="bi bi-pencil-square"></i>
                         </a>
                         <a href="kvittra/{{_id}}/delete">
@@ -45,16 +44,6 @@
                         </div>
                     </div>
                     </p>
-
-                    {{!-- <div class="logosContainer">
-                        <div class="{{iconFunction writtenBy._id ../userId}}">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a href="kvittra/{{_id}}/delete">
-                            <i class="bi bi-trash3"></i>
-                        </a>
-                        </div> --}}
-
                         
                     </div>
                 </article>

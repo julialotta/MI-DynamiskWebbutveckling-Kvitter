@@ -50,8 +50,6 @@ router.get("/:id/edit", async (req, res) => {
   const getAuthor = await KvitterModel.findOne({ _id: id });
   const kvitterPost = await KvitterModel.findById(req.params.id);
 
-  res.render("posts/edit-post", kvitterPost);
-
   if (tokenData.userId == getAuthor.writtenBy) {
     res.render("posts/edit-post", kvitterPost);
   } else {
@@ -67,9 +65,6 @@ router.post("/:id/edit", async (req, res, next) => {
   const tokenData = jwt.decode(token, process.env.JWTSECRET); // Get user from cookies
 
   const getUser = await KvitterModel.findById({ _id: id });
-
-  console.log(tokenData.userId);
-  console.log(getUser.writtenBy);
 
   if (getUser.writtenBy == tokenData.userId) {
     const updatedPost = req.body;
