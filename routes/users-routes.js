@@ -7,11 +7,9 @@ const router = express.Router();
 
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
-const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
 const { ObjectId } = require("mongodb");
-const LikesModel = require("../models/LikesModel.js");
 const FavoritesModel = require("../models/FavoritesModel.js");
 
 // Id function \\
@@ -23,7 +21,6 @@ function getId(id, next) {
   } catch {
     next();
   }
-
   return parsedid;
 }
 
@@ -193,8 +190,8 @@ router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
   res.redirect("/");
 });
-/////////// LIKE FUNCTIONS /////////
 
+/////////// LIKE FUNCTIONS /////////
 router.get("/:id/like", async (req, res) => {
   const { token } = req.cookies;
   const tokenData = jwt.decode(token, process.env.JWTSECRET);
