@@ -1,6 +1,6 @@
 <div class="formwrapper">
         {{#if loggedIn}}
-            <p>Logged in as {{username}}{{displayName}}</p>
+            <p>Logged in as {{username}}</p>
             <p>
                 <a href="/users/profile/{{userId}}">Till profil</a>
             </p>
@@ -25,7 +25,7 @@
             
                 <article>
                     <div class="authorContainer">
-                        <p>{{writtenBy.username}}{{writtenBy.displayName}}</p>
+                        <p>{{writtenBy.username}}</p>
                         <p>{{formatDate time}}</p>
                     </div>
                     <div class="profileContentContainer">
