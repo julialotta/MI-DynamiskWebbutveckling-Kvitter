@@ -223,3 +223,7 @@ router.get("/:id/delete", async (req, res) => {
 // });
 
 module.exports = router;
+
+function hej() {
+  console.log("hej");
+}

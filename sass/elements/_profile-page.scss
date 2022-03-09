@@ -52,4 +52,21 @@
       font-family: $light;
     }
   }
+  .allFavorites {
+    border: $green 0.2px solid;
+    border-radius: 5px;
+    margin: 20px 0 40px 0;
+
+    .favorite {
+      border: $green 0.2px solid;
+      border-radius: 5px;
+      margin: 20px 0 40px 0;
+
+      a {
+        font-family: $p;
+        color: $green;
+        text-decoration: none;
+      }
+    }
+  }
 }

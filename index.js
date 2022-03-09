@@ -11,11 +11,11 @@ const passport = require("passport");
 const KvitterModel = require("./models/KvitterModel");
 const thirdPartModel = require("./models/ThirdpartModel.js");
 const UsersModel = require("./models/UsersModel");
-const LikesModel = require("./models/LikesModel.js");
 
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 const likesRouter = require("./routes/likes-routes.js");
+const favoritesRouter = require("./routes/favorites-routes.js");
 //const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
@@ -88,8 +88,9 @@ app.get("/", async (req, res) => {
 app.use("/kvittra", kvittraRouter);
 app.use("/users", usersRouter);
 app.use("/like", likesRouter);
-//app.use("/thirdpart", thirdpartRouter);
+app.use("/favorites", favoritesRouter);
 
+//Thirdpart Login
 app.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
@@ -122,6 +123,7 @@ app.get(
     }
 );
 
+// Error page unauthorized
 app.use("/unauthorized", (req, res) => {
     res.status(403).render("errors/unauthorized");
 });

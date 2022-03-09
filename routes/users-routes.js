@@ -13,241 +13,223 @@ const KvitterModel = require("../models/KvitterModel.js");
 const ThirdPartModel = require("../models/ThirdpartModel.js");
 const { ObjectId } = require("mongodb");
 const LikesModel = require("../models/LikesModel.js");
+const FavoritesModel = require("../models/FavoritesModel.js");
 
 // Id function \\
 function getId(id, next) {
-    let parsedid = undefined;
+  let parsedid = undefined;
 
-    try {
-        parsedid = ObjectId(id);
-    } catch {
-        next();
-    }
+  try {
+    parsedid = ObjectId(id);
+  } catch {
+    next();
+  }
 
-    return parsedid;
+  return parsedid;
 }
 
 ////////// REGISTER FUNCTIONS //////////
 router.get("/register-user", async (req, res) => {
-    res.render("users/user-register");
+  res.render("users/user-register");
 });
 
 router.post("/register", async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+  const { username, password, confirmPassword } = req.body;
 
-    UsersModel.findOne({ username }, async (err, user) => {
-        if (user) {
-            res.render("users/user-register", {
-                error: "Username already exists",
-            });
-        } else if (password.length <= 4) {
-            res.render("users/user-register", {
-                error: "Your password must have at least 5 characters",
-            });
-        } else if (password !== confirmPassword) {
-            res.render("users/user-register", {
-                error: "Passwords don't match",
-            });
-        } else {
-            const newUser = new UsersModel({
-                username,
-                hashedPassword: utils.hashPassword(password),
-            });
-            if (utils.validateUsername(newUser)) {
-                await newUser.save();
+  UsersModel.findOne({ username }, async (err, user) => {
+    if (user) {
+      res.render("users/user-register", {
+        error: "Username already exists",
+      });
+    } else if (password.length <= 4) {
+      res.render("users/user-register", {
+        error: "Your password must have at least 5 characters",
+      });
+    } else if (password !== confirmPassword) {
+      res.render("users/user-register", {
+        error: "Passwords don't match",
+      });
+    } else {
+      const newUser = new UsersModel({
+        username,
+        hashedPassword: utils.hashPassword(password),
+      });
+      if (utils.validateUsername(newUser)) {
+        await newUser.save();
 
-                UsersModel.findOne({ username }, (err, user) => {
-                    const userData = { userId: user._id, username };
-                    const accessToken = jwt.sign(
-                        userData,
-                        process.env.JWTSECRET
-                    );
+        UsersModel.findOne({ username }, (err, user) => {
+          const userData = { userId: user._id, username };
+          const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 
-                    res.cookie("token", accessToken);
-                    res.redirect("/");
-                });
-            } else {
-                res.render("users/user-register", {
-                    error: "You have to enter some data",
-                });
-            }
-        }
-    });
+          res.cookie("token", accessToken);
+          res.redirect("/");
+        });
+      } else {
+        res.render("users/user-register", {
+          error: "You have to enter some data",
+        });
+      }
+    }
+  });
 });
 
 ////////// LOGIN FUNCTIONS //////////////
 router.post("/login", async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    UsersModel.findOne({ username }, (err, user) => {
-        if (user && utils.comparePassword(password, user.hashedPassword)) {
-            // Logged in
-            const userData = { userId: user._id, username };
-            const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+  UsersModel.findOne({ username }, (err, user) => {
+    if (user && utils.comparePassword(password, user.hashedPassword)) {
+      // Logged in
+      const userData = { userId: user._id, username };
+      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 
-            res.cookie("token", accessToken);
-            res.redirect("/");
-        } else {
-            // Login incorrect
-            res.render("home", {
-                error: "Login failed",
-            });
-        }
-    });
+      res.cookie("token", accessToken);
+      res.redirect("/");
+    } else {
+      // Login incorrect
+      res.render("home", {
+        error: "Login failed",
+      });
+    }
+  });
 });
 
 // THIRD PARTY PROFILE FUNCTIONS \\
 
 ////////// PROFILE FUNCTIONS //////////////
 // GET, PROFILE/:ID \\
-// USER: FAVORITES \\
 router.get("/profile/:id", async (req, res, next) => {
-    const id = getId(req.params.id, next);
+  const id = getId(req.params.id, next);
 
-    // if user is logged in.
+  // if user is logged in.
+  const { token } = req.cookies;
 
-    const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    if (id) {
+      const user = await UsersModel.findOne({ _id: id }).lean();
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
 
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        if (id) {
-            const user = await UsersModel.findOne({ _id: id });
-            const googleUser = await ThirdPartModel.findOne({ _id: id });
-            const favoriteKvitter = await UsersModel.findOne({ _id: id })
-                .populate("favorites")
-                .lean();
-            const kvitter = await KvitterModel.find()
-                .populate("writtenBy")
-                .lean();
+      const favorites = await FavoritesModel.find({ user: id })
+        .populate("user")
+        .populate("post")
+        .lean();
+      console.log(favorites);
 
-            let userFavorites = [];
-            for (let i = 0; i < favoriteKvitter.favorites.length; i++) {
-                userFavorites.push(favoriteKvitter.favorites[i]);
-            }
-            res.render("users/profile", {
-                user,
-                userFavorites,
-                kvitter,
-                googleUser,
-            });
-        }
-
-        // if user is not logged in.
-    } else {
-        res.redirect("/unauthorized");
+      res.render("users/profile", { user, googleUser, favorites });
     }
+  }
 });
 
 // GET, PROFILE/EDIT/:ID \\
 router.get("/profile/edit/:id", async (req, res, next) => {
-    const id = getId(req.params.id, next);
+  const id = getId(req.params.id, next);
 
-    // if user is logged in.
-    const { token } = req.cookies;
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        if (id) {
-            const user = await UsersModel.findOne({ _id: id });
-            const googleUser = await ThirdPartModel.findOne({ _id: id });
-            res.render("users/profile-edit", user, googleUser);
-        }
-        // if user is not logged in.
-    } else {
-        res.redirect("/unauthorized");
+  // if user is logged in.
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    if (id) {
+      const user = await UsersModel.findOne({ _id: id });
+      const googleUser = await ThirdPartModel.findOne({ _id: id });
+      res.render("users/profile-edit", user, googleUser);
     }
+    // if user is not logged in.
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 // POST, PROFILE/EDIT/:ID \\
 router.post("/profile/edit/:id", async (req, res, next) => {
-    const id = getId(req.params.id, next);
+  const id = getId(req.params.id, next);
 
-    const user = await UsersModel.findById(req.params.id);
-    user.username = req.body.username;
-    user.slogan = req.body.slogan;
-    if (id) {
-        if (utils.validateUsername(user)) {
-            await user.save();
-            const userData = { userId: id, username: req.body.username };
-            const accessToken = jwt.sign(userData, process.env.JWTSECRET);
-            res.cookie("token", accessToken);
-            res.redirect("/users/profile/" + id);
-        } else {
-            const kvitter = await KvitterModel.find()
-                .populate("writtenBy")
-                .lean();
-            const users = await UsersModel.find().lean();
-            res.render("home", {
-                error: "Your username wasn't updated, you have to have at least one character",
-                kvitter,
-                users,
-            });
-        }
+  const user = await UsersModel.findById(req.params.id);
+  user.username = req.body.username;
+  user.slogan = req.body.slogan;
+  if (id) {
+    if (utils.validateUsername(user)) {
+      await user.save();
+      const userData = { userId: id, username: req.body.username };
+      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+      res.cookie("token", accessToken);
+      res.redirect("/users/profile/" + id);
     } else {
-        res.redirect("/unauthorized");
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+      const users = await UsersModel.find().lean();
+      res.render("home", {
+        error:
+          "Your username wasn't updated, you have to have at least one character",
+        kvitter,
+        users,
+      });
     }
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 // POST, PROFILE/REMOVE/:ID \\
 router.post("/profile/remove/:id", async (req, res, next) => {
-    const id = getId(req.params.id, next);
+  const id = getId(req.params.id, next);
 
-    // if user is logged in.
-    const { token } = req.cookies;
+  // if user is logged in.
+  const { token } = req.cookies;
 
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        if (id) {
-            await UsersModel.findOne({ _id: id }).deleteOne();
-            await ThirdPartModel.findOne({ _id: id }).deleteOne();
-            res.cookie("token", "", { maxAge: 0 });
-            res.redirect("/");
-        }
-        // if user is not logged in.
-    } else {
-        res.redirect("/unauthorized");
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    if (id) {
+      await UsersModel.findOne({ _id: id }).deleteOne();
+      await ThirdPartModel.findOne({ _id: id }).deleteOne();
+      res.cookie("token", "", { maxAge: 0 });
+      res.redirect("/");
     }
+    // if user is not logged in.
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 /////////// LOG OUT FUNCTIONS /////////
 router.post("/log-out", (req, res) => {
-    res.cookie("token", "", { maxAge: 0 });
-    res.redirect("/");
+  res.cookie("token", "", { maxAge: 0 });
+  res.redirect("/");
 });
 /////////// LIKE FUNCTIONS /////////
 
 router.get("/:id/like", async (req, res) => {
-    const { token } = req.cookies;
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
 
-    const user = await UsersModel.findById(tokenData.userId);
-    user.favorites.push(ObjectId(req.params.id));
+  const user = await UsersModel.findById(tokenData.userId);
+  user.favorites.push(ObjectId(req.params.id));
 
-    await user.save();
+  await user.save();
 
-    res.redirect("/");
+  res.redirect("/");
 });
 
 /////////// FORGOT YOUR PASSWORD? /////////
 router.get("/forgot", (req, res) => {
-    res.render("users/forgot");
+  res.render("users/forgot");
 });
 
 ///////// DELETE USER  AND USERS POSTS///////////
 
 router.get("/delete/:id", async (req, res) => {
-    const id = ObjectId(req.params.id); // get user-id from url
+  const id = ObjectId(req.params.id); // get user-id from url
 
-    const { token } = req.cookies;
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
 
-    if (tokenData.userId == id) {
-        await UsersModel.findById({ _id: id }).deleteOne(id);
+  if (tokenData.userId == id) {
+    await UsersModel.findById({ _id: id }).deleteOne(id);
 
-        await KvitterModel.find({ writtenBy: id }).deleteMany();
+    await KvitterModel.find({ writtenBy: id }).deleteMany();
 
-        res.cookie("token", "", { maxAge: 0 });
+    res.cookie("token", "", { maxAge: 0 });
 
-        res.redirect("/");
-    } else {
-        res.redirect("/unauthorized");
-    }
+    res.redirect("/");
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 module.exports = router;
