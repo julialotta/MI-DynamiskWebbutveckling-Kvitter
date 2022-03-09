@@ -47,7 +47,6 @@ app.use((req, res, next) => {
     res.locals.loggedIn = true;
     res.locals.username = tokenData.username;
     res.locals.displayName = tokenData.displayName;
-    res.locals.googleId = tokenData.id;
     res.locals.userId = tokenData.userId;
     // ANNARS
   } else {
@@ -100,14 +99,14 @@ app.get(
     UsersModel.findOne({ googleId }, async (err, user) => {
       const userData = { displayName: req.user.displayName };
       if (user) {
-        userData.id = user._id;
+        userData.userId = user._id;
       } else {
         const newUser = new UsersModel({
           googleId,
           displayName: req.user.displayName,
         });
         const result = await newUser.save();
-        userData.id = result._id;
+        userData.userId = result._id;
       }
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
 

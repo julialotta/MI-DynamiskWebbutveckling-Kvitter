@@ -110,6 +110,7 @@ router.get("/profile/:id", async (req, res, next) => {
       const likedPosts = await LikesModel.find();
       console.log(likedPosts);
 
+      console.log(res.locals);
       res.render("users/profile", user);
     }
 
@@ -123,7 +124,7 @@ router.get("/profile/:id", async (req, res, next) => {
 router.get("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
-  // if user is logged in.
+  // if user0 is logged in.
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
