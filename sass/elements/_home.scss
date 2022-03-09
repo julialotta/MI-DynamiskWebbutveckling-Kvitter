@@ -22,7 +22,6 @@
       @include box-shadow;
     }
     .notMyBorder {
-      // background-color: #5c547054;
       border: 1px solid $purple;
       border-radius: 10px;
       padding: 10px;
@@ -31,7 +30,6 @@
 
       a {
         color: rgb(207, 207, 207);
-        // padding: 10px;
         text-decoration: none;
       }
     }
@@ -46,15 +44,17 @@
     }
     a {
       width: 45%;
+      color: #f4cf39;
     }
-    // button,
+    a:hover {
+      color: $green;
+    }
     input {
       width: 100%;
       border-radius: 5px;
       height: 50px;
       border: 1px solid $purple;
       margin-bottom: 15px;
-      // padding-left: 30px;
       font-family: $p;
       font-size: 12pt;
       background-color: $darkblue;
@@ -63,7 +63,6 @@
       &#btn-style {
         outline: none;
         border: 1px solid $green;
-        // background-color: $green;
         color: $green;
         padding: 0;
         width: 45%;
@@ -92,8 +91,11 @@
 }
 
 a {
-  color: #f4cf39;
-  // padding: 10px;
+  text-decoration: none;
+}
+
+.google {
+  color: $yellow;
   text-decoration: none;
 }
 
@@ -107,7 +109,7 @@ a {
   width: 30%;
   margin-top: 15px;
   background-color: $darkblue;
-  color: #f4cf39;
+  color: $yellow;
   border: 1px solid $purple;
   @include box-shadow;
 
@@ -135,15 +137,16 @@ a {
   border-top: 1px solid $green;
   display: flex;
   justify-content: center;
+  text-align: center;
   color: rgb(131, 131, 131);
   padding-top: 15px;
   margin-top: 20px;
-  p {
+  a {
     transition: color 0.2s ease-in-out;
     font-size: 11pt;
     font-family: $light;
   }
-  p:hover {
+  a:hover {
     cursor: pointer;
     color: $green;
   }

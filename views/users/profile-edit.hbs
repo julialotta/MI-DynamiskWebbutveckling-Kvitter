@@ -2,7 +2,9 @@
 
   <h2>Ändra profil</h2>
 
-  <form action="/users/profile/edit/{{userId}} " method="post">
+  <a href="/users/profile/{{userId}}{{googleId}}">←</a>
+
+  <form action="/users/profile/edit/{{userId}}{{googleId}}" method="post">
     <input
       type="text"
       name="username"
@@ -11,23 +13,7 @@
     />
     <input type="text" name="slogan" placeholder="Slogan" value="{{slogan}}" />
     <input type="submit" value="Save" />
+
   </form>
-  <a href="/users/profile/{{userId}}">←</a>
 
 </div>
-<form action="/users/profile/edit/{{userId}}{{googleId}}" method="post">
-  <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    value="{{username}}{{displayName}}"
-  />
-  <input type="text" name="slogan" placeholder="Slogan" value="{{slogan}}" />
-  <input type="submit" value="Save" />
-
-  <textarea name="" id="" cols="30" rows="10">{{content}}</textarea>
-</form>
-
-<p>
-  <a href="/users/profile/{{userId}}{{googleId}}">Back</a>
-</p>

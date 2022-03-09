@@ -29,6 +29,7 @@
     div {
       :nth-child(2) {
         font-family: $light;
+        color: $yellow;
       }
     }
     p {
@@ -45,12 +46,12 @@
     text-decoration: none;
   }
 
-  .btn-style {
-    border: 1px solid $green;
+  .btn {
     color: $green;
-    padding: 0;
-    width: 45%;
     transition: transform 0.1s ease-in;
+    a:hover {
+      color: $red;
+    }
   }
 
   .sloganContainer {
@@ -70,17 +71,38 @@
     border: $green 0.2px solid;
     border-radius: 5px;
     margin: 20px 0 60px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
     .favorite {
       border: $green 0.2px solid;
       border-radius: 5px;
-      margin: 20px 0 40px 0;
+      margin: 30px;
+      padding: 40px;
 
+      .favoriteDescription {
+        color: $yellow;
+      }
+
+      p {
+        font-family: $light;
+      }
       a {
         font-family: $p;
         color: $green;
         text-decoration: none;
       }
+      a:hover {
+        color: $yellow;
+      }
+    }
+    .add {
+      margin-bottom: 15px;
+    }
+    a:hover {
+      color: $yellow;
     }
   }
 }

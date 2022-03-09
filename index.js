@@ -10,7 +10,6 @@ const passport = require("passport");
 
 const KvitterModel = require("./models/KvitterModel");
 const UsersModel = require("./models/UsersModel");
-
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
 const { ObjectId } = require("mongodb");
@@ -38,9 +37,13 @@ app.engine(
         }
       },
       myPost: (writtenBy, userId) => {
+        // console.log({ writtenBy, userId });
+
         if (writtenBy.toString() == userId) {
+          console.log("hello?");
           return "myBorder";
         } else {
+          console.log("no");
           return "notMyBorder";
         }
       },
@@ -94,8 +97,6 @@ app.get("/", async (req, res) => {
     res.render("home", {
       kvitter,
       users,
-      // userId,
-      // getAuthor,
     });
   }
 });

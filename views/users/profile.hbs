@@ -29,18 +29,23 @@
   </div>
 
   {{error}}
+  {{! Change profile }}
+  <p>
+    <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
+  </p>
 
   {{! Favorites}}
   <div class="favoritesContainer">
-    <p>Favoriter:</p>
+    <h5>Ditt favoritkvitter</h5>
     {{#if favorites}}
       {{#each favorites}}
         <div class="favorite">
 
-          <h5 class="favoriteDescription">
+          <p class="favoriteDescription">
             {{description}}
-          </h5>
+          </p>
           <p>
+            Kvitter:
             {{post.content}}
           </p>
           <p>Kvittrat av:
@@ -51,17 +56,12 @@
           <br />
           <a href="/favorites/delete/{{_id}}">Ta bort</a>
         </div>
-      {{else}}
-        <p>Du har inte valt några favoriter</p>
       {{/each}}
+    {{else}}
+      <p>Du har inte valt några favoriter</p>
     {{/if}}
-    <a href="/favorites/{{userId}}">Lägg till favroriter</a>
+    <a class="add" href="/favorites/{{userId}}">Lägg till favroriter</a>
   </div>
-
-  {{! Change profile }}
-  <p>
-    <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
-  </p>
 
   {{! Log out }}
   <form action="/users/log-out" method="post">
@@ -69,7 +69,5 @@
   </form>
 
   {{! Remove user }}
-  <div class="btn-style">
-    <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
-  </div>
+  <a class="btn" href="/users/delete/{{userId}}">Radera profil</a>
 </div>
