@@ -101,17 +101,26 @@ router.get("/profile/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
   // if user is logged in.
+
   const { token } = req.cookies;
 
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       const user = await UsersModel.findOne({ _id: id });
+      const favoriteKvitter = await UsersModel.findOne({ _id: id })
+        .populate("favorites")
+        .lean();
+      const kvitter = await KvitterModel.find().populate("writtenBy").lean();
 
-      const likedPosts = await LikesModel.find();
-      console.log(likedPosts);
-
-      console.log(res.locals);
-      res.render("users/profile", user);
+      let userFavorites = [];
+      for (let i = 0; i < favoriteKvitter.favorites.length; i++) {
+        userFavorites.push(favoriteKvitter.favorites[i]);
+      }
+      res.render("users/profile", {
+        user,
+        userFavorites,
+        kvitter,
+      });
     }
 
     // if user is not logged in.
@@ -124,7 +133,7 @@ router.get("/profile/:id", async (req, res, next) => {
 router.get("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
-  // if user0 is logged in.
+  // if user is logged in.
   const { token } = req.cookies;
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
@@ -140,24 +149,14 @@ router.get("/profile/edit/:id", async (req, res, next) => {
 // POST, PROFILE/EDIT/:ID \\
 router.post("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
-  const displayName = await UsersModel.find().populate("displayName").lean();
 
-  const user = await UsersModel.findById({ _id: id });
-
-  if (displayName) {
-    user.displayName = req.body.displayName;
-  } else {
-    user.username = req.body.username;
-  }
+  const user = await UsersModel.findById(req.params.id);
+  user.username = req.body.username;
   user.slogan = req.body.slogan;
   if (id) {
-    if (utils.validateUsername(user) || utils.validateDisplayname(user)) {
+    if (utils.validateUsername(user)) {
       await user.save();
-      const userData = {
-        userId: id,
-        username: req.body.username,
-        displayName: req.body.displayName,
-      };
+      const userData = { userId: id, username: req.body.username };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
       res.cookie("token", accessToken);
       res.redirect("/users/profile/" + id);
@@ -176,9 +175,42 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   }
 });
 
+// POST, PROFILE/REMOVE/:ID \\
+router.post("/profile/remove/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  // if user is logged in.
+  const { token } = req.cookies;
+
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    if (id) {
+      await UsersModel.findOne({ _id: id }).deleteOne();
+      await ThirdPartModel.findOne({ _id: id }).deleteOne();
+      res.cookie("token", "", { maxAge: 0 });
+      res.redirect("/");
+    }
+    // if user is not logged in.
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
 /////////// LOG OUT FUNCTIONS /////////
 router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
+  res.redirect("/");
+});
+/////////// LIKE FUNCTIONS /////////
+
+router.get("/:id/like", async (req, res) => {
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
+  const user = await UsersModel.findById(tokenData.userId);
+  user.favorites.push(ObjectId(req.params.id));
+
+  await user.save();
+
   res.redirect("/");
 });
 
@@ -192,13 +224,20 @@ router.get("/forgot", (req, res) => {
 router.get("/delete/:id", async (req, res) => {
   const id = ObjectId(req.params.id); // get user-id from url
 
-  await UsersModel.findById({ _id: id }).deleteOne(id);
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
 
-  await KvitterModel.find({ writtenBy: id }).deleteMany();
+  if (tokenData.userId == id) {
+    await UsersModel.findById({ _id: id }).deleteOne(id);
 
-  res.cookie("token", "", { maxAge: 0 });
+    await KvitterModel.find({ writtenBy: id }).deleteMany();
 
-  res.redirect("/");
+    res.cookie("token", "", { maxAge: 0 });
+
+    res.redirect("/");
+  } else {
+    res.redirect("/unauthorized");
+  }
 });
 
 module.exports = router;
