@@ -38,13 +38,9 @@ app.engine(
         }
       },
       myPost: (writtenBy, userId) => {
-        // console.log({ writtenBy, userId });
-
         if (writtenBy.toString() == userId) {
-          console.log("hello?");
           return "myBorder";
         } else {
-          console.log("no");
           return "notMyBorder";
         }
       },
