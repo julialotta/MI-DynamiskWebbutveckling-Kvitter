@@ -10,8 +10,8 @@
     />
     <select name="postId">
       <option value="" disabled selected>Välj bland allt kvitter</option>
-      {{#each posts}}
-        <option value="{{_id}}">{{content}} - {{writtenBy.username}}</option>
+      {{#each favorites}}
+        <option value="{{_id}}">{{post.content}} - {{user.username}}</option>
       {{/each}}
     </select>
 

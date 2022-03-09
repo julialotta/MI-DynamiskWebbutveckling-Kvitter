@@ -52,6 +52,48 @@ router.post("/add", async (req, res) => {
   }
 });
 
+router.get("/delete/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .lean();
+    //console.log(posts);
+    res.render("users/favorites/delete-favorites", { favorites });
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
+router.post("/delete/:id", async (req, res, next) => {
+  const id = getId(req.params.id, next);
+
+  const { token } = req.cookies;
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+  }
+  if (id) {
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .deleteOne()
+      .lean();
+
+    //console.log(posts);
+    res.redirect("/");
+  } else {
+    res.redirect("/unauthorized");
+  }
+});
+
 // GET EDIT FAVORITE
 router.get("/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
@@ -60,11 +102,14 @@ router.get("/edit/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
   }
   if (id) {
-    const post = await KvitterModel.findById(id).populate("writtenBy").lean();
-
-    const favorites = await FavoritesModel.find().lean();
-
-    res.render("users/edit-favorites", { favorites, post });
+    const favorites = await FavoritesModel.find({
+      user: res.locals.userId,
+    })
+      .populate("user")
+      .populate("post")
+      .lean();
+    //console.log(posts);
+    res.render("users/favorites/edit-favorites", { favorites });
   } else {
     res.redirect("/unauthorized");
   }
