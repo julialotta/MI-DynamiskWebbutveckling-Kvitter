@@ -185,7 +185,6 @@ router.post("/profile/remove/:id", async (req, res, next) => {
   if (token && jwt.verify(token, process.env.JWTSECRET)) {
     if (id) {
       await UsersModel.findOne({ _id: id }).deleteOne();
-      await ThirdPartModel.findOne({ _id: id }).deleteOne();
       res.cookie("token", "", { maxAge: 0 });
       res.redirect("/");
     }

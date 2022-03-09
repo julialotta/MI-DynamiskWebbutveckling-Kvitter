@@ -3,9 +3,6 @@
             <p>Logged in as {{username}}{{displayName}}</p>
             <p>
                 <a href="/users/profile/{{userId}}">Till profil</a>
-                
-               
-             
             </p>
             {{error}}
 
@@ -28,7 +25,7 @@
             
                 <article>
                     <div class="authorContainer">
-                        <p>{{writtenBy.username}}</p>
+                        <p>{{writtenBy.username}}{{writtenBy.displayName}}</p>
                         <p>{{formatDate time}}</p>
                     </div>
                     <div class="profileContentContainer">
