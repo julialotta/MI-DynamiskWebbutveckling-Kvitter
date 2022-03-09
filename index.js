@@ -13,8 +13,6 @@ const UsersModel = require("./models/UsersModel");
 
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
-const likesRouter = require("./routes/likes-routes.js");
-const req = require("express/lib/request");
 const { ObjectId } = require("mongodb");
 const favoritesRouter = require("./routes/favorites-routes.js");
 
