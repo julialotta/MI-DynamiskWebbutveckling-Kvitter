@@ -1,19 +1,11 @@
 <div class="formwrapper">
         {{#if loggedIn}}
-            <p>Logged in as {{username}}{{displayName}}</p>
-            <p>
-                <a href="/users/profile/{{userId}}">Till profil</a>
+            <p>Logged in as
+                <a href="/users/profile/{{userId}}">{{username}}{{displayName}}</a>
             </p>
             {{error}}
 
             <form action="/kvittra" method="post">
-                {{!-- <input
-                    type="text"
-                    name="content"
-                    placeholder="Kvitter your feelings"
-                    id="kvitterInput"
-                /> --}}
-
                 <textarea name="content" cols="30" rows="10" placeholder="Kvitter your feelings..." style="resize: none" id="kvitterInput"></textarea>
 
                 <div class="main-btn-container">
@@ -21,8 +13,7 @@
                 </div>
             </form>
 
-            {{#each kvitter}}
-            
+            {{#each kvitter}}    
                 <article>
                     <div class="authorContainer">
                         <p>{{writtenBy.username}}{{writtenBy.displayName}}</p>
@@ -37,14 +28,11 @@
                     </div>
                     <div class="contentContainer">
                     <p>
-                        {{!-- <a href="/kvittra/read-kvitter/{{_id}}"> --}}
                             {{content}}
-                        {{!-- </a> --}}
                     </div>
                     </div>
                     </p>
-                    {{!-- <p>{{formatDate time}}</p> --}}
-                    {{!-- <p>Kvittrat by: {{writtenBy.username}}</p> --}}
+
                     <div class="logosContainer">
                         <a href="/like/{{_id}}"><i
                             class="bi bi-suit-heart"

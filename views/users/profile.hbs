@@ -17,7 +17,7 @@
   </div>
 
   {{! Slogan }}
-  <div class="slogan">
+  <div class="sloganContainer">
     <p>Slogan:</p>
     {{#if user.slogan}}
       <p> {{user.slogan}} </p>
@@ -31,7 +31,7 @@
   {{error}}
 
   {{! Favorites}}
-  <div class="allFavorites">
+  <div class="favoritesContainer">
     <p>Favoriter:</p>
     {{#if favorites}}
       {{#each favorites}}
@@ -67,5 +67,7 @@
   </form>
 
   {{! Remove user }}
-  <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
+  <div class="btn-style">
+    <a href="/users/delete/{{userId}}">RADERA PROFIL</a>
+  </div>
 </div>

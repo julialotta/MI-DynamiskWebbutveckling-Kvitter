@@ -13,9 +13,7 @@ const UsersModel = require("./models/UsersModel");
 
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
-const likesRouter = require("./routes/likes-routes.js");
 const favoritesRouter = require("./routes/favorites-routes.js");
-//const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
 
@@ -70,7 +68,6 @@ app.get("/", async (req, res) => {
 //Routers
 app.use("/kvittra", kvittraRouter);
 app.use("/users", usersRouter);
-app.use("/like", likesRouter);
 app.use("/favorites", favoritesRouter);
 
 //Thirdpart Login

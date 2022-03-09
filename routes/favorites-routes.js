@@ -10,13 +10,11 @@ const { ObjectId } = require("mongodb");
 // ID FUNCTION \\
 function getId(id, next) {
   let parsedid = undefined;
-
   try {
     parsedid = ObjectId(id);
   } catch {
     next();
   }
-
   return parsedid;
 }
 

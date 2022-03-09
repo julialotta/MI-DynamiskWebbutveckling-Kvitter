@@ -7,6 +7,7 @@ body {
   margin-bottom: 200px;
   display: flex;
   justify-content: center;
+
   .formwrapper {
     width: 80%;
     padding: 10px;
@@ -14,7 +15,6 @@ body {
       width: 50%;
     }
     article {
-      // background-color: #5c547054;
       border: 1px solid $purple;
       border-radius: 10px;
       padding: 10px;
@@ -24,13 +24,7 @@ body {
         rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
       a {
         color: rgb(207, 207, 207);
-        // padding: 10px;
         text-decoration: none;
-      }
-      p {
-        // color: white;
-        // padding: 10px;
-        // margin-top: -5px;
       }
     }
     @include for-desktop-up {
@@ -44,6 +38,11 @@ body {
     }
     a {
       width: 45%;
+      color: $green;
+      text-decoration: none;
+    }
+    a:hover {
+      color: red;
     }
     // button,
     input {
@@ -61,7 +60,6 @@ body {
       &#btn-style {
         outline: none;
         border: 1px solid $green;
-        // background-color: $green;
         color: $green;
         padding: 0;
         width: 45%;
@@ -228,30 +226,30 @@ article {
 }
 
 #edit-input {
-    overflow-wrap: break-word;
-    height: 200px;
+  overflow-wrap: break-word;
+  height: 200px;
 }
 
 .error-title {
-    color: $red;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 1px solid $red;
-    padding-bottom: 15px;
+  color: $red;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid $red;
+  padding-bottom: 15px;
 }
 
 .hoppsan {
-    color: $green;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 1px solid $green;
-    padding-bottom: 15px;
+  color: $green;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid $green;
+  padding-bottom: 15px;
 }
 
 .backContainer {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 .bi.bi-arrow-return-left {
-    font-size: 25pt;
-    color: $green;
+  font-size: 25pt;
+  color: $green;
 }

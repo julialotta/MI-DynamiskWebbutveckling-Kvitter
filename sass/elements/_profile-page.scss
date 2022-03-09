@@ -1,5 +1,7 @@
 .profilepage {
   color: white;
+  width: 60%;
+
   input {
     width: 100%;
     border-radius: 5px;
@@ -43,19 +45,31 @@
     text-decoration: none;
   }
 
-  .slogan {
+  .btn-style {
+    border: 1px solid $green;
+    color: $green;
+    padding: 0;
+    width: 45%;
+    transition: transform 0.1s ease-in;
+  }
+
+  .sloganContainer {
     border: $green 0.2px solid;
     border-radius: 5px;
-    margin: 20px 0 40px 0;
+    margin: 20px 0 60px 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     :nth-child(2) {
       font-family: $light;
     }
   }
-  .allFavorites {
+  .favoritesContainer {
     border: $green 0.2px solid;
     border-radius: 5px;
-    margin: 20px 0 40px 0;
+    margin: 20px 0 60px 0;
 
     .favorite {
       border: $green 0.2px solid;
