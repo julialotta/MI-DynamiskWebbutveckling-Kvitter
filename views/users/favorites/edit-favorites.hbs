@@ -1,20 +1,20 @@
 {{! Favorites}}
 <div>
   <h5>Ändra favorit och beskrivning</h5>
-  <form action="/favorites/add" method="post">
+  <form action="/favorites/edit/{{userId}}" method="post">
     <input
       type="text"
       name="description"
-      value="{{description}}"
+      value="{{favorites.description}}"
       placeholder="Berätta om varför du gillar det här"
     />
     <select name="postId">
-      <option value="" disabled selected>Välj bland allt kvitter</option>
-      {{#each favorites}}
-        <option value="{{_id}}">{{post.content}} - {{user.username}}</option>
+      <option value="" disabled selected>{{favorites.post.content}}</option>
+      {{#each posts}}
+        <option value="{{_id}}">{{content}}</option>
       {{/each}}
     </select>
 
-    <input type="submit" value="Spara" />
+    <input type="submit" value="Redigera" />
   </form>
 </div>
