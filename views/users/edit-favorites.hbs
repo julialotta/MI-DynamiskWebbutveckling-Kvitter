@@ -1,52 +1,13 @@
-<h2>Edit Kvitter Post</h2>
-{{error}}
-<form action="/kvittra/edit/{{_id}}" method="post">
-  <label for="content">Task Description:</label>
-  <input
-    type="text"
-    name="content"
-    placeholder="Kvittra your feelings"
-    value="{{content}}"
-  />
-  <input type="submit" value="Edit kveet" />
-</form>
-
-<div class="profilepage">
-  <p>
-    <a href="/users/profile/{{userId}}">←</a>
-  </p>
-
-  <h2>Ditt favoritkvitter</h2>
-
-  {{! Profilbild }}
-  <div class="user">
-    <img src="/assets/profile-pitcure.png" alt="Profilbild" />
-
-    {{! Namn }}
-    <div>
-      <p>Användare:</p>
-      <p> {{username}} </p>
-    </div>
-  </div>
-
-  {{error}}
-
-  <div>
-    {{#each favorites}}
-      {{content}}
-      {{favorites.content}}
-    {{/each}}
-  </div>
-
-  {{! Favorites}}
-  <h5>Lägg till ytterligare favoriter</h5>
+{{! Favorites}}
+<div>
+  <h5>Ändra favorit och beskrivning</h5>
   <form action="/favorites/add" method="post">
     <input
       type="text"
       name="description"
+      value="{{description}}"
       placeholder="Berätta om varför du gillar det här"
     />
-
     <select name="postId">
       <option value="" disabled selected>Välj bland allt kvitter</option>
       {{#each posts}}
@@ -56,5 +17,4 @@
 
     <input type="submit" value="Spara" />
   </form>
-
 </div>
