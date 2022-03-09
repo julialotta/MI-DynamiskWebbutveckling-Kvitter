@@ -141,11 +141,16 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
   const user = await UsersModel.findById(req.params.id);
   user.username = req.body.username;
+  user.displayName = req.body.displayName;
   user.slogan = req.body.slogan;
   if (id) {
     if (utils.validateUsername(user)) {
       await user.save();
-      const userData = { userId: id, username: req.body.username };
+      const userData = {
+        userId: id,
+        username: req.body.username,
+        displayName: req.body.displayName,
+      };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
       res.cookie("token", accessToken);
       res.redirect("/users/profile/" + id);
