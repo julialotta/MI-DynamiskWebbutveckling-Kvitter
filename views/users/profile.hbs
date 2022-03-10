@@ -1,75 +1,76 @@
 <div class="profilepage">
-  <p>
-    <a href="/">←</a>
-  </p>
+    <p>
+        <a href="/" class="arrowBack">←</a>
+    </p>
 
-  <h2>Din profil</h2>
+    <h2>Din profil</h2>
 
-  {{! Profilbild }}
-  <div class="user">
-    <img src="/assets/profile-pitcure.png" alt="Profilbild" />
+    {{! Profilbild }}
+    <div class="user">
+        <img src="/assets/profile-pitcure.png" alt="Profilbild" />
 
-    {{! Namn }}
-    <div>
-      <p>Användare:</p>
-      <p> {{username}} {{displayName}}</p>
-    </div>
-  </div>
-
-  {{! Slogan }}
-  <div class="sloganContainer">
-    <p>Slogan:</p>
-    {{#if user.slogan}}
-      <p> {{user.slogan}} </p>
-    {{else}}
-      <p>Du har ingen slogan, klicka
-        <a href="/users/profile/edit/{{userId}}">här</a>
-        för att lägga till</p>
-    {{/if}}
-  </div>
-
-  <p class="error">
-    {{error}}
-  </p>
-  {{! Change profile }}
-  <p>
-    <a href="/users/profile/edit/{{userId}}">Ändra profil</a>
-  </p>
-
-  {{! Favorites}}
-  <div class="favoritesContainer">
-    <h5>Ditt favoritkvitter</h5>
-    {{#if favorites}}
-      {{#each favorites}}
-        <div class="favorite">
-
-          <p class="favoriteDescription">
-            {{description}}
-          </p>
-          <p>
-            Kvitter:
-            {{post.content}}
-          </p>
-          <p>Kvittrat av:
-            {{user.username}}
-            {{user.displayName}}
-          </p>
-          <a href="/favorites/edit/{{_id}}">Redigera</a>
-          <br />
-          <a href="/favorites/delete/{{_id}}">Ta bort</a>
+        {{! Namn }}
+        <div>
+            <p>Användare:</p>
+            <p> {{username}} {{displayName}}</p>
         </div>
-      {{/each}}
-    {{else}}
-      <p>Du har inte valt några favoriter</p>
-    {{/if}}
-    <a class="add" href="/favorites/{{userId}}">Lägg till favroriter</a>
-  </div>
+    </div>
 
-  {{! Log out }}
-  <form action="/users/log-out" method="post">
-    <input id="btn-style" type="submit" value="Logga ut " />
-  </form>
+    {{! Slogan }}
+    <div class="sloganContainer">
+        <p>Slogan:</p>
+        {{#if user.slogan}}
+            <p> {{user.slogan}} </p>
+        {{else}}
+            <p>Du har ingen slogan, klicka
+                <a href="/users/profile/edit/{{userId}}">här</a>
+                för att lägga till</p>
+        {{/if}}
+    </div>
 
-  {{! Remove user }}
-  <a class="btn" href="/users/delete/{{userId}}">Radera profil</a>
+    <p class="error">
+        {{error}}
+    </p>
+    {{! Change profile }}
+    <p>
+        <a href="/users/profile/edit/{{userId}}" class="edit-ur-profile">Ändra
+            profil</a>
+    </p>
+
+    {{! Favorites}}
+    <div class="favoritesContainer">
+        <h5>Ditt favoritkvitter</h5>
+        {{#if favorites}}
+            {{#each favorites}}
+                <div class="favorite">
+
+                    <p class="favoriteDescription">
+                        {{description}}
+                    </p>
+                    <p>
+                        Kvitter:
+                        {{post.content}}
+                    </p>
+                    <p>Kvittrat av:
+                        {{user.username}}
+                        {{user.displayName}}
+                    </p>
+                    <a href="/favorites/edit/{{_id}}">Redigera</a>
+                    <br />
+                    <a href="/favorites/delete/{{_id}}">Ta bort</a>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>Du har inte valt några favoriter</p>
+        {{/if}}
+        <a class="add" href="/favorites/{{userId}}">Lägg till favroriter</a>
+    </div>
+
+    {{! Log out }}
+    <form action="/users/log-out" method="post">
+        <input id="btn-style" type="submit" value="Logga ut " />
+    </form>
+
+    {{! Remove user }}
+    <a class="btn" href="/users/delete/{{userId}}">Radera profil</a>
 </div>

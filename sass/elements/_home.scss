@@ -99,6 +99,9 @@ a {
 .google {
     color: $yellow;
     text-decoration: none;
+    &:hover {
+        color: $green;
+    }
 }
 
 .main-btn-container {

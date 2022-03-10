@@ -1,108 +1,118 @@
 .profilepage {
-  color: white;
-  width: 60%;
+    color: white;
+    width: 35%;
 
-  input {
-    width: 100%;
-    border-radius: 5px;
-    height: 50px;
-    border: 1px solid $purple;
-    margin-bottom: 15px;
-    font-family: $p;
-    font-size: 12pt;
-    background-color: $darkblue;
-    color: $green;
-  }
-  #btn-style:hover,
-  .register-btn:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-  }
-
-  ::placeholder {
-    color: $green;
-  }
-  .user {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    div {
-      :nth-child(2) {
-        font-family: $light;
-        color: $yellow;
-      }
+    h2 {
+        color: rgb(214 214 214);
     }
-    p {
-      padding-left: 30px;
-    }
-    img {
-      width: 70px;
-      height: 70px;
-    }
-  }
 
-  a {
-    color: $green;
-    text-decoration: none;
-  }
-
-  .btn {
-    color: $green;
-    transition: transform 0.1s ease-in;
-    a:hover {
-      color: $red;
-    }
-  }
-
-  .sloganContainer {
-    border: $green 0.2px solid;
-    border-radius: 5px;
-    margin: 20px 0 60px 0;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    :nth-child(2) {
-      font-family: $light;
-    }
-  }
-  .favoritesContainer {
-    border: $green 0.2px solid;
-    border-radius: 5px;
-    margin: 20px 0 60px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    .favorite {
-      border: $green 0.2px solid;
-      border-radius: 5px;
-      margin: 30px;
-      padding: 40px;
-
-      .favoriteDescription {
-        color: $yellow;
-      }
-
-      p {
-        font-family: $light;
-      }
-      a {
+    input {
+        width: 100%;
+        // border-radius: 5px;
+        height: 50px;
+        border: 1px solid $purple;
+        margin-bottom: 15px;
         font-family: $p;
+        font-size: 12pt;
+        background-color: $darkblue;
+        color: $green;
+        @include box-shadow;
+    }
+    #btn-style:hover,
+    .register-btn:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+
+    ::placeholder {
+        color: $green;
+    }
+    .user {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        div {
+            :nth-child(2) {
+                font-family: $light;
+                color: $yellow;
+            }
+        }
+        p {
+            padding-left: 30px;
+        }
+        img {
+            width: 70px;
+            height: 70px;
+        }
+    }
+
+    a {
         color: $green;
         text-decoration: none;
-      }
-      a:hover {
-        color: $yellow;
-      }
     }
-    .add {
-      margin-bottom: 15px;
+
+    .arrowBack {
+        font-size: 20pt;
     }
-    a:hover {
-      color: $yellow;
+
+    .btn {
+        color: $red;
+        transition: transform 0.1s ease-in;
+        a:hover {
+            color: $red;
+        }
     }
-  }
+
+    .sloganContainer {
+        border: $purple 0.2px solid;
+
+        margin: 20px 0 60px 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        @include box-shadow;
+
+        :nth-child(2) {
+            font-family: $light;
+        }
+    }
+    .favoritesContainer {
+        border: $purple 0.2px solid;
+        margin: 20px 0 60px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        @include box-shadow;
+
+        .favorite {
+            border: $green 0.2px solid;
+            border-radius: 5px;
+            margin: 30px;
+            padding: 40px;
+
+            .favoriteDescription {
+                color: $yellow;
+            }
+
+            p {
+                font-family: $light;
+            }
+            a {
+                font-family: $p;
+                color: $green;
+                text-decoration: none;
+            }
+            a:hover {
+                color: $yellow;
+            }
+        }
+        .add {
+            margin-bottom: 15px;
+        }
+        a:hover {
+            color: $yellow;
+        }
+    }
 }
