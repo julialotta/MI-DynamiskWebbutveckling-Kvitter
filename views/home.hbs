@@ -19,44 +19,48 @@
 
             {{#each kvitter}}
             
-                <article class="{{myPost writtenBy._id ../userId}}">
-                    <div class="authorContainer">
-                        <p>{{writtenBy.username}}{{writtenBy.displayName}}</p>
-                        <p>{{formatDate time}}</p>
-                    </div>
-                    <div class="profileContentContainer">
-                    <div class="profilePicContainer">
-                        <img
+                <div class="awrapper">
+                        <div class="aprofilewrapper">
+                            <img
                             src="/assets/profile-pitcure.png"
                             alt="profile pic"
                         />
-                    </div>
-                    <div class="contentContainer">
-                    <p>
-                            {{content}}
-                       
-                    </div>
-                    <div class="logosContainer">
-                        <div class="{{iconFunction writtenBy._id ../userId}}">
-                        <a href="kvittra/{{_id}}/edit">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <a href="kvittra/{{_id}}/delete">
-                            <i class="bi bi-trash3"></i>
-                        </a>
                         </div>
-                    </div>
-                    </p>
+                            <div class="authorwrapper">
+                                <div class="someWrapper">
+                                <div class="userAndDate">
+                                    <span >@{{writtenBy.username}}{{writtenBy.displayName}}</span>
+                                    <span class="atimewrapper">{{formatDate time}}</span>
+                                </div>
+                                <div class="dotscontainer">
+                                    <i class="bi bi-three-dots"></i>
+                                </div>
+                                </div>
+                                <div class="acontentwrapper">
+                                    {{content}}
+                                </div>
+                                    <div class="{{iconFunction writtenBy._id ../userId}}">
+                                        <a href="/kvittra/{{_id}}/edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a href="kvittra/{{_id}}/delete">
+                                        <i class="bi bi-trash3"></i>
+                                        </a>
+                                    </div>
+                            </div>
+
+                                
+                            
                         
                     </div>
-                </article>
+
+ 
+
+
+
             {{/each}}
-
-            <form action="/users/log-out" method="post">
-                <input type="submit" value="Logga ut" />
-            </form>
-
         {{else}}
+
         <a href="/google">Login with Google</a>
             <form action="/users/login" method="post" autocomplete="off">
                 <input
@@ -80,6 +84,7 @@
                 <input type="submit" value="Login" id="btn-style" />
             </form>
                     <div class="textwrapper"><a href="/users/forgot">Forgot your password?</a></div>
+                
         {{/if}}
 
     </div>
