@@ -3,7 +3,7 @@
 }
 
 .mainwrapper {
-    margin-top: 100px;
+    margin-top: 70px;
     margin-bottom: 200px;
     display: flex;
     justify-content: center;
@@ -40,7 +40,7 @@
             }
         }
         @include for-desktop-up {
-            width: 40%;
+            width: 38%;
         }
         form {
             display: flex;
@@ -94,6 +94,7 @@
 
 a {
     text-decoration: none;
+    color: rgb(207, 207, 207);
 }
 
 .google {
@@ -376,7 +377,9 @@ article {
     // width: 70%;
     // height: 20px;
     font-family: $light;
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-left: 2px;
+    margin-bottom: 20px;
     width: 100%;
 }
 
@@ -385,7 +388,7 @@ article {
     justify-content: flex-start;
     gap: 20px;
     width: 100%;
-    margin-top: 20px;
+    // margin-top: 20px;
 }
 
 .somewrapper {
@@ -401,4 +404,14 @@ article {
 
 .bi.bi-three-dots {
     font-size: 13pt;
+}
+
+.a-btn-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#a-register-btn {
+    width: 100%;
 }
