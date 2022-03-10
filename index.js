@@ -84,7 +84,10 @@ app.use((req, res, next) => {
 
 // GET homepage (if loggedIn)
 app.get("/", async (req, res) => {
-    const kvitter = await KvitterModel.find().populate("writtenBy").lean();
+    const kvitter = await KvitterModel.find()
+        .populate("writtenBy")
+        .sort([["time", "desc"]])
+        .lean();
     const users = await UsersModel.find().lean();
 
     const { token } = req.cookies;
