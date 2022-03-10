@@ -61,7 +61,7 @@
             {{/each}}
         {{else}}
 
-        <a href="/google">Login with Google</a>
+        <a href="/google" id="google">Login with Google</a>
             <form action="/users/login" method="post" autocomplete="off">
                 <input
                     type="text"
@@ -77,17 +77,20 @@
                     placeholder="Password"
                 />
                 <br />
-                <div class="a-btn-wrapper">
+                <div class="loginButtonContainer">
+
                 <a href="/users/register-user"><button
                         class="register-btn"
                         type="button"
-                        id="a-register-btn"
+                        id="btn-style"
                     >Register</button></a>
-                <input type="submit" value="Login" id="btn-style"/>
+                <input type="submit" value="Login" id="btn-style" />
                 </div>
+    
             </form>
                     <div class="textwrapper"><a href="/users/forgot">Forgot your password?</a></div>
                 
         {{/if}}
 
     </div>
+

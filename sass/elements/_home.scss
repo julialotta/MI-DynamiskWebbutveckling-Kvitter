@@ -3,7 +3,7 @@
 }
 
 .mainwrapper {
-    margin-top: 70px;
+    margin-top: 100px;
     margin-bottom: 200px;
     display: flex;
     justify-content: center;
@@ -13,6 +13,7 @@
         @include for-phone-landscape-up {
             width: 80%;
         }
+
         .myBorder {
             // border: 1px solid rgba(138, 220, 247, 0.822);
             // border: 1px solid $green;
@@ -40,7 +41,7 @@
             }
         }
         @include for-desktop-up {
-            width: 38%;
+            width: 40%;
         }
         form {
             display: flex;
@@ -67,7 +68,7 @@
                 border: 1px solid $green;
                 color: $green;
                 padding: 0;
-                width: 45%;
+                width: 49%;
                 transition: transform 0.1s ease-in;
             }
             &:focus {
@@ -82,7 +83,7 @@
 #register-submit,
 .register-btn {
     background-color: $green;
-    width: 100%;
+    width: 49%;
     height: 50px;
     // border-radius: 5px;
     border: none;
@@ -93,11 +94,6 @@
 }
 
 a {
-    text-decoration: none;
-    color: rgb(207, 207, 207);
-}
-
-.google {
     color: $yellow;
     text-decoration: none;
     &:hover {
@@ -128,6 +124,10 @@ a {
     }
 }
 
+#google {
+    margin-bottom: 10px;
+}
+
 #register-submit {
     padding: 0;
 }
@@ -141,6 +141,11 @@ a {
 
 ::placeholder {
     color: $gray;
+}
+
+.loginButtonContainer {
+    // display: flex;
+    width: 100%;
 }
 
 .textwrapper {
@@ -377,9 +382,7 @@ article {
     // width: 70%;
     // height: 20px;
     font-family: $light;
-    margin-top: 5px;
-    margin-left: 2px;
-    margin-bottom: 20px;
+    margin-top: 10px;
     width: 100%;
 }
 
@@ -388,7 +391,7 @@ article {
     justify-content: flex-start;
     gap: 20px;
     width: 100%;
-    // margin-top: 20px;
+    margin-top: 20px;
 }
 
 .somewrapper {
@@ -410,8 +413,4 @@ article {
     width: 100%;
     display: flex;
     justify-content: space-between;
-}
-
-#a-register-btn {
-    width: 100%;
 }
