@@ -1,16 +1,19 @@
-<h2>Ändra profil</h2>
+<div class="formwrapper">
 
-<form action="/users/profile/edit/{{userId}} " method="post">
-  <input
-    type="text"
-    name="username"
-    placeholder="Username"
-    value="{{username}}{{displayName}}"
-  />
-  <input type="text" name="slogan" placeholder="Slogan" value="{{slogan}}" />
-  <input type="submit" value="Save" />
-</form>
+  <h2>Ändra profil</h2>
 
-<p>
-  <a href="/users/profile/{{userId}}">Back</a>
-</p>
+  <a href="/users/profile/{{userId}}{{googleId}}">←</a>
+
+  <form action="/users/profile/edit/{{userId}}{{googleId}}" method="post">
+    <input
+      type="text"
+      name="username"
+      placeholder="Username"
+      value="{{username}}{{displayName}}"
+    />
+    <input type="text" name="slogan" placeholder="Slogan" value="{{slogan}}" />
+    <input type="submit" value="Save" />
+
+  </form>
+
+</div>

@@ -1,5 +1,5 @@
-body {
-  color: white;
+#login-input {
+  padding-left: 30px;
 }
 
 .mainwrapper {
@@ -11,30 +11,30 @@ body {
     width: 80%;
     padding: 10px;
     @include for-phone-landscape-up {
-      width: 50%;
+      width: 80%;
     }
-    article {
-      // background-color: #5c547054;
+    .myBorder {
+      border: 1px solid $green;
+      border-radius: 10px;
+      padding: 10px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      @include box-shadow;
+    }
+    .notMyBorder {
       border: 1px solid $purple;
       border-radius: 10px;
       padding: 10px;
       margin-bottom: 20px;
-      box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
-        rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-        rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      @include box-shadow;
+
       a {
         color: rgb(207, 207, 207);
-        // padding: 10px;
         text-decoration: none;
-      }
-      p {
-        // color: white;
-        // padding: 10px;
-        // margin-top: -5px;
       }
     }
     @include for-desktop-up {
-      width: 40%;
+      width: 50%;
     }
     form {
       display: flex;
@@ -44,15 +44,17 @@ body {
     }
     a {
       width: 45%;
+      color: #f4cf39;
     }
-    // button,
+    a:hover {
+      color: $green;
+    }
     input {
       width: 100%;
       border-radius: 5px;
       height: 50px;
       border: 1px solid $purple;
       margin-bottom: 15px;
-      padding-left: 30px;
       font-family: $p;
       font-size: 12pt;
       background-color: $darkblue;
@@ -61,7 +63,6 @@ body {
       &#btn-style {
         outline: none;
         border: 1px solid $green;
-        // background-color: $green;
         color: $green;
         padding: 0;
         width: 45%;
@@ -89,6 +90,15 @@ body {
   transition: transform 0.1s ease-in;
 }
 
+a {
+  text-decoration: none;
+}
+
+.google {
+  color: $yellow;
+  text-decoration: none;
+}
+
 .main-btn-container {
   width: 100%;
   display: flex;
@@ -99,7 +109,7 @@ body {
   width: 30%;
   margin-top: 15px;
   background-color: $darkblue;
-  color: $green;
+  color: $yellow;
   border: 1px solid $purple;
   @include box-shadow;
 
@@ -127,15 +137,16 @@ body {
   border-top: 1px solid $green;
   display: flex;
   justify-content: center;
+  text-align: center;
   color: rgb(131, 131, 131);
   padding-top: 15px;
   margin-top: 20px;
-  p {
+  a {
     transition: color 0.2s ease-in-out;
     font-size: 11pt;
     font-family: $light;
   }
-  p:hover {
+  a:hover {
     cursor: pointer;
     color: $green;
   }
@@ -171,7 +182,9 @@ article {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
+  align-items: center;
+  margin-top: 20px;
+  padding-bottom: 20px;
   // border-bottom: 1px solid $green;
 }
 
@@ -192,19 +205,31 @@ article {
   margin-left: 15px;
   display: flex;
   align-items: center;
-  width: 18%;
+  min-width: 10%;
+  max-width: 10%;
 }
 
 .contentContainer {
-  width: 80%;
-  margin-right: 15px;
-  margin-left: 15px;
+  display: flex;
+  align-items: center;
+  min-width: 60%;
+  // min-width: 70%;
+  // margin-right: 5px;
+  margin-left: 30px;
+  p {
+    color: rgb(207, 207, 207);
+  }
 }
 
 .logosContainer {
-  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  min-width: 20%;
+  max-width: 20%;
+  // max-width: 20%;
   margin-top: 25px;
-  margin-left: 10px;
+  margin-left: -20px;
   margin-bottom: 10px;
 }
 
@@ -228,30 +253,42 @@ article {
 }
 
 #edit-input {
-    overflow-wrap: break-word;
-    height: 200px;
+  overflow-wrap: break-word;
+  height: 200px;
 }
 
 .error-title {
-    color: $red;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 1px solid $red;
-    padding-bottom: 15px;
+  color: $red;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid $red;
+  padding-bottom: 15px;
 }
 
 .hoppsan {
-    color: $green;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 1px solid $green;
-    padding-bottom: 15px;
+  color: $green;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid $green;
+  padding-bottom: 15px;
 }
 
 .backContainer {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 .bi.bi-arrow-return-left {
-    font-size: 25pt;
-    color: $green;
+  font-size: 25pt;
+  color: $green;
+}
+
+.hideIcons {
+  display: none;
+}
+
+#kvitterinput::-webkit-scrollbar {
+  display: none;
+}
+
+.error {
+  color: $red;
 }

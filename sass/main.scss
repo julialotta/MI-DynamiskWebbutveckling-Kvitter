@@ -8,14 +8,13 @@
 @import "./elements/navbar.scss";
 
 body {
-    background-color: $darkblue;
-
-    margin: 0;
-    padding: 0;
-    font-family: $p;
-    color: white;
+  background-color: $darkblue;
+  margin: 0;
+  padding: 0;
+  font-family: $p;
+  color: white;
 }
 
 html  {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }

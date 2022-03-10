@@ -1,23 +1,18 @@
-{{error}}
+<p class="error">
+  {{error}}
+</p>
 
 <div class="formwrapper">
-    <form action="/kvittra/{{_id}}/edit" method="post" class="">
-        {{! <label for="content">Task Description:</label> }}
-        {{!-- <textarea
-            name="content"
-            cols="30"
-            rows="10"
-            placeholder="Kvitter your feelings..."
-            style="resize: none"
-            id="kvitterInput"
-            value="{{content}}"
-        ></textarea> --}}
-        <input
-            type="text"
-            name="content"
-            placeholder="Kvittra your feelings"
-            value="{{content}}"
-        />
-        <input type="submit" value="Redigera" />
-    </form>
+  <form action="/kvittra/{{_id}}/edit" method="post" class="">
+    {{! <label for="content">Task Description:</label> }}
+    <textarea
+      name="content"
+      cols="30"
+      rows="10"
+      placeholder="Kvitter your feelings..."
+      style="resize: none"
+      id="kvitterInput"
+    >{{content}}</textarea>
+    <input type="submit" value="Redigera" />
+  </form>
 </div>

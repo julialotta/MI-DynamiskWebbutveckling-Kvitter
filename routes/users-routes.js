@@ -7,11 +7,9 @@ const router = express.Router();
 
 const jwt = require("jsonwebtoken");
 const utils = require("../utils.js");
-const passport = require("passport");
 const UsersModel = require("../models/UsersModel.js");
 const KvitterModel = require("../models/KvitterModel.js");
 const { ObjectId } = require("mongodb");
-const LikesModel = require("../models/LikesModel.js");
 const FavoritesModel = require("../models/FavoritesModel.js");
 
 // Id function \\
@@ -23,7 +21,6 @@ function getId(id, next) {
   } catch {
     next();
   }
-
   return parsedid;
 }
 
@@ -111,7 +108,6 @@ router.get("/profile/:id", async (req, res, next) => {
         .populate("user")
         .populate("post")
         .lean();
-      console.log(favorites);
 
       res.render("users/profile", { user, favorites });
     }
@@ -141,11 +137,16 @@ router.post("/profile/edit/:id", async (req, res, next) => {
 
   const user = await UsersModel.findById(req.params.id);
   user.username = req.body.username;
+  user.displayName = req.body.displayName;
   user.slogan = req.body.slogan;
   if (id) {
     if (utils.validateUsername(user)) {
       await user.save();
-      const userData = { userId: id, username: req.body.username };
+      const userData = {
+        userId: id,
+        username: req.body.username,
+        displayName: req.body.displayName,
+      };
       const accessToken = jwt.sign(userData, process.env.JWTSECRET);
       res.cookie("token", accessToken);
       res.redirect("/users/profile/" + id);
@@ -188,8 +189,8 @@ router.post("/log-out", (req, res) => {
   res.cookie("token", "", { maxAge: 0 });
   res.redirect("/");
 });
-/////////// LIKE FUNCTIONS /////////
 
+/////////// LIKE FUNCTIONS /////////
 router.get("/:id/like", async (req, res) => {
   const { token } = req.cookies;
   const tokenData = jwt.decode(token, process.env.JWTSECRET);

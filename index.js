@@ -10,12 +10,10 @@ const passport = require("passport");
 
 const KvitterModel = require("./models/KvitterModel");
 const UsersModel = require("./models/UsersModel");
-
 const usersRouter = require("./routes/users-routes.js");
 const kvittraRouter = require("./routes/kvittra-routes.js");
-const likesRouter = require("./routes/likes-routes.js");
+const { ObjectId } = require("mongodb");
 const favoritesRouter = require("./routes/favorites-routes.js");
-//const thirdpartRouter = require("./routes/thirdPart-routes.js");
 
 const app = express();
 
@@ -28,6 +26,20 @@ app.engine(
       formatDate: (time) => {
         const date = new Date(time);
         return date.toLocaleDateString() + " - " + date.toLocaleTimeString();
+      },
+      iconFunction: (writtenBy, userId) => {
+        if (writtenBy.toString() == userId) {
+          return "showIcons";
+        } else {
+          return "hideIcons";
+        }
+      },
+      myPost: (writtenBy, userId) => {
+        if (writtenBy.toString() == userId) {
+          return "myBorder";
+        } else {
+          return "notMyBorder";
+        }
       },
     },
   })
@@ -60,17 +72,32 @@ app.use((req, res, next) => {
 app.get("/", async (req, res) => {
   const kvitter = await KvitterModel.find().populate("writtenBy").lean();
   const users = await UsersModel.find().lean();
-  // console.log(users);
-  res.render("home", {
-    kvitter,
-    users,
-  });
+
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
+
+  if (tokenData) {
+    const userId = tokenData.userId;
+    const getPosts = await KvitterModel.find();
+    const getAuthor = getPosts.writtenBy;
+
+    res.render("home", {
+      kvitter,
+      users,
+      userId,
+      getAuthor,
+    });
+  } else {
+    res.render("home", {
+      kvitter,
+      users,
+    });
+  }
 });
 
 //Routers
 app.use("/kvittra", kvittraRouter);
 app.use("/users", usersRouter);
-app.use("/like", likesRouter);
 app.use("/favorites", favoritesRouter);
 
 //Thirdpart Login
@@ -106,7 +133,6 @@ app.get(
   }
 );
 
-// Error page unauthorized
 app.use("/unauthorized", (req, res) => {
   res.status(403).render("errors/unauthorized");
 });
