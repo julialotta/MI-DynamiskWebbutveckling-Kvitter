@@ -136,6 +136,7 @@ router.post("/profile/edit/:id", async (req, res, next) => {
   const id = getId(req.params.id, next);
 
   const user = await UsersModel.findById(req.params.id);
+
   user.username = req.body.username;
   user.displayName = req.body.displayName;
   user.slogan = req.body.slogan;

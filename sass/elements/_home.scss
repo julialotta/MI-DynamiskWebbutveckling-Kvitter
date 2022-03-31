@@ -13,6 +13,7 @@
     @include for-phone-landscape-up {
       width: 80%;
     }
+
     .myBorder {
       border: 1px solid rgb(211, 211, 211);
       border-radius: 10px;
@@ -83,10 +84,6 @@
 }
 
 a {
-  text-decoration: none;
-}
-
-.google {
   color: $yellow;
   text-decoration: none;
   &:hover {
@@ -111,6 +108,10 @@ a {
   &:hover {
     cursor: pointer;
   }
+}
+
+#google {
+  margin-bottom: 10px;
 }
 
 #register-submit {
@@ -316,6 +317,7 @@ article {
   margin-bottom: 20px;
   .aprofilewrapper {
     width: 15%;
+
     img {
       width: 80%;
     }
@@ -369,4 +371,10 @@ article {
 
 .bi.bi-three-dots {
   font-size: 13pt;
+}
+
+.a-btn-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
