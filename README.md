@@ -1,7 +1,7 @@
 # MI-DynamiskWebbutveckling-Kvitter
 A simplified Twitter-clone called Kvitter! Group assignment in Dynamic Web Development class att Medieinstitutet.
 
-<img src="./screenshot1.png" alt="screenshot" style="width:300px;"/> <img src="./screenshot2.png" alt="screenshot" style="width:300px;"/> <img src="./screenshot3.png" alt="screenshot" style="width:300px;"/>
+<img src="./screenshot1.png" alt="screenshot" style="height:300px;"/> <img src="./screenshot2.png" alt="screenshot" style="height:300px;"/> <img src="./screenshot3.png" alt="screenshot" style="height:300px;"/>
 
 ## Installation
 1. Clone the repo\
