@@ -18,35 +18,31 @@ const favoritesRouter = require("./routes/favorites-routes.js");
 const app = express();
 
 app.engine(
-    "hbs",
-    exphbs.engine({
-        defaultLayout: "main",
-        extname: ".hbs",
-        helpers: {
-            formatDate: (time) => {
-                const date = new Date(time);
-                return (
-                    date.toLocaleDateString() +
-                    " - " +
-                    date.toLocaleTimeString()
-                );
-            },
-            iconFunction: (writtenBy, userId) => {
-                if (writtenBy.toString() == userId) {
-                    return "showIcons";
-                } else {
-                    return "hideIcons";
-                }
-            },
-            myPost: (writtenBy, userId) => {
-                if (writtenBy.toString() == userId) {
-                    return "myBorder";
-                } else {
-                    return "notMyBorder";
-                }
-            },
-        },
-    })
+  "hbs",
+  exphbs.engine({
+    defaultLayout: "main",
+    extname: ".hbs",
+    helpers: {
+      formatDate: (time) => {
+        const date = new Date(time);
+        return date.toLocaleDateString() + " - " + date.toLocaleTimeString();
+      },
+      iconFunction: (writtenBy, userId) => {
+        if (writtenBy.toString() == userId) {
+          return "showIcons";
+        } else {
+          return "hideIcons";
+        }
+      },
+      myPost: (writtenBy, userId) => {
+        if (writtenBy.toString() == userId) {
+          return "myBorder";
+        } else {
+          return "notMyBorder";
+        }
+      },
+    },
+  })
 );
 
 app.set("view engine", "hbs");
@@ -56,52 +52,50 @@ app.use(passport.initialize());
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-    const { token } = req.cookies;
+  const { token } = req.cookies;
 
-    //OM INLOGGAD
-    if (token && jwt.verify(token, process.env.JWTSECRET)) {
-        const tokenData = jwt.decode(token, process.env.JWTSECRET);
-        res.locals.loggedIn = true;
-        res.locals.username = tokenData.username;
-        res.locals.displayName = tokenData.displayName;
-        res.locals.userId = tokenData.userId;
-        // ANNARS
-    } else {
-        res.locals.loggedIn = false;
-    }
-    next();
+  //OM INLOGGAD
+  if (token && jwt.verify(token, process.env.JWTSECRET)) {
+    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+    res.locals.loggedIn = true;
+    res.locals.username = tokenData.username;
+    res.locals.displayName = tokenData.displayName;
+    res.locals.userId = tokenData.userId;
+    // ANNARS
+  } else {
+    res.locals.loggedIn = false;
+  }
+  next();
 });
 
 // GET homepage (if loggedIn)
 app.get("/", async (req, res) => {
-    const kvitter = await KvitterModel.find()
-        .populate("writtenBy")
-        .sort([["time", "desc"]])
-        .lean();
-    const users = await UsersModel.find().lean();
+  const kvitter = await KvitterModel.find()
+    .populate("writtenBy")
+    .sort([["time", "desc"]])
+    .lean();
+  const users = await UsersModel.find().lean();
 
-    const { token } = req.cookies;
-    const tokenData = jwt.decode(token, process.env.JWTSECRET);
+  const { token } = req.cookies;
+  const tokenData = jwt.decode(token, process.env.JWTSECRET);
 
-    if (tokenData) {
-        const userId = tokenData.userId;
-        const getPosts = await KvitterModel.find();
-        const getAuthor = getPosts.writtenBy;
+  if (tokenData) {
+    const userId = tokenData.userId;
+    const getPosts = await KvitterModel.find();
+    const getAuthor = getPosts.writtenBy;
 
-        res.render("home", {
-            kvitter,
-            users,
-            userId,
-            getAuthor,
-        });
-    } else {
-        res.render("home", {
-            kvitter,
-            users,
-            // userId,
-            // getAuthor,
-        });
-    }
+    res.render("home", {
+      kvitter,
+      users,
+      userId,
+      getAuthor,
+    });
+  } else {
+    res.render("home", {
+      kvitter,
+      users,
+    });
+  }
 });
 
 //Routers
@@ -111,46 +105,46 @@ app.use("/favorites", favoritesRouter);
 
 //Thirdpart Login
 app.get(
-    "/google",
-    passport.authenticate("google", { scope: ["email", "profile"] })
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
 app.get(
-    "/google/callback",
-    passport.authenticate("google", {
-        failureRedirect: "/",
-    }),
-    async (req, res) => {
-        const googleId = req.user.id;
-        UsersModel.findOne({ googleId }, async (err, user) => {
-            const userData = { displayName: req.user.displayName };
-            if (user) {
-                userData.userId = user._id;
-            } else {
-                const newUser = new UsersModel({
-                    googleId,
-                    displayName: req.user.displayName,
-                });
-                const result = await newUser.save();
-                userData.userId = result._id;
-            }
-            const accessToken = jwt.sign(userData, process.env.JWTSECRET);
-
-            res.cookie("token", accessToken);
-            res.redirect("/");
+  "/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/",
+  }),
+  async (req, res) => {
+    const googleId = req.user.id;
+    UsersModel.findOne({ googleId }, async (err, user) => {
+      const userData = { displayName: req.user.displayName };
+      if (user) {
+        userData.userId = user._id;
+      } else {
+        const newUser = new UsersModel({
+          googleId,
+          displayName: req.user.displayName,
         });
-    }
+        const result = await newUser.save();
+        userData.userId = result._id;
+      }
+      const accessToken = jwt.sign(userData, process.env.JWTSECRET);
+
+      res.cookie("token", accessToken);
+      res.redirect("/");
+    });
+  }
 );
 
 app.use("/unauthorized", (req, res) => {
-    res.status(403).render("errors/unauthorized");
+  res.status(403).render("errors/unauthorized");
 });
 
 // Error page for page not found.
 app.use("/", (req, res) => {
-    res.status(404).render("errors/error-page");
+  res.status(404).render("errors/error-page");
 });
 
 app.listen(8000, () => {
-    console.log("http://localhost:8000");
+  console.log("http://localhost:8000");
 });

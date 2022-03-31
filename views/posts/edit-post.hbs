@@ -1,21 +1,20 @@
 <p class="error">
-    {{error}}
+  {{error}}
 </p>
 
 <div class="formwrapper">
-    <form action="/kvittra/{{_id}}/edit" method="post" class="">
-        {{! <label for="content">Task Description:</label> }}
-        <textarea
-            name="content"
-            cols="30"
-            rows="10"
-            placeholder="Kvitter your feelings..."
-            style="resize: none"
-            id="kvitterInput"
-        >{{content}}</textarea>
+  <form action="/kvittra/{{_id}}/edit" method="post" class="">
+    <textarea
+      name="content"
+      cols="30"
+      rows="10"
+      placeholder="Kvitter your feelings..."
+      style="resize: none"
+      id="kvitterInput"
+    >{{content}}</textarea>
 
-        <div class="main-btn-container">
-            <input type="submit" value="Redigera" id="main-btn" />
-        </div>
-    </form>
+    <div class="main-btn-container">
+      <input type="submit" value="Redigera" id="main-btn" />
+    </div>
+  </form>
 </div>

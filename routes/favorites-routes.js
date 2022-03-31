@@ -132,24 +132,6 @@ router.post("/edit/:id", async (req, res, next) => {
   } else {
     res.redirect("/unauthorized");
   }
-
-  // if (id) {
-  //   const updatedPost = req.body;
-  //   if (utils.validatePost(updatedPost)) {
-  //     await KvitterModel.findById(req.params.id).updateOne(updatedPost);
-  //     res.redirect("/");
-  //   } else {
-  //     const kvitter = await KvitterModel.find().populate("writtenBy").lean();
-  //     const users = await UsersModel.find().lean();
-  //     res.render("home", {
-  //       error: "Your post wasn't updated, you have to write something in it",
-  //       kvitter,
-  //       users,
-  //     });
-  //   }
-  // } else {
-  //   res.redirect("/unauthorized");
-  // }
 });
 
 module.exports = router;

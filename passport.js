@@ -6,11 +6,6 @@ passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function (user, done) {
-  // Optionally add extra code for verifying user or adding extra attributes.
-  done(null, user);
-});
-
 passport.use(
   new GoogleStrategy(
     {

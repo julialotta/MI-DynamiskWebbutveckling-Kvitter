@@ -14,11 +14,7 @@
       width: 80%;
     }
     .myBorder {
-      // border: 1px solid rgba(138, 220, 247, 0.822);
-      // border: 1px solid $green;
       border: 1px solid rgb(211, 211, 211);
-      // border: 2px solid #8376a3;
-      // border: 2px solid #8368c7b7;
       border-radius: 10px;
       padding: 10px;
       padding-bottom: 20px;
@@ -26,7 +22,6 @@
       @include box-shadow;
     }
     .notMyBorder {
-      // background-color: #5c547054;
       border: 1px solid $purple;
       border-radius: 10px;
       padding: 10px;
@@ -35,7 +30,6 @@
 
       a {
         color: rgb(207, 207, 207);
-        // padding: 10px;
         text-decoration: none;
       }
     }
@@ -49,14 +43,11 @@
       justify-content: space-between;
     }
 
-    // button,
     input {
       width: 100%;
-      // border-radius: 5px;
       height: 50px;
       border: 1px solid $purple;
       margin-bottom: 15px;
-      // padding-left: 30px;
       font-family: $p;
       font-size: 12pt;
       background-color: $darkblue;
@@ -84,7 +75,6 @@
   background-color: $green;
   width: 49%;
   height: 50px;
-  // border-radius: 5px;
   border: none;
   color: $darkblue;
   font-family: $p;
@@ -108,16 +98,12 @@ a {
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  // border-bottom: 1px solid $green;
-  // margin-bottom: 10px;
-  // padding-bottom: 10px;
 }
 
 #main-btn {
   width: 30%;
   margin-top: 15px;
   background-color: $darkblue;
-  // color: #f4cf39;
   color: $green;
   border: 1px solid $green;
   @include box-shadow;
@@ -171,10 +157,7 @@ a {
 .bi.bi-pencil-square,
 .bi-suit-heart {
   font-size: 15pt;
-  // margin-left: 15px;
-  // margin-right: 40px;
   color: rgb(207, 207, 207);
-  // color: $green;
   &:hover {
     color: $green;
     cursor: pointer;
@@ -199,7 +182,6 @@ article {
   align-items: center;
   margin-top: 20px;
   padding-bottom: 20px;
-  // border-bottom: 1px solid $green;
 }
 
 .authorContainer {
@@ -207,8 +189,6 @@ article {
   margin-top: -12px;
   margin-left: 15px;
   margin-right: 15px;
-  // padding-bottom: -30px;
-  // margin-bottom: 15px;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -216,7 +196,6 @@ article {
 
   p {
     font-family: $light;
-    // color: rgb(207, 207, 207);
     color: rgb(207, 207, 207);
   }
 
@@ -240,16 +219,11 @@ article {
   display: flex;
 
   min-width: 60%;
-  // min-width: 70%;
-  // margin-right: 5px;
   margin-left: 30px;
   p {
     font-family: $light;
-    // font-family: $p;
-    // font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     color: rgb(207, 207, 207);
-    // padding-bottom: 20px;
     margin-top: 0px;
   }
 }
@@ -261,7 +235,6 @@ article {
   min-width: 10%;
   max-width: 10%;
   gap: 10px;
-  // max-width: 20%;
   margin-top: 25px;
   margin-left: -20px;
   margin-bottom: 10px;
@@ -272,7 +245,6 @@ article {
   font-size: 12pt;
   background-color: $darkblue;
   border: 1px solid $purple;
-  // border-radius: 5px;
   padding: 20px;
   width: 100%;
   height: 130px;
@@ -336,7 +308,6 @@ article {
 }
 
 .awrapper {
-  // width: 100%;
   display: flex;
   flex-wrap: wrap;
   border: 1px solid $purple;
@@ -345,8 +316,6 @@ article {
   margin-bottom: 20px;
   .aprofilewrapper {
     width: 15%;
-    // height: 100px;
-    // margin-right: 10px;
     img {
       width: 80%;
     }
@@ -354,13 +323,11 @@ article {
   .aniconwrapper,
   .authorwrapper {
     width: 85%;
-    // height: 20px;
     p {
       margin: 0px;
       margin-right: 20px;
     }
     .atimewrapper {
-      // font-size: 10pt;
       font-family: $light;
       color: rgb(182, 182, 182);
       margin-left: 5px;
@@ -377,8 +344,6 @@ article {
 }
 
 .acontentwrapper {
-  // width: 70%;
-  // height: 20px;
   font-family: $light;
   margin-top: 10px;
   width: 100%;
@@ -396,7 +361,6 @@ article {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  // flex-wrap: wrap;
   justify-content: space-between;
   .userAndDate {
     width: 100%;
