@@ -42,5 +42,5 @@ Visit localhost:8000 to view the project
 
 ## Contributors
 [Julia-Lotta Tinglöf](https://github.com/julialotta) </br>
-[Rasmus Palm](https://github.com/michael-cwm) </br>
+[Rasmus Palm](https://github.com/Rasweb) </br>
 [Michael Miikkulainen](https://github.com/michael-cwm)
